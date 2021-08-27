@@ -13,3 +13,8 @@ nbdist/
 .nb-gradle/
 
 # End of https://www.toptal.com/developers/gitignore/api/netbeans
+diem/target/test-classes/.netbeans_automatic_build
+
+diem/target/classes/.netbeans_automatic_build
+
+diem/nb-configuration.xml
