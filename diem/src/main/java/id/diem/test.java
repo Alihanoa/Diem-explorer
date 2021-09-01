@@ -1,19 +1,23 @@
 package id.diem;
 
-import Entitäten.DBAccount;
 import com.diem.*;
 import static com.diem.Testnet.CHAIN_ID;
 import com.diem.jsonrpc.JsonRpc.Account;
 import com.diem.jsonrpc.JsonRpc.Transaction;
 import com.diem.jsonrpc.StaleResponseException;
 import com.diem.stdlib.Helpers;
-import com.diem.types.ChainId;
 import com.diem.types.RawTransaction;
 import com.diem.types.SignedTransaction;
 import com.diem.types.TransactionPayload;
 import com.diem.utils.CurrencyCode;
 import com.novi.serde.Bytes;
 import java.security.SecureRandom;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Random;
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
 
 /**
@@ -23,94 +27,93 @@ import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
  */
 public class test {
 
-    public static void main(String[] args) throws DiemException {
+    public static void main(String[] args) throws DiemException, InterruptedException, SQLException {
 
         MyTestnet testnet = new MyTestnet();
 //        DAO dao = new DAO();
 //connect to testnet
         DiemClient client = testnet.createClient();
-//        MyJSONRPC  rpc = new MyJSONRPC("qefq",new ChainId((byte) 4));
+
+        int i = 0;
+        while (true) {
 
 //generate private key for sender account
-        PrivateKey senderPrivateKey = new Ed25519PrivateKey(new Ed25519PrivateKeyParameters(new SecureRandom()));
+            PrivateKey senderPrivateKey = new Ed25519PrivateKey(new Ed25519PrivateKeyParameters(new SecureRandom()));
 
 //generate auth key for sender account
-        AuthKey senderAuthKey = AuthKey.ed24419(senderPrivateKey.publicKey());
+            AuthKey senderAuthKey = AuthKey.ed24419(senderPrivateKey.publicKey());
 
 //create sender account with 100 XUS balance
-        MyTestnet.mintCoins(client, 100000000, senderAuthKey.hex(), "XUS");
+            Random random = new Random();
+            int randomValue = random.nextInt((100000000 - 90000000 + 1) + 90000000);
+            MyTestnet.mintCoins(client, 100000000L, senderAuthKey.hex(), "XUS");
 
 //get sender account for sequence number
-        Account account = client.getAccount(senderAuthKey.accountAddress());
-        
-//        System.out.println(account.toString());
-//        dao.em.getTransaction().begin();
-        
-//System.out.println(account.toString());
-//
-//DBAccount dba = new DBAccount();
-//
-//dba.setAdress(account.getAddress());
-//dba.setAuthenticationKey(account.getAuthenticationKey());
-//
-//
-//        dao.em.persist(dba);
-        
+            Account account = client.getAccount(senderAuthKey.accountAddress());
+
 //generate private key for receiver account
-        PrivateKey receiverPrivateKey = new Ed25519PrivateKey(new Ed25519PrivateKeyParameters(new SecureRandom()));
+            PrivateKey receiverPrivateKey = new Ed25519PrivateKey(new Ed25519PrivateKeyParameters(new SecureRandom()));
 
 //generate auth key for receiver account
-        AuthKey receiverAuthKey = AuthKey.ed24419(receiverPrivateKey.publicKey());
-
-
+            AuthKey receiverAuthKey = AuthKey.ed24419(receiverPrivateKey.publicKey());
 
 //create receiver account with 1 XUS balance. Account gets created after coins minted on it
-        MyTestnet.mintCoins(client, 10000000, receiverAuthKey.hex(), "XUS");
-        
-//        Account receiver = client.getAccount(receiverAuthKey.accountAddress());
-//        DBAccount empfaenger = new DBAccount();
-//        
-//        empfaenger.accToDBAcc(receiver);
-//        dao.em.persist(empfaenger);
-//        dao.em.getTransaction().commit();
-//        
+            Random randomrec = new Random();
+            int randomValuerec = random.nextInt((100000000 - 90000000 + 1) + 90000000);
+            MyTestnet.mintCoins(client, 100000000L, receiverAuthKey.hex(), "XUS");
+      
 //create script
-        TransactionPayload script = new TransactionPayload.Script(
-                Helpers.encode_peer_to_peer_with_metadata_script(
-                        CurrencyCode.typeTag("XUS"),
-                        receiverAuthKey.accountAddress(),
-                        10000000L,
-                        new Bytes(new byte[0]),
-                        new Bytes(new byte[0])));
+            Random randomtransaktion = new Random();
+            long transaktionswert = random.nextInt((100 - 90 + 1) + 90);
+            TransactionPayload script = new TransactionPayload.Script(
+                    Helpers.encode_peer_to_peer_with_metadata_script(
+                            CurrencyCode.typeTag("XUS"),
+                            receiverAuthKey.accountAddress(),
+                            transaktionswert,
+                            new Bytes(new byte[0]),
+                            new Bytes(new byte[0])));
 
 //create transaction to send 1 XUS
-        RawTransaction rawTransaction = new RawTransaction(
-                senderAuthKey.accountAddress(),
-                account.getSequenceNumber(),
-                script,
-                1000000L,
-                0L,
-                "XUS",
-                (System.currentTimeMillis() / 1000) + 300,
-                CHAIN_ID);
+            RawTransaction rawTransaction = new RawTransaction(
+                    senderAuthKey.accountAddress(),
+                    account.getSequenceNumber(),
+                    script,
+                    1000000L,
+                    0L,
+                    "XUS",
+                    (System.currentTimeMillis() / 1000) + 300,
+                    CHAIN_ID);
 
 //sign transaction
-        SignedTransaction st = Signer.sign(senderPrivateKey, rawTransaction);
+            SignedTransaction st = Signer.sign(senderPrivateKey, rawTransaction);
 
 //submit transaction
-        try {
-            client.submit(st);
-        } catch (StaleResponseException e) {
-            //ignore
+            try {
+                client.submit(st);
+            } catch (StaleResponseException e) {
+                //ignore
+            }
+
+// Connection to database and insert generated data
+            Transaction transaction = client.waitForTransaction(st, 100000);
+            System.out.println(transaction);
+
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+
+            String insertbefehl = " INSERT INTO account (accountid, authenticatiom_key, adress, is_frozen, sequence_number) VALUES"
+                    + " (" + i
+                    + ", " + "'" + account.getAuthenticationKey() + "'"
+                    + ", " + "'" + account.getAddress() + "'"
+                    + ", " + account.getIsFrozen()
+                    + ", " + account.getSequenceNumber() + ")";
+
+            PreparedStatement statement = con.prepareStatement(insertbefehl);
+            statement.executeUpdate();
+            
+            
+            
+            Thread.sleep(10000L);
+            i++;
         }
-
-//wait for the transaction to complete
-        Transaction transaction = client.waitForTransaction(st, 100000);
-        System.out.println(transaction);
-
-
-
+    }
 }
-}
-
-
