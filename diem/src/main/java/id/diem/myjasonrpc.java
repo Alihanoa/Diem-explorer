@@ -23,7 +23,7 @@ import java.time.Clock;
 import java.time.ZoneId;
 
 
-public class myjasonrpc {
+public class myJsonrpc {
 
     private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://localhost:8080", new ChainId((byte) 4));
     private static Clock c = Clock.systemDefaultZone();
@@ -32,34 +32,36 @@ public class myjasonrpc {
     private static List<JsonRpc.Transaction> unseretrans;
     public static void main(String[] args) throws DiemException {
 
-        getTransactionsa10sec();
+//        getTransactionsa10sec();
 //      List<JsonRpc.Transaction> l = client.getTransactions(93676, 1, false);
 //      System.out.println(l.get(0));
     }
-
-    public static void getTransactionsa10sec() throws DiemException {
-           
-        unseretrans = new ArrayList();
-        while (true) {
-            sek = c.millis() / 1000;
-            if (sek % 5 == 0) {
-                List<JsonRpc.Transaction> l = client.getTransactions(vers, 1000, false);
-                int i = l.size();
-                if (i != 0) {
-                    vers = l.get(i - 1).getVersion();
-                    for (Transaction t : l) {
-                         if (t.getTransaction().getScript().getType().equals("peer_to_peer_with_metadata")
-                                 && !t.getTransaction().getSender().equals("000000000000000000000000000000dd")
-                                 ){
-                             unseretrans.add(t);
-                         System.out.println(t);
-                         }
-                            
-                        
-                    }
-                }
-                l.clear();
-            }
-        }
-    }
+    
+    public static void createKeys
+//
+//    public static void getTransactionsa10sec() throws DiemException {
+//           
+//        unseretrans = new ArrayList();
+//        while (true) {
+//            sek = c.millis() / 1000;
+//            if (sek % 5 == 0) {
+//                List<JsonRpc.Transaction> l = client.getTransactions(vers, 1000, false);
+//                int i = l.size();
+//                if (i != 0) {
+//                    vers = l.get(i - 1).getVersion();
+//                    for (Transaction t : l) {
+//                         if (t.getTransaction().getScript().getType().equals("peer_to_peer_with_metadata")
+////                                 && !t.getTransaction().getSender().equals("000000000000000000000000000000dd")
+//                                 ){
+//                             unseretrans.add(t);
+//                         System.out.println(t);
+//                         }
+//                            
+//                        
+//                    }
+//                }
+//                l.clear();
+//            }
+//        }
+//    }
 }
