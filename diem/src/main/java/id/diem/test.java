@@ -35,7 +35,7 @@ public class test {
         DiemClient client = testnet.createClient();
 
         int i = 0;
-        while (true) {
+        while (i<20) {
 
 //generate private key for sender account
             PrivateKey senderPrivateKey = new Ed25519PrivateKey(new Ed25519PrivateKeyParameters(new SecureRandom()));
@@ -95,24 +95,24 @@ public class test {
             }
 
 // Connection to database and insert generated data
-            Transaction transaction = client.waitForTransaction(st, 100000);
-            System.out.println(transaction);
-
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
-
-            String insertbefehl = " INSERT INTO account (accountid, authenticatiom_key, adress, is_frozen, sequence_number) VALUES"
-                    + " (" + i
-                    + ", " + "'" + account.getAuthenticationKey() + "'"
-                    + ", " + "'" + account.getAddress() + "'"
-                    + ", " + account.getIsFrozen()
-                    + ", " + account.getSequenceNumber() + ")";
-
-            PreparedStatement statement = con.prepareStatement(insertbefehl);
-            statement.executeUpdate();
-            
-            
-            
-            Thread.sleep(10000L);
+//            Transaction transaction = client.waitForTransaction(st, 100000);
+//            System.out.println(transaction);
+//
+//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+//
+//            String insertbefehl = " INSERT INTO account (accountid, authenticatiom_key, adress, is_frozen, sequence_number) VALUES"
+//                    + " (" + i
+//                    + ", " + "'" + account.getAuthenticationKey() + "'"
+//                    + ", " + "'" + account.getAddress() + "'"
+//                    + ", " + account.getIsFrozen()
+//                    + ", " + account.getSequenceNumber() + ")";
+//
+//            PreparedStatement statement = con.prepareStatement(insertbefehl);
+//            statement.executeUpdate();
+//            
+//            
+//            
+//            Thread.sleep(10000L);
             i++;
         }
     }
