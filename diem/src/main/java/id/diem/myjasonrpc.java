@@ -54,6 +54,7 @@ public class myjasonrpc {
 //                                 && !t.getTransaction().getSender().equals("000000000000000000000000000000dd")
                                  ){
                              unseretrans.add(t);
+                             t.getTransaction().getScript().
                          System.out.println(t);
                          }
                             
