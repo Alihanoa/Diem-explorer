@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/explorerdiem/static/css/main.e9c70329.chunk.css",
-    "main.js": "/explorerdiem/static/js/main.fa5e3b11.chunk.js",
-    "main.js.map": "/explorerdiem/static/js/main.fa5e3b11.chunk.js.map",
-    "runtime-main.js": "/explorerdiem/static/js/runtime-main.6152f121.js",
-    "runtime-main.js.map": "/explorerdiem/static/js/runtime-main.6152f121.js.map",
-    "static/js/2.541fb6ca.chunk.js": "/explorerdiem/static/js/2.541fb6ca.chunk.js",
-    "static/js/2.541fb6ca.chunk.js.map": "/explorerdiem/static/js/2.541fb6ca.chunk.js.map",
-    "static/js/3.c83d655a.chunk.js": "/explorerdiem/static/js/3.c83d655a.chunk.js",
-    "static/js/3.c83d655a.chunk.js.map": "/explorerdiem/static/js/3.c83d655a.chunk.js.map",
-    "index.html": "/explorerdiem/index.html",
-    "static/css/main.e9c70329.chunk.css.map": "/explorerdiem/static/css/main.e9c70329.chunk.css.map",
-    "static/js/2.541fb6ca.chunk.js.LICENSE.txt": "/explorerdiem/static/js/2.541fb6ca.chunk.js.LICENSE.txt"
+    "main.css": "/Diem-explorer/static/css/main.e9c70329.chunk.css",
+    "main.js": "/Diem-explorer/static/js/main.fa5e3b11.chunk.js",
+    "main.js.map": "/Diem-explorer/static/js/main.fa5e3b11.chunk.js.map",
+    "runtime-main.js": "/Diem-explorer/static/js/runtime-main.490a2f47.js",
+    "runtime-main.js.map": "/Diem-explorer/static/js/runtime-main.490a2f47.js.map",
+    "static/js/2.541fb6ca.chunk.js": "/Diem-explorer/static/js/2.541fb6ca.chunk.js",
+    "static/js/2.541fb6ca.chunk.js.map": "/Diem-explorer/static/js/2.541fb6ca.chunk.js.map",
+    "static/js/3.c83d655a.chunk.js": "/Diem-explorer/static/js/3.c83d655a.chunk.js",
+    "static/js/3.c83d655a.chunk.js.map": "/Diem-explorer/static/js/3.c83d655a.chunk.js.map",
+    "index.html": "/Diem-explorer/index.html",
+    "static/css/main.e9c70329.chunk.css.map": "/Diem-explorer/static/css/main.e9c70329.chunk.css.map",
+    "static/js/2.541fb6ca.chunk.js.LICENSE.txt": "/Diem-explorer/static/js/2.541fb6ca.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.6152f121.js",
+    "static/js/runtime-main.490a2f47.js",
     "static/js/2.541fb6ca.chunk.js",
     "static/css/main.e9c70329.chunk.css",
     "static/js/main.fa5e3b11.chunk.js"
