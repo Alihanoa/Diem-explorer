@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
@@ -25,7 +26,7 @@ import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
  * @author Msi
  *
  */
-public class test {
+public class DataCreator {
 
     public static void main(String[] args) throws DiemException, InterruptedException, SQLException {
 
@@ -98,7 +99,7 @@ public class test {
 //            Transaction transaction = client.waitForTransaction(st, 100000);
 //            System.out.println(transaction);
 //
-//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 //
 //            String insertbefehl = " INSERT INTO account (accountid, authenticatiom_key, adress, is_frozen, sequence_number) VALUES"
 //                    + " (" + i
@@ -109,6 +110,27 @@ public class test {
 //
 //            PreparedStatement statement = con.prepareStatement(insertbefehl);
 //            statement.executeUpdate();
+
+            PreparedStatement statement =null;
+            
+            String query = "SELECT Firma, Kontaktperson FROM Kunden"
+                    + " WHERE Ort=" +"'"+ ort +"'"+ " AND Land=" + "'"+bestimmungsland+"'";
+            
+            statement  = con.prepareStatement(query);
+            
+            ResultSet result = statement.executeQuery();
+            
+            while(result.next()){
+                int bestellnr = result.getInt("Bestell-Nr");
+                java.sql.Date datum = result.getDate("Versanddatum");
+                
+                if(datum == null){
+                    System.out.println(bestellnr + " (noch nicht versandt)");
+                }
+                else{
+                    System.out.println(bestellnr + " (" + datum + " )");
+                }
+            }
 //            
 //            
 //            
