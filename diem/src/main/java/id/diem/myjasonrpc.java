@@ -32,9 +32,9 @@ public class myjasonrpc {
     private static List<JsonRpc.Transaction> unseretrans;
     public static void main(String[] args) throws DiemException {
 
-//        getTransactionsa10sec();
-//      List<JsonRpc.Transaction> l = client.getTransactions(93676, 1, false);
-//      System.out.println(l.get(0));
+        getTransactionsasec(10);
+      List<JsonRpc.Transaction> l = client.getTransactions(25449, 1, false);
+      System.out.println(l.get(0));
     }
     
 
@@ -45,23 +45,23 @@ public class myjasonrpc {
         while (true) {
             sek = c.millis() / 1000;
             if (sek % a == 0) {
-                List<JsonRpc.Transaction> l = client.getTransactions(vers, 1000, false);
-                int i = l.size();
+                List<JsonRpc.Transaction> liste = client.getTransactions(vers, 1000, false);
+                int i = liste.size();
                 if (i != 0) {
-                    vers = l.get(i - 1).getVersion();
-                    for (Transaction t : l) {
+                    vers = liste.get(i - 1).getVersion();
+                    for (Transaction t : liste) {
                          if (t.getTransaction().getScript().getType().equals("peer_to_peer_with_metadata")
 //                                 && !t.getTransaction().getSender().equals("000000000000000000000000000000dd")
                                  ){
                              unseretrans.add(t);
-                             t.getTransaction().getScript().
+                             t.getTransaction().getScript();
                          System.out.println(t);
                          }
                             
                         
                     }
                 }
-                l.clear();
+                liste.clear();
             }
         }
     }
