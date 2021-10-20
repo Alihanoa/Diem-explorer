@@ -15,11 +15,11 @@ import javax.persistence.Table;
  * @author Msi
  */
 @Entity
-@Table(name="Account")
+@Table(name="account")
 public class Account implements Serializable{
     
     @Id
-    private String adress;
+    private String address;
     
     private String authentication_key;
     
@@ -31,19 +31,19 @@ public class Account implements Serializable{
         
     }
 
-    public Account(String adress, String authentication_key, int sequence_number, boolean is_frozen) {
-        this.adress = adress;
+    public Account(String address, String authentication_key, int sequence_number, boolean is_frozen) {
+        this.address = address;
         this.authentication_key = authentication_key;
         this.sequence_number = sequence_number;
         this.is_frozen = is_frozen;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getAuthentication_key() {

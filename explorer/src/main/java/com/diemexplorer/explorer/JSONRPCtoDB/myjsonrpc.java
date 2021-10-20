@@ -22,20 +22,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.time.Clock;
 
-public class myjasonrpc {
+public class myjsonrpc {
 
-    private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://localhost:8080", new ChainId((byte) 4));
+    private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
     private static Clock c = Clock.systemDefaultZone();
     private static long vers = 0;
     private static long sek;
     private static List<JsonRpc.Transaction> transactions;
     private static Connection con;
 
-    public static void main(String[] args) throws DiemException {
+    public static void main(String[] args) throws DiemException, SQLException {
 
-//        getTransactionsa10sec();
-//      List<JsonRpc.Transaction> l = client.getTransactions(93676, 1, false);
-//      System.out.println(l.get(0));
+        getTransactionsasec(10);
+      List<JsonRpc.Transaction> l = client.getTransactions(93676, 1, false);
+      System.out.println(l.get(0));
         try {
 
             getTransactionsasec(3);
@@ -59,11 +59,11 @@ public class myjasonrpc {
                         if (t.getTransaction().getScript().getType().equals("peer_to_peer_with_metadata") //                                 && !t.getTransaction().getSender().equals("000000000000000000000000000000dd")
                                 ) {
                             transactions.add(t);
-                            String query = "INSERT INTO transaktion (transactionID, sender_id, public_key, gas_unit_price, gas_currency, gas_used, amount, currency) "
+                            String query = "INSERT INTO transactiondetails (version, sender_id, public_key, amount, currency, gas_currency, gas_used, expiration_timestamp_seconds) "
                                     + "VALUES (" + t.getVersion() + "," + "'" + t.getTransaction().getSender() + "'" + ","
-                                    + "'" + t.getTransaction().getPublicKey() + "'" + "," + t.getTransaction().getGasUnitPrice() + ","
-                                    + "'" + t.getTransaction().getGasCurrency() + "'" + "," + t.getGasUsed() + ","
-                                    + t.getTransaction().getScript().getAmount() + "," + "'" + t.getTransaction().getScript().getCurrency() + "'" + ")";
+                                    + "'" + t.getTransaction().getPublicKey() + "'" + "," + t.getTransaction().getScript().getAmount() + ","
+                                    + "'" + t.getTransaction().getScript().getCurrency() + "'" + ", '" + t.getTransaction().getGasCurrency() + "',"
+                                    + t.getGasUsed() + "," + t.getTransaction().getExpirationTimestampSecs()  + ")";
 
                             statement = con.prepareStatement(query);
                             statement.executeUpdate();

@@ -19,5 +19,5 @@ public interface AccountRepository extends CrudRepository<Account, String>{
     
     List<Account> findAll();
     
-    List<Account> FindAccountByAdress();
+    //Account FindAccountByAddress(String address);
 }

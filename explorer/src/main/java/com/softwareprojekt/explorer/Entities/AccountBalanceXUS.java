@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.diemexplorer.explorer.Entities;
+package com.softwareprojekt.explorer.Entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @Table(name="accountbalancexus")
 public class AccountBalanceXUS implements Serializable{
     @Id
+    @OneToOne
     private String address;
     
     private double amount;

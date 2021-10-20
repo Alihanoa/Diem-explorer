@@ -19,5 +19,5 @@ public interface AccountBalanceXUSRepository extends CrudRepository<AccountBalan
     
     List<AccountBalanceXUS> findAll();
     
-    AccountBalanceXUS findAccountBalanceXUSByAdress(); 
+    AccountBalanceXUS findAccountBalanceXUSByAddress(String address);
 }

@@ -25,27 +25,28 @@ import java.time.ZoneId;
 
 public class myjasonrpc {
 
-    private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://localhost:8080", new ChainId((byte) 4));
+    private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
     private static Clock c = Clock.systemDefaultZone();
     private static long vers = 0;
     private static long sek;
     private static List<JsonRpc.Transaction> unseretrans;
-    public static void main(String[] args) throws DiemException {
+    public static void main(String[] args) throws DiemException, InterruptedException {
 
-        getTransactionsasec(10);
-      List<JsonRpc.Transaction> l = client.getTransactions(25449, 1, false);
-      System.out.println(l.get(0));
+        getTransactionsasec(1);
+//      List<JsonRpc.Transaction> l = client.getTransactions(0, 1000000, false);
+//      System.out.println(l.get(0));
     }
     
 
 
-    public static void getTransactionsasec(int a) throws DiemException {
+    public static void getTransactionsasec(int a) throws DiemException, InterruptedException {
            
         unseretrans = new ArrayList();
-        while (true) {
+        int zaehler = 1;
+        while (zaehler <= 1000000) {
             sek = c.millis() / 1000;
             if (sek % a == 0) {
-                List<JsonRpc.Transaction> liste = client.getTransactions(vers, 1000, false);
+                List<JsonRpc.Transaction> liste = client.getTransactions(0, 1000, false);
                 int i = liste.size();
                 if (i != 0) {
                     vers = liste.get(i - 1).getVersion();
@@ -63,6 +64,8 @@ public class myjasonrpc {
                 }
                 liste.clear();
             }
+            zaehler ++;
+            Thread.sleep(100);
         }
     }
 }

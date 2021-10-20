@@ -30,12 +30,12 @@ public class DataCreator {
 
     public static void main(String[] args) throws DiemException, InterruptedException, SQLException {
 
-        MyTestnet testnet = new MyTestnet();
+        Testnet testnet = new Testnet();
 //        DAO dao = new DAO();
 //connect to testnet
         DiemClient client = testnet.createClient();
 
-        int i = 0;
+       
 
 
 //generate private key for sender account
@@ -97,26 +97,26 @@ public class DataCreator {
 
 // Connection to database and insert generated data
             Transaction transaction = client.waitForTransaction(st, 100000);
-            System.out.println(transaction);
+            System.out.println(transaction.getTransaction().getChainId());
 
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
-
-            String insertbefehl = " INSERT INTO account (accountid, authenticatiom_key, adress, is_frozen, sequence_number) VALUES"
-                    + " (" + 6
-                    + ", " + "'" + account.getAuthenticationKey() + "'"
-                    + ", " + "'" + account.getAddress() + "'"
-                    + ", " + account.getIsFrozen()
-                    + ", " + account.getSequenceNumber() + ")";
-
-            PreparedStatement statement = con.prepareStatement(insertbefehl);
-            statement.execute();
+//            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+//
+//            String insertbefehl = " INSERT INTO account (accountid, authenticatiom_key, adress, is_frozen, sequence_number) VALUES"
+//                    + " (" + 6
+//                    + ", " + "'" + account.getAuthenticationKey() + "'"
+//                    + ", " + "'" + account.getAddress() + "'"
+//                    + ", " + account.getIsFrozen()
+//                    + ", " + account.getSequenceNumber() + ")";
+//
+//            PreparedStatement statement = con.prepareStatement(insertbefehl);
+//            statement.execute();
 //            
 //            
 //            
             System.out.println(account.toString());
 //            Thread.sleep(10000L);
             
-            i++;
+           
 
     }
 }

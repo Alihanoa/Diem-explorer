@@ -19,7 +19,7 @@ public interface AccountBalanceXDXRepository extends CrudRepository<AccountBalan
     
     List<AccountBalanceXDX> findAll();
     
-    AccountBalanceXDX findAccountBalanceXDXByAdress();
+    AccountBalanceXDX findAccountBalanceXDXByAddress(String address);
     
     
 }

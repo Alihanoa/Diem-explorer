@@ -21,20 +21,20 @@ import javax.persistence.OneToOne;
 public class Transactiondetails implements Serializable{
     
     @Id
-    @OneToOne
+
     private  Long version;
     
     private  String sender_id;
     
     private String public_key;
     
-    private long amount;
+    private double amount;
     
     private String currency;
     
     private String gas_currency;
     
-    private int gas_used;
+    private double gas_used;
     
     private int expiration_timestamp_seconds;
     
@@ -42,7 +42,7 @@ public class Transactiondetails implements Serializable{
         
     }
 
-    public Transactiondetails(Long version, String sender_id, String public_key, long amount, String currency, String gas_currency, int gas_used, int expiration_timestamp_seconds) {
+    public Transactiondetails(Long version, String sender_id, String public_key, double amount, String currency, String gas_currency, double gas_used, int expiration_timestamp_seconds) {
         this.version = version;
         this.sender_id = sender_id;
         this.public_key = public_key;
@@ -79,11 +79,11 @@ public class Transactiondetails implements Serializable{
         this.public_key = public_key;
     }
 
-    public long getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -103,11 +103,11 @@ public class Transactiondetails implements Serializable{
         this.gas_currency = gas_currency;
     }
 
-    public int getGas_used() {
+    public double getGas_used() {
         return gas_used;
     }
 
-    public void setGas_used(int gas_used) {
+    public void setGas_used(double gas_used) {
         this.gas_used = gas_used;
     }
 

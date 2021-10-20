@@ -19,5 +19,5 @@ public interface TransactionBlockchaindetailsRepository extends CrudRepository<T
     
     List<TransactionBlockchaindetails> findAll();
     
-    List<TransactionBlockchaindetails>findTransactionBlockchainDetailsByVersion();
+    List<TransactionBlockchaindetails>findTransactionBlockchainDetailsByVersion(int version);
 }

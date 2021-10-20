@@ -19,8 +19,8 @@ public interface TransactiondetailsRepository extends CrudRepository<Transaction
     
     List<Transactiondetails> findAll();
     
-    List<Transactiondetails> findTransActiondetailsByVersion();
-    
-    
-    
+    List<Transactiondetails> findTransactiondetailsByVersion(long version);
+
+
+
 }

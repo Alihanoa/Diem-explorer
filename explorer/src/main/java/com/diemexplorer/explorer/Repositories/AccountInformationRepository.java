@@ -19,7 +19,7 @@ public interface AccountInformationRepository extends CrudRepository<AccountInfo
     
     List<AccountInformation> findAll();
     
-    AccountInformation findAccountInformationByAdress();
+    AccountInformation findAccountInformationByAddress(String address);
     
-    AccountInformation findAccountInformationByAdressDesc();
+    //AccountInformation findAccountInformationByAddressDesc(String address);
 }
