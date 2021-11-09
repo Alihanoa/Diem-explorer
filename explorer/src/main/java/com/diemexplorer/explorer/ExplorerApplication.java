@@ -29,7 +29,7 @@ public class ExplorerApplication {
 
 	public static void main(String[] args) throws SQLException, DiemException, InterruptedException {
 
-		getTransactions();
+		//getTransactions();
 		SpringApplication.run(ExplorerApplication.class, args);
 
 
@@ -147,7 +147,7 @@ public class ExplorerApplication {
 			statement = con.prepareStatement(insertstmnt);
 			statement.executeUpdate();
 		}
-		setAccountinformation(account);
+		//setAccountinformation(account);
 		setAccountBalances(transaction, receiver);
 
 	}
@@ -203,7 +203,7 @@ public class ExplorerApplication {
 		preparedStatement = con.prepareStatement(query);
 		ResultSet resultset = preparedStatement.executeQuery();
 		resultset.next();
-		String date = resultset.getString(1);
+		String date = null;
 
 
 

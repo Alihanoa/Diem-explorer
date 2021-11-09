@@ -10,6 +10,7 @@ class Head extends React.Component{
         return(
             <header>
                 <table>
+                    <thead>
                     <tr>
                         <th><a href="/">Logo</a></th>
                         <td><a href="./Transactions">Transactions</a></td>
@@ -17,6 +18,7 @@ class Head extends React.Component{
                         <td><a href="./Statistics">Statistics</a></td>
                         <td><a href="./Contact">Contact</a></td>
                     </tr>
+                    </thead>
                 </table>
             </header>
         );

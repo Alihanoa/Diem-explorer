@@ -52,13 +52,15 @@ public class TransactionBlockchaindetails implements Serializable{
 
     private String type;
 
+    private String expiration_date;
+
 
    
     public TransactionBlockchaindetails(){
         
     }
 
-    public TransactionBlockchaindetails(Long version, long chain_id, String hash, String metadata, String metadata_signature, String script_hash, int abort_code, String category, String category_description, String reason, String reason_description, String location, String type) {
+    public TransactionBlockchaindetails(Long version, long chain_id, String hash, String metadata, String metadata_signature, String script_hash, int abort_code, String category, String category_description, String reason, String reason_description, String location, String type, String expiration_date) {
         this.version = version;
         this.chain_id = chain_id;
         this.hash = hash;
@@ -72,6 +74,7 @@ public class TransactionBlockchaindetails implements Serializable{
         this.reason_description = reason_description;
         this.location = location;
         this.type = type;
+        this.expiration_date=expiration_date;
     }
 
     public Long getVersion() {
@@ -176,5 +179,13 @@ public class TransactionBlockchaindetails implements Serializable{
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getExpiration_date() {
+        return expiration_date;
+    }
+
+    public void setExpiration_date(String expiration_date) {
+        this.expiration_date = expiration_date;
     }
 }

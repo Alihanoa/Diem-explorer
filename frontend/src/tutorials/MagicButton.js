@@ -1,5 +1,4 @@
 import React from "react";
-import './magicButton.scss';
 
 class MagicButton extends React.Component {
     constructor(props) {

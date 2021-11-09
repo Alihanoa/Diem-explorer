@@ -11,33 +11,54 @@ class Mainpage extends React.Component {
         }
     }
 
-    createTable(){
-        // fetch('http://localhost:8888/rest/transactions')
-        // .then(result => result.json())
-        // .then(json => {
-        //             console.log(json)
-        // }
-
-        let table = [];
-        for(let i = 0; i < 10; i++) {
-            //let children = [];
-            table.push(<tr>
-                <td>{this.state.version}</td>
-                <td>{this.state.sender_ID}</td>
-                <td>{this.state.receiver_ID}</td>
-                <td>{this.state.Amount}</td>
-                </tr>);
-        }
-        return table;
+     async componentDidMount(){
+       let data = await this.readData();
+       let table = this.createTable(data);
+       document.getElementById("transactions").innerHTML=table;
+       console.log(table)
     }
 
+    
+// Data gets fetched from the backend
+     async readData(){
+      let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
+         
+       
+
+            return data;
+
+
+    }
+// create table row for each object within the data array
+    createTable(data){
+        
+        let table ="";
+        for(let i = 0; i < data.length; i++) {
+            //let children = [];
+            table = table + "<tr> <td>"+data[i].version+"</td>  <td>"+data[i].sender_id + "</td>  <td>"
+             + data[i].receiver_id + "</td>  <td>" + data[i].amount +"</td>  <td> "+ data[i].currency +"</td> <td>"
+             + data[i].gas_used+"</td> <td> " + data[i].gas_currency +"</td> <td>"+ data[i].date +"</td> <td>"+ data[i].type +"</td> </tr>";
+        }
+        // let table = [];
+        // for(let i = 0; i < data.length; i++) {
+        //     //let children = [];
+        //     table.push(<tr>
+        //         <td>{data[i].version}</td>
+        //         <td>{data[i].sender_id}</td>
+        //         <td>{data[i].receiver_id}</td>
+        //         <td>{data[i].amount}</td>
+        //         </tr>);
+        // }
+        console.log(data);
+        return table;
+    }
     render() {
 
         // var json_object = this.getData();
         // console.log(json_object);
 
         return (
-            <body>
+            <div>
                 <h1 id="main_title">Diem Explorer</h1>
 
                 <form>
@@ -46,6 +67,7 @@ class Mainpage extends React.Component {
 
                 <table border="3">
                     <caption>Latest Transactions</caption>
+                    <thead>
                     <tr>
                         <th>Version</th>
                         <th>Sender_ID</th>
@@ -54,14 +76,15 @@ class Mainpage extends React.Component {
                         <th>Currency</th>
                         <th>Gas-Amount</th>
                         <th>Gas-Currency</th>
-                        <th>Expiration</th>
-                        <th>Sequence-Number</th>
+                        <th>Date</th>
+                        <th>type</th>
                     </tr>
-                    
-                        {this.createTable()}
-
+                    </thead>
+                    <tbody id="transactions">
+ 
+                    </tbody>
                         </table>
-                        </body>
+                        </div>
                             );
     }
 }

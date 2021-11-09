@@ -34,10 +34,10 @@ public class Transactiondetails implements Serializable{
     private String currency;
     
     private String gas_currency;
-    
+
     private double gas_used;
     
-    private String expiration_date;
+
 
     private String date;
 
@@ -47,7 +47,7 @@ public class Transactiondetails implements Serializable{
         
     }
 
-    public Transactiondetails(Long version,String receiver_id, String sender_id, String public_key, double amount, String currency, String gas_currency, double gas_used, String expiration_date, String date, String type) {
+    public Transactiondetails(Long version,String receiver_id, String sender_id, String public_key, double amount, String currency, String gas_currency, double gas_used, String date, String type) {
         this.version = version;
         this.sender_id = sender_id;
         this.public_key = public_key;
@@ -55,7 +55,7 @@ public class Transactiondetails implements Serializable{
         this.currency = currency;
         this.gas_currency = gas_currency;
         this.gas_used = gas_used;
-        this.expiration_date = expiration_date;
+
         this.date = date;
         this.receiver_id=receiver_id;
         this.type=type;
@@ -119,14 +119,6 @@ public class Transactiondetails implements Serializable{
         this.gas_used = gas_used;
     }
 
-    public String getExpiration_date() {
-        return expiration_date;
-    }
-
-    public void setExpiration_date(String expiration_date) {
-        this.expiration_date = expiration_date;
-    }
-
     public String getDate() {
         return date;
     }
@@ -141,5 +133,13 @@ public class Transactiondetails implements Serializable{
 
     public void setReceiver_id(String receiver_id) {
         this.receiver_id = receiver_id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

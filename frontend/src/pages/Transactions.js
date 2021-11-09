@@ -26,7 +26,9 @@ class Transactions extends React.Component{
         return(
             <table border="5">
                 <caption>Transaktionen</caption>
+                <thead>
                 <tr>
+                    
                     <th>Version</th>
                     <th>Sender_id</th>
                     <th>Receiver_id</th>
@@ -37,7 +39,10 @@ class Transactions extends React.Component{
                     <th>Expiration</th>
                     <th>Sequence-Number</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr>
+                    
                     <td></td>
                     <td></td>
                     <td></td>
@@ -48,6 +53,7 @@ class Transactions extends React.Component{
                     <td></td>
                     <td></td>
                 </tr>
+                </tbody>
             </table>
         );
     }
