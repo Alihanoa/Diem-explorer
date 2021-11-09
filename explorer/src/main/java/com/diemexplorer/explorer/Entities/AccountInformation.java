@@ -35,19 +35,20 @@ public class AccountInformation implements Serializable{
     private String expiration_time;
     
     private String compliance_key;
+
+    private String received_mint_events_key;
     
     private String compliance_key_rotation_events_key;
     
     private String base_url_rotation_events_key;
     
-    private String preburn_balances;
-    
-    private long blockchain_version;
+    private long preburn_balancexus;
+
 
     public AccountInformation() {
     }
 
-    public AccountInformation(String address, String sent_events_key, String receive_events_key, String rtype, String parent_vasp_name, String base_url, String expiration_time, String compliance_key, String compliance_key_rotation_events_key, String base_url_rotation_events_key, String preburn_balances, long blockchain_version) {
+    public AccountInformation(String address, String sent_events_key, String receive_events_key, String rtype, String parent_vasp_name, String base_url, String expiration_time, String compliance_key, String compliance_key_rotation_events_key, String base_url_rotation_events_key,String received_mint_events_key, long preburn_balancexus, long preburn_balancexdx) {
         this.address = address;
         this.sent_events_key = sent_events_key;
         this.receive_events_key = receive_events_key;
@@ -56,18 +57,18 @@ public class AccountInformation implements Serializable{
         this.base_url = base_url;
         this.expiration_time = expiration_time;
         this.compliance_key = compliance_key;
+        this.received_mint_events_key = received_mint_events_key;
         this.compliance_key_rotation_events_key = compliance_key_rotation_events_key;
         this.base_url_rotation_events_key = base_url_rotation_events_key;
-        this.preburn_balances = preburn_balances;
-        this.blockchain_version = blockchain_version;
+        this.preburn_balancexus = preburn_balancexus;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String adress) {
-        this.address = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getSent_events_key() {
@@ -85,7 +86,6 @@ public class AccountInformation implements Serializable{
     public void setReceive_events_key(String receive_events_key) {
         this.receive_events_key = receive_events_key;
     }
-
 
     public String getRtype() {
         return rtype;
@@ -143,23 +143,19 @@ public class AccountInformation implements Serializable{
         this.base_url_rotation_events_key = base_url_rotation_events_key;
     }
 
-    public String getPreburn_balances() {
-        return preburn_balances;
+    public long getPreburn_balancexus() {
+        return preburn_balancexus;
     }
 
-    public void setPreburn_balances(String preburn_balances) {
-        this.preburn_balances = preburn_balances;
+    public void setPreburn_balancexus(long preburn_balancexus) {
+        this.preburn_balancexus = preburn_balancexus;
     }
 
-    public long getBlockchain_version() {
-        return blockchain_version;
+    public String getReceived_mint_events_key() {
+        return received_mint_events_key;
     }
 
-    public void setBlockchain_version(long blockchain_version) {
-        this.blockchain_version = blockchain_version;
+    public void setReceived_mint_events_key(String received_mint_events_key) {
+        this.received_mint_events_key = received_mint_events_key;
     }
-    
-    
-            
-    
 }

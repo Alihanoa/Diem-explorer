@@ -21,10 +21,11 @@ import javax.persistence.OneToOne;
 public class Transactiondetails implements Serializable{
     
     @Id
-
     private  Long version;
     
     private  String sender_id;
+
+    private String receiver_id;
     
     private String public_key;
     
@@ -36,13 +37,17 @@ public class Transactiondetails implements Serializable{
     
     private double gas_used;
     
-    private int expiration_timestamp_seconds;
+    private String expiration_date;
+
+    private String date;
+
+    private String type;
     
     public Transactiondetails(){
         
     }
 
-    public Transactiondetails(Long version, String sender_id, String public_key, double amount, String currency, String gas_currency, double gas_used, int expiration_timestamp_seconds) {
+    public Transactiondetails(Long version,String receiver_id, String sender_id, String public_key, double amount, String currency, String gas_currency, double gas_used, String expiration_date, String date, String type) {
         this.version = version;
         this.sender_id = sender_id;
         this.public_key = public_key;
@@ -50,7 +55,10 @@ public class Transactiondetails implements Serializable{
         this.currency = currency;
         this.gas_currency = gas_currency;
         this.gas_used = gas_used;
-        this.expiration_timestamp_seconds = expiration_timestamp_seconds;
+        this.expiration_date = expiration_date;
+        this.date = date;
+        this.receiver_id=receiver_id;
+        this.type=type;
     }
     
     
@@ -111,14 +119,27 @@ public class Transactiondetails implements Serializable{
         this.gas_used = gas_used;
     }
 
-    public int getExpiration_timestamp_seconds() {
-        return expiration_timestamp_seconds;
+    public String getExpiration_date() {
+        return expiration_date;
     }
 
-    public void setExpiration_timestamp_seconds(int expiration_timestamp_seconds) {
-        this.expiration_timestamp_seconds = expiration_timestamp_seconds;
+    public void setExpiration_date(String expiration_date) {
+        this.expiration_date = expiration_date;
     }
-    
 
-    
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getReceiver_id() {
+        return receiver_id;
+    }
+
+    public void setReceiver_id(String receiver_id) {
+        this.receiver_id = receiver_id;
+    }
 }

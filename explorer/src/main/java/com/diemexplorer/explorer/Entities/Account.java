@@ -26,16 +26,19 @@ public class Account implements Serializable{
     private int sequence_number;
     
     private boolean is_frozen;
+
+    private String human_name;
     
     public Account(){
         
     }
 
-    public Account(String address, String authentication_key, int sequence_number, boolean is_frozen) {
+    public Account(String address, String authentication_key, int sequence_number, boolean is_frozen, String human_name) {
         this.address = address;
         this.authentication_key = authentication_key;
         this.sequence_number = sequence_number;
         this.is_frozen = is_frozen;
+        this.human_name= human_name;
     }
 
     public String getAddress() {
@@ -69,7 +72,12 @@ public class Account implements Serializable{
     public void setIs_frozen(boolean is_frozen) {
         this.is_frozen = is_frozen;
     }
-    
-    
-    
+
+    public String getHuman_name() {
+        return human_name;
+    }
+
+    public void setHuman_name(String human_name) {
+        this.human_name = human_name;
+    }
 }

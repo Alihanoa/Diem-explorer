@@ -14,24 +14,24 @@ and open the template in the editor.
         <div>
             <table >
                 <tr>
-                    <th>ID</th>
-                    <th>senderid</th>
-                    <th>public key</th>
-                    <th>gas preis</th>
-                    <th>gas Waehrung</th>
-                    <th>gas verwendet</th>
-                    <th>amount</th>
-                    <th>currency</th>
+                    <th>Version</th>
+                    <th>Sender ID</th>
+                    <th>Public Key</th>
+                    <th>Anzahl</th>
+                    <th>Währung</th>
+                    <th>Gas Währung</th>
+                    <th>Gas Anzahl</th>
+                    <th>Ablaufzeit in Sekunden</th>
                 </tr>
                 <tr th:each=" date : ${daten}">
-                    <td  th:text="${date.transactionID}"></td>
+                    <td  th:text="${date.version}"></td>
                     <td th:text="${date.sender_id}"></td>
                     <td th:text="${date.public_key}"></td>
-                    <td th:text="${date.gas_unit_price}"></td>
-                    <td th:text="${date.gas_currency}"></td>
-                    <td th:text="${date.gas_used}"></td>
                     <td th:text="${date.amount}"></td>
                     <td th:text="${date.currency}"></td>
+                    <td th:text="${date.gas_currency}"></td>
+                    <td th:text="${date.gas_used}"></td>
+                    <td th:text="${date.expiration_timestamp_seconds}"></td>
                 </tr>
             </table>
         </div>

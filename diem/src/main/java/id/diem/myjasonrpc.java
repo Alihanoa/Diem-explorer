@@ -15,12 +15,10 @@ import com.diem.types.ChainId;
 import com.diem.jsonrpc.JsonRpc;
 import com.diem.jsonrpc.JsonRpc.Transaction;
 import java.util.List;
-import com.google.protobuf.*;
-import com.diem.*;
-import com.diem.jsonrpc.JsonRpc.Event;
+import com.diem.jsonrpc.Response;
 import java.util.ArrayList;
 import java.time.Clock;
-import java.time.ZoneId;
+import com.google.gson.JsonElement;
 
 
 public class myjasonrpc {
@@ -32,9 +30,23 @@ public class myjasonrpc {
     private static List<JsonRpc.Transaction> unseretrans;
     public static void main(String[] args) throws DiemException, InterruptedException {
 
-        getTransactionsasec(1);
+//        getTransactionsasec(1);
 //      List<JsonRpc.Transaction> l = client.getTransactions(0, 1000000, false);
 //      System.out.println(l.get(0));
+
+        List<JsonRpc.Transaction> transaktionen = client.getTransactions(0, 1000, false);
+        
+        for( JsonRpc.Transaction t : transaktionen){
+            if(!t.getTransaction().getSender().equals("")){
+                
+                String address = t.getTransaction().getSender();
+                System.out.println(address);
+                JsonRpc.Account account = client.getAccount(address);
+                System.out.println(account.getAuthenticationKey());
+                System.out.println(account.getIsFrozen());
+                System.out.println(account.getSequenceNumber());
+            }
+        }
     }
     
 
@@ -68,4 +80,6 @@ public class myjasonrpc {
             Thread.sleep(100);
         }
     }
+    
+    
 }

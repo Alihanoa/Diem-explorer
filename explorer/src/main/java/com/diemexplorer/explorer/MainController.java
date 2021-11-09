@@ -6,8 +6,7 @@
 package com.diemexplorer.explorer;
 
 import com.diemexplorer.explorer.Entities.Account;
-import com.diemexplorer.explorer.Repositories.AccountRepository;
-import com.diemexplorer.explorer.Repositories.TransactiondetailsRepository;
+import com.diemexplorer.explorer.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,28 +19,44 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 @CrossOrigin
-public class AccountController {
-    @Autowired
+public class MainController {
+
+
     private TransactiondetailsRepository transactiondetailsrepository;
-    @Autowired
+
     private AccountRepository accountRepository;
+
+    private AccountInformationRepository accountInformationRepository;
+
+    private AccountBalanceXUSRepository accountBalanceXUSRepository;
+
+    private AccountBalanceXDXRepository accountBalanceXDXRepository;
     
-    public AccountController( TransactiondetailsRepository tr,
-                                  AccountRepository accountRepository){
-        this.transactiondetailsrepository=tr;
-        this.accountRepository=accountRepository;
+    public MainController(TransactiondetailsRepository transactiondetailsrepository,
+                          AccountRepository accountRepository,
+                          AccountInformationRepository accountInformationRepository,
+                          AccountBalanceXUSRepository accountBalanceXUSRepository,
+                          AccountBalanceXDXRepository accountBalanceXDXRepository){
+        
+        this.accountRepository = accountRepository;
+        this.accountInformationRepository = accountInformationRepository;
+        this.transactiondetailsrepository= transactiondetailsrepository;
+        this.accountBalanceXDXRepository= accountBalanceXDXRepository;
+        this.accountBalanceXUSRepository = accountBalanceXUSRepository;
+
     }
     
-    @GetMapping
+    @GetMapping("/transactions")
     public String getTransactiondetails(Model model){
          model.addAttribute("daten",transactiondetailsrepository.findAll());
+        System.out.println(model.getAttribute("daten"));
          
          return "index";
     }
     
     @GetMapping()
     public String getAccount(Model model){
-        return "index";
+        return "";
     }
     
     

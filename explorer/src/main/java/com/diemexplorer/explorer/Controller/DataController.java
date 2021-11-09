@@ -4,6 +4,7 @@ import com.diemexplorer.explorer.Entities.Transactiondetails;
 import com.diemexplorer.explorer.Repositories.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -40,7 +41,6 @@ public class DataController {
         this.accountBalanceXUSRepository=accountBalanceXUSRepository;
         this.accountBalanceXDXRepository=accountBalanceXDXRepository;
     }
-
     @GetMapping("/rest/transactions")
     public List<Transactiondetails> getTransactiondetails(){
         return this.transactiondetailsRepository.findAll();

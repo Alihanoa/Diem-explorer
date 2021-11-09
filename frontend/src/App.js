@@ -15,6 +15,7 @@ import Head from './pages/Head';
 import Others from './tutorials/Others';
 
 function App() {
+<<<<<<< Updated upstream
     return(
     <div>
         <Router>
@@ -62,6 +63,18 @@ function App() {
         */}
     </div>
     );
+=======
+
+
+  return (
+    <div>
+      <Diemexplorer/>
+    </div>
+
+  )
+>>>>>>> Stashed changes
 }
+
+
 
 export default App;

@@ -18,15 +18,15 @@ import java.util.List;
  * @author Msi
  */
 public class MyJSONRPC extends DiemJsonRpcClient{
-    String serverurl= "http://localhost:8080";
+    String serverurl= "http://testnet.diem.com/v1";
     public MyJSONRPC(String serverURL, ChainId chainId) {
-        super("http://localhost:8080", new ChainId((byte) 4));
+        super("http://testnet.diem.com/v1", new ChainId((byte) 2));
     }
     
     public static void main(String[] args) throws DiemException{
         
-        MyJSONRPC rpc = new MyJSONRPC("geqf",new ChainId((byte) 4));
-        Transaction transaction = rpc.getAccountTransaction("23f76c2229c5e6c4b90dc042026f251a", 0, false);
+        MyJSONRPC rpc = new MyJSONRPC("geqf",new ChainId((byte) 2));
+        Transaction transaction = rpc.getAccountTransaction("65d590ccefbf8229e1dea4dcc3d5455a", 0, false);
 //        JsonRpc.Event even = transaction.getEvents(0);
 //        System.out.println(even);
         System.out.println(transaction);
