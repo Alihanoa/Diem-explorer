@@ -19,7 +19,6 @@ import java.util.List;
 public class ExplorerApplication {
 
 	private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
-	private static Clock c = Clock.systemDefaultZone();
 	private static long vers = 127;
 	private static int limit = 1;
 	private static long sek;
@@ -50,11 +49,11 @@ public class ExplorerApplication {
 				if (!versionInDB(transaction.getVersion())) {
 					String date  = getDateFromTimeStamp(transaction);
 
-					String query = "INSERT INTO transactiondetails (version, amount, currency, gas_used, gas_currency, public_key, sender_id, receiver_id, date, expiration_date, type) "
+					String query = "INSERT INTO transactiondetails (version, amount, currency, gas_used, gas_currency, public_key, sender_id, receiver_id, date, type) "
 							+ "VALUES (" + transaction.getVersion() + ","  + transaction.getTransaction().getScript().getAmount() + ","
 							+ "'" + transaction.getTransaction().getScript().getCurrency() + "'" + "," + transaction.getGasUsed() + ","
 							+ "'" + transaction.getTransaction().getGasCurrency() + "'" + ", '" + transaction.getTransaction().getPublicKey() + "','"
-							+ transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "','" + getDateFromExpirationTimestamp(transaction) + "', '" + transaction.getTransaction().getType() + "')";
+							+ transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "', '" + transaction.getTransaction().getType() + "')";
 					System.out.println(transaction.getTransaction().getTimestampUsecs());
 					statement = con.prepareStatement(query);
 					statement.executeUpdate();
@@ -72,7 +71,7 @@ public class ExplorerApplication {
 	}
 
 
-	public static void getTransactionsasec(int a) throws DiemException, SQLException {
+	/*public static void getTransactionsasec(int a) throws DiemException, SQLException {
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 		PreparedStatement statement;
 		transactions = new ArrayList();
@@ -111,7 +110,7 @@ public class ExplorerApplication {
 			}
 		}
 
-	}
+	}*/
 
 	public static boolean versionInDB(long version) throws SQLException{
 

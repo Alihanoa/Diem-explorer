@@ -46,7 +46,7 @@ public class MainController {
 
     }
     
-    @GetMapping("/transactions")
+/*    @GetMapping("/transactions")
     public String getTransactiondetails(Model model){
          model.addAttribute("daten",transactiondetailsrepository.findAll());
         System.out.println(model.getAttribute("daten"));
@@ -58,6 +58,6 @@ public class MainController {
     public String getAccount(Model model){
         return "";
     }
-    
+    */
     
 }
