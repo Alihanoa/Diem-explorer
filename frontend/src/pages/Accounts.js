@@ -14,7 +14,7 @@ class Accounts extends React.Component{
 
     // Data gets fetched from the backend
     async readData() {
-        let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
+        let data = await fetch('http://localhost:8888/rest/accounts').then(result => result.json());
         return data;
     }
 

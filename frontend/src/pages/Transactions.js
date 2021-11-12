@@ -1,4 +1,8 @@
 import React from "react";
+import Transactiondetails from "./Transactiondetails";
+import Transaction from "./Transactiondetails";
+import reactDom from "react-dom";
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 
 class Transactions extends React.Component {
     constructor(props) {
@@ -24,12 +28,21 @@ class Transactions extends React.Component {
         let table = [];
         for (let i = data.length - 1; i >= 0; i--) { 
             // let children = [];
-            table = table + "<tr> <td>" + data[i].version + "</td>  <td>" + data[i].sender_id + "</td>  <td>"
-                + data[i].receiver_id + "</td>  <td>" + data[i].amount + "</td>  <td> " + data[i].currency + "</td> <td>"
+            table += "<tr> <td><a href=Transactiondetails/" + data[i].version + ">" + data[i].version + "</a></td> <td>" 
+                + data[i].sender_id + "</td>  <td>"
+                + data[i].receiver_id + "</td>  <td>" + data[i].public_key + "</td>  <td>" + data[i].amount + "</td>  <td> " + data[i].currency + "</td> <td>"
                 + data[i].gas_used + "</td> <td> " + data[i].gas_currency + "</td> <td>" + data[i].date + "</td> <td>" + data[i].type + "</td> </tr>";
         }
         console.log(data);
         return table;
+    }
+
+    clickVersion(version_number){
+        <Router>
+            <Route path="/Transactiondetails">
+                <Transactiondetails version={version_number}/>
+            </Route>
+        </Router>
     }
 
     render() {
@@ -44,6 +57,7 @@ class Transactions extends React.Component {
                         <th>Version</th>
                         <th>Sender_ID</th>
                         <th>Receiver_ID</th>
+                        <th>public_key</th>
                         <th>Amount</th>
                         <th>Currency</th>
                         <th>Gas-Amount</th>
