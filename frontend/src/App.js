@@ -5,14 +5,16 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import Mainpage from './pages/Mainpage';
 import Transactions from './pages/Transactions';
-import Transaction from './pages/Transaction';
+import Transaction from './pages/Transactiondetails';
 import Accounts from './pages/Accounts';
-import Account from './pages/Account';
+import Account from './pages/Accountdetails';
 import Search from './pages/Search';
 import Statistics from './pages/Statistics';
 import Contact from './pages/Contact';
 import Head from './pages/Head';
 import Others from './tutorials/Others';
+import Transactiondetails from './pages/Transactiondetails';
+import Accountdetails from './pages/Accountdetails';
 
 function App() {
     return(
@@ -26,6 +28,11 @@ function App() {
             <Route path="/Transactions" component={Transactions} />
             <Route path="/Accounts" component={Accounts}/>
             <Route path="/Statistics" component={Statistics}/>
+            {/* <Route path="/Transactiondetails">
+                <Transactiondetails version="127"/>
+            </Route> */}
+            <Route path="/Transactiondetails/:version" component={Transactiondetails}/>
+            <Route path="/Accountdetails" component={Accountdetails}/>
             <Route path="/Contact" component={Contact} />
             {/*Hier führen mehrere Pfade auf dieselbe Seite.*/}
             <Route path={["/Others", 'Sonstiges']}>

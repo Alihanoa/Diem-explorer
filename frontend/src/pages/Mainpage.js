@@ -25,7 +25,7 @@ class Mainpage extends React.Component {
         for (let i = data.length - 1; i >= data.length - 10; i--) { 
             //let children = [];
             table = table + "<tr> <td>" + data[i].version + "</td>  <td>" + data[i].sender_id + "</td>  <td>"
-                + data[i].receiver_id + "</td>  <td>" + data[i].amount + "</td>  <td> " + data[i].currency + "</td> <td>"
+                + data[i].receiver_id + "</td>  <td>" + data[i].public_key + "</td>  <td>" + data[i].amount + "</td>  <td> " + data[i].currency + "</td> <td>"
                 + data[i].gas_used + "</td> <td> " + data[i].gas_currency + "</td> <td>" + data[i].date + "</td> <td>" + data[i].type + "</td> </tr>";
         }
         console.log(data);
@@ -52,6 +52,7 @@ class Mainpage extends React.Component {
                             <th>Version</th>
                             <th>Sender_ID</th>
                             <th>Receiver_ID</th>
+                            <th>public_key</th>
                             <th>Amount</th>
                             <th>Currency</th>
                             <th>Gas-Amount</th>
