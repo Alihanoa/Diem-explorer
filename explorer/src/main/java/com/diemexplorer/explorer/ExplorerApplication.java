@@ -28,7 +28,7 @@ public class ExplorerApplication {
 
 	public static void main(String[] args) throws SQLException, DiemException, InterruptedException {
 
-		//getTransactions();
+//		getTransactions();
 		SpringApplication.run(ExplorerApplication.class, args);
 
 
@@ -53,7 +53,11 @@ public class ExplorerApplication {
 							+ "VALUES (" + transaction.getVersion() + ","  + transaction.getTransaction().getScript().getAmount() + ","
 							+ "'" + transaction.getTransaction().getScript().getCurrency() + "'" + "," + transaction.getGasUsed() + ","
 							+ "'" + transaction.getTransaction().getGasCurrency() + "'" + ", '" + transaction.getTransaction().getPublicKey() + "','"
+<<<<<<< Updated upstream
 							+ transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "', '" + transaction.getTransaction().getType() + "')";
+=======
+							+ transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "','" +  transaction.getTransaction().getType() + "')";
+>>>>>>> Stashed changes
 					System.out.println(transaction.getTransaction().getTimestampUsecs());
 					statement = con.prepareStatement(query);
 					statement.executeUpdate();

@@ -1,60 +1,62 @@
 import React from "react";
 
-{/*import {React, useEffect, useState} from "react";
-export const Transactions = () => {
-
-    const [team, setTeam] = useState();
-
-    useEffect(() => {
-        const fetchMatches = async () => {
-        const response = await fetch ('http://localhost:8888/transactions');
-        const data = await response.json();
-        console.log(data);
-    };
-    fetchMatches();
-    }, []
-};
-*/}
-
-class Transactions extends React.Component{
-    constructor(props){
+class Transactions extends React.Component {
+    constructor(props) {
         super(props);
     }
 
-    render(){
+    async componentDidMount() {
+        let data = await this.readData();
+        let table = this.createTable(data);
+        document.getElementById("transactions").innerHTML = table;
+        console.log(table)
+    }
 
-        return(
+    // Data gets fetched from the backend
+    async readData() {
+        let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
+        return data;
+    }
+
+    // create table row for each object within the data array
+    createTable(data) {
+
+        let table = [];
+        for (let i = 0; i < data.length; i++) { 
+            // let children = [];
+            table = table + "<tr> <td>" + data[i].version + "</td>  <td>" + data[i].sender_id + "</td>  <td>"
+                + data[i].receiver_id + "</td>  <td>" + data[i].amount + "</td>  <td> " + data[i].currency + "</td> <td>"
+                + data[i].gas_used + "</td> <td> " + data[i].gas_currency + "</td> <td>" + data[i].date + "</td> <td>" + data[i].type + "</td> </tr>";
+        }
+        console.log(data);
+        return table;
+    }
+
+    render() {
+
+        return (
+            
+            <div><h1>Transactions</h1>
             <table border="5">
-                <caption>Transaktionen</caption>
+                <caption>Latest Transactions</caption>
                 <thead>
-                <tr>
-                    
-                    <th>Version</th>
-                    <th>Sender_id</th>
-                    <th>Receiver_id</th>
-                    <th>Amount</th>
-                    <th>Currency</th>
-                    <th>Gas-Amount</th>
-                    <th>Gas-Currency</th>
-                    <th>Expiration</th>
-                    <th>Sequence-Number</th>
-                </tr>
+                    <tr>
+                        <th>Version</th>
+                        <th>Sender_ID</th>
+                        <th>Receiver_ID</th>
+                        <th>Amount</th>
+                        <th>Currency</th>
+                        <th>Gas-Amount</th>
+                        <th>Gas-Currency</th>
+                        <th>Date</th>
+                        <th>type</th>
+                    </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                <tbody id="transactions">
+
                 </tbody>
             </table>
+            </div>
         );
     }
 }

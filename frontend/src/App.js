@@ -24,6 +24,8 @@ function App() {
             {/*exact sorgt dafür, dass nur bei genau dem Pfad die Komponente angezeigt wird.*/}
             <Route path="/" exact component={Mainpage} />
             <Route path="/Transactions" component={Transactions} />
+            <Route path="/Accounts" component={Accounts}/>
+            <Route path="/Statistics" component={Statistics}/>
             <Route path="/Contact" component={Contact} />
             {/*Hier führen mehrere Pfade auf dieselbe Seite.*/}
             <Route path={["/Others", 'Sonstiges']}>
@@ -63,7 +65,5 @@ function App() {
     </div>
     );
 }
-
-
 
 export default App;
