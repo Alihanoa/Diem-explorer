@@ -22,7 +22,7 @@ class Mainpage extends React.Component {
     createTable(data) {
 
         let table = [];
-        for (let i = 0; i < 10; i++) { 
+        for (let i = data.length - 1; i >= data.length - 10; i--) { 
             //let children = [];
             table = table + "<tr> <td>" + data[i].version + "</td>  <td>" + data[i].sender_id + "</td>  <td>"
                 + data[i].receiver_id + "</td>  <td>" + data[i].amount + "</td>  <td> " + data[i].currency + "</td> <td>"
