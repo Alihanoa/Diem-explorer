@@ -22,7 +22,30 @@ class Transactiondetails extends React.Component{
     createTable(data) {
 
         let table = [];
-        table += "<tr> <td>Version</td><td>" + this.readData.version + "</td> </tr>";
+        table += "<tr><th>Version</th><td>" + data[0][0].version + 
+        "</td></tr><tr><td>Sender ID</td><td>" + data[0][0].sender_id + 
+        "</td></tr><tr><td>Receiver ID</td><td>" + data[0][0].receiver_id + 
+        "</td></tr><tr><td>Public Key</td><td>" + data[0][0].public_key +
+        "</td></tr><tr><td>Amount</td><td>" + data[0][0].amount +
+        "</td></tr><tr><td>Currency</td><td>" + data[0][0].currency +
+        "</td></tr><tr><td>Gas-Amount</td><td>" + data[0][0].gas_used +
+        "</td></tr><tr><td>Gas-Currency</td><td>" + data[0][0].gas_currency +
+        "</td></tr><tr><td>Date</td><td>" + data[0][0].date +
+        "</td></tr><tr><td>Type</td><td>" + data[0][0].type +
+        "</td></tr><tr><td>Chain ID</td><td>" + data[1][0].chain_id +
+        "</td></tr><tr><td>Hash</td><td>" + data[1][0].hash +
+        "</td></tr><tr><td>Metadata</td><td>" + data[1][0].metadata +
+        "</td></tr><tr><td>Metadata Signature</td><td>" + data[1][0].metadata_signature +
+        "</td></tr><tr><td>Script Hash</td><td>" + data[1][0].script_hash +
+        "</td></tr><tr><td>Abort Code</td><td>" + data[1][0].abort_code +
+        "</td></tr><tr><td>Category</td><td>" + data[1][0].category +
+        "</td></tr><tr><td>Category Description</td><td>" + data[1][0].category_description +
+        "</td></tr><tr><td>Reason</td><td>" + data[1][0].reason +
+        "</td></tr><tr><td>Reason Description</td><td>" + data[1][0].reason_description +
+        "</td></tr><tr><td>Location</td><td>" + data[1][0].location +
+        "</td></tr><tr><td>VM Status Type</td><td>" + data[1][0].type +
+        "</td></tr><tr><td>Expiration Date</td><td>" + data[1][0].expiration_date +
+        "</td></tr>";
 
         console.log(data);
         return table;
@@ -39,98 +62,7 @@ class Transactiondetails extends React.Component{
                     </thead>
 
                     <tbody id="transaction">
-                        {/* <tr>
-                            <th>Version</th>
-                            <td></td>
-                        </tr> */}
-                        {/* <tr>
-                            <td>Sender_ID</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Receiver_ID</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>public_key</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Amount</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Currency</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Gas-Amount</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Gas-Currency</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Date</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>type</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>chaid-id</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>hash</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>metadata</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>metadata_signature</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>script_hash</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>abort_code</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>category</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>category_description</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>reason</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>reasen_description</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>location</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>VM status type</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>expiration_date</td>
-                            <td></td>
-                        </tr> */}
+                        
                     </tbody>
                 </table>
             </div>

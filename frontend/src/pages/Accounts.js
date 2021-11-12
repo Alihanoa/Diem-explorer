@@ -24,7 +24,8 @@ class Accounts extends React.Component{
         let table = [];
         for (let i = 0; i < data.length; i++) { 
             // let children = [];
-            table = table + "<tr> <td>" + data[i].address + "</td>  <td>" + data[i].authentication_key + "</td>  <td>"
+            table += "<tr> <td><a href=Accountdetails/" + data[i].address + ">" + data[i].address + "</a></td> <td>" 
+                + data[i].authentication_key + "</td>  <td>"
                 + data[i].human_name + "</td>  <td>" + data[i].sequence_number + "</td>  <td> " + data[i].is_frozen + "</td> </tr>";
         }
         console.log(data);
