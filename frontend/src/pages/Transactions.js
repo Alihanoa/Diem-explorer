@@ -22,7 +22,7 @@ class Transactions extends React.Component {
     createTable(data) {
 
         let table = [];
-        for (let i = 0; i < data.length; i++) { 
+        for (let i = data.length - 1; i >= 0; i--) { 
             // let children = [];
             table = table + "<tr> <td>" + data[i].version + "</td>  <td>" + data[i].sender_id + "</td>  <td>"
                 + data[i].receiver_id + "</td>  <td>" + data[i].amount + "</td>  <td> " + data[i].currency + "</td> <td>"
