@@ -28,10 +28,7 @@ function App() {
             <Route path="/Transactions" component={Transactions} />
             <Route path="/Accounts" component={Accounts}/>
             <Route path="/Statistics" component={Statistics}/>
-            {/* <Route path="/Transactiondetails">
-                <Transactiondetails version="127"/>
-            </Route> */}
-            <Route path="/Transactiondetails/:version" component={Transactiondetails}/>
+            <Route path="/Transactiondetails/:version" exact component={Transactiondetails}/>
             <Route path="/Accountdetails" component={Accountdetails}/>
             <Route path="/Contact" component={Contact} />
             {/*Hier führen mehrere Pfade auf dieselbe Seite.*/}

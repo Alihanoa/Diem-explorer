@@ -5,6 +5,29 @@ class Accountdetails extends React.Component{
         super(props);
     }
 
+    async componentDidMount() {
+        let data = await this.readData();
+        let table = this.createTable(data);
+        document.getElementById("account").innerHTML = table;
+        console.log(table)
+    }
+
+    // Data gets fetched from the backend
+    async readData(props) {
+        let data = await fetch("http://localhost:8888/rest/account?address=" + this.props.match.params.address).then(result => result.json());
+        return data;
+    }
+
+    //create table row for each object within the data array
+    createTable(data) {
+
+        let table = [];
+        table += "<tr><th>Address</th><td>" + data[0][0][0].address + "</td></tr>";
+
+        console.log(data);
+        return table;
+    }
+
     render(){
 
         return(
@@ -12,73 +35,11 @@ class Accountdetails extends React.Component{
                 <h1>Account Details</h1>
                 <table border="3">
                     <thead>
-                        <tr>
-                            <th>Address</th>
-                            <td>{this.props.address}</td>
-                        </tr>
+
                     </thead>
 
-                    <tbody>
-                        <tr>
-                            <td>authentication_key</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Human Name</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>Sequence Number</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>is_frozen</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>sent_events_key</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>receive_events_key</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>rtype</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>parent_vasp_name</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>base_url</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>expiration_time</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>compliance_key</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>received_mint_events_key</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>compliance_key_rotation_events_key</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>base_url_rotation_events_key</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>preburn_balancexus</td>
-                            <td></td>
-                        </tr>
+                    <tbody id="account">
+                        
                     </tbody>
                 </table>
             </div>
