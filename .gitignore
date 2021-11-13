@@ -41,3 +41,7 @@ diem/target/test-classes/.netbeans_automatic_build
 diem/target/classes/.netbeans_automatic_build
 
 diem/nb-configuration.xml
+
+diem/target/classes/id/diem/dbtests.class
+
+diem/src/main/java/id/diem/dbtests.java

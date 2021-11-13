@@ -18,23 +18,32 @@ import java.util.List;
 @SpringBootApplication
 public class ExplorerApplication {
 
-	private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
-	private static long vers = 127;
-	private static int limit = 1;
-	private static long sek;
-	private static List<JsonRpc.Transaction> transactions;
-	private static Connection con;
-	private static List<JsonRpc.Account> accounts;
+	// private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
+	// private static long vers = 127;
+	// private static int limit = 1;
+	// private static long sek;
+	// private static List<JsonRpc.Transaction> transactions;
+	// private static Connection con;
+	// private static List<JsonRpc.Account> accounts;
 
 	public static void main(String[] args) throws SQLException, DiemException, InterruptedException {
 
-//		getTransactions();
 		SpringApplication.run(ExplorerApplication.class, args);
+
+		BlockchainThread blockchainThread = new BlockchainThread();
+		blockchainThread.start();
+
+
+
+
+//		getTransactions();
+
 
 
 	}
+}
 
-	public static void getTransactions()throws SQLException, DiemException, InterruptedException{
+	/*public static void getTransactions()throws SQLException, DiemException, InterruptedException{
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 		List<JsonRpc.Transaction> transactions;
 		PreparedStatement statement;
@@ -53,13 +62,7 @@ public class ExplorerApplication {
 							+ "VALUES (" + transaction.getVersion() + ","  + transaction.getTransaction().getScript().getAmount() + ","
 							+ "'" + transaction.getTransaction().getScript().getCurrency() + "'" + "," + transaction.getGasUsed() + ","
 							+ "'" + transaction.getTransaction().getGasCurrency() + "'" + ", '" + transaction.getTransaction().getPublicKey() + "','"
-<<<<<<< HEAD
 							+ transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "', '" + transaction.getTransaction().getType() + "')";
-=======
-
-							+ transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "', '" + transaction.getTransaction().getType() + "')";
-
->>>>>>> main
 					System.out.println(transaction.getTransaction().getTimestampUsecs());
 					statement = con.prepareStatement(query);
 					statement.executeUpdate();
@@ -77,7 +80,7 @@ public class ExplorerApplication {
 	}
 
 
-	/*public static void getTransactionsasec(int a) throws DiemException, SQLException {
+	*//*public static void getTransactionsasec(int a) throws DiemException, SQLException {
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 		PreparedStatement statement;
 		transactions = new ArrayList();
@@ -116,11 +119,11 @@ public class ExplorerApplication {
 			}
 		}
 
-	}*/
+	}*//*
 
 	public static boolean versionInDB(long version) throws SQLException{
 
-		/* checks whether the version number is in the database or not */
+		*//* checks whether the version number is in the database or not *//*
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
 		String query = "SELECT version FROM transactiondetails WHERE version=" + version;
@@ -133,8 +136,8 @@ public class ExplorerApplication {
 
 	public static void getAccountAndSaveInDB(JsonRpc.Transaction transaction, String receiver) throws SQLException, DiemException, InterruptedException {
 
-		/*For each transaction, this method checks whether the account executing the transacion is within our database. If the account is already
-		 *in database its sequence number gets updated. If the account is not in the database its current values are being inserted in the database */
+		*//*For each transaction, this method checks whether the account executing the transacion is within our database. If the account is already
+		 *in database its sequence number gets updated. If the account is not in the database its current values are being inserted in the database *//*
 		String address = transaction.getTransaction().getSender();
 		PreparedStatement statement;
 
@@ -158,7 +161,7 @@ public class ExplorerApplication {
 	}
 	public static boolean accountInDB(String address)throws SQLException{
 
-		/* Checks whether an account is in the database or not */
+		*//* Checks whether an account is in the database or not *//*
 
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
@@ -194,9 +197,9 @@ public class ExplorerApplication {
 
 	public static String getDateFromTimeStamp(JsonRpc.Transaction transaction) throws SQLException{
 
-		/*Timestamp is stored on the blockchain as microseconds. In order to safe it as a date, it is necessary to cut off the last 3 digits and format
+		*//*Timestamp is stored on the blockchain as microseconds. In order to safe it as a date, it is necessary to cut off the last 3 digits and format
 		 * it in european date wit a SimpleDateFormat Object. Format: DD/MM/YYYY HH:MM:SS
-		*/
+		*//*
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
 		PreparedStatement preparedStatement;
@@ -232,9 +235,9 @@ public class ExplorerApplication {
 	}
 
 	public static String getDateFromExpirationTimestamp(JsonRpc.Transaction transaction) throws SQLException{
-		/*Expirartiontimestamp is stored on the blockchain in seconds. In order to safe it as a date, it is necessary to add 3 digits and format
+		*//*Expirartiontimestamp is stored on the blockchain in seconds. In order to safe it as a date, it is necessary to add 3 digits and format
 		 * it in european date wit a SimpleDateFormat Object. Format: DD/MM/YYYY HH:MM:SS
-		 */
+		 *//*
 
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
@@ -290,7 +293,7 @@ public class ExplorerApplication {
 
 
 				// Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
-				/*if(!amountInXUSDB(receiver)){
+				*//*if(!amountInXUSDB(receiver)){
 
 						String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + address + "'," + receiver.getBalances(1).getAmount() + ")";
 						PreparedStatement statement = con.prepareStatement(insertStatement);
@@ -317,12 +320,12 @@ public class ExplorerApplication {
 					PreparedStatement statement = con.prepareStatement(updateStatement);
 					statement.executeUpdate();
 				}
-*/
+*//*
 			//This Section inserts / updates the sender in the database
 			String addressSender = sender.getAddress();
 
 
-/*			if(!amountInXUSDB(sender) ){
+*//*			if(!amountInXUSDB(sender) ){
 				String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('"+addressSender+ "'," + sender.getBalances(0).getAmount() + ")";
 				PreparedStatement statement = con.prepareStatement(insert);
 				statement.executeUpdate();
@@ -342,7 +345,7 @@ public class ExplorerApplication {
 				String update = "UPDATE accountbalancexdx SET amount="+ sender.getBalances(0).getAmount() + " WHERE address='"+addressSender + "'";
 				PreparedStatement statement = con.prepareStatement(update);
 				statement.executeUpdate();
-			}*/
+			}*//*
 
 
 			}
@@ -429,3 +432,4 @@ public class ExplorerApplication {
 		return resultSet.next();
 	}
 }
+*/

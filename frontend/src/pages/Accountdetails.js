@@ -22,7 +22,7 @@ class Accountdetails extends React.Component{
     createTable(data) {
 
         let table = [];
-        table += "<tr><th>Address</th><td>" + data[0][0][0].address + "</td></tr>";
+        table += "<tr><th>Address</th><td>" + data[1].address + "</td></tr>";
 
         console.log(data);
         return table;

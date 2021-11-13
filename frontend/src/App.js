@@ -29,7 +29,7 @@ function App() {
             <Route path="/Accounts" component={Accounts}/>
             <Route path="/Statistics" component={Statistics}/>
             <Route path="/Transactiondetails/:version" exact component={Transactiondetails}/>
-            <Route path="/Accountdetails" component={Accountdetails}/>
+            <Route path="/Accountdetails/:address" component={Accountdetails}/>
             <Route path="/Contact" component={Contact} />
             {/*Hier führen mehrere Pfade auf dieselbe Seite.*/}
             <Route path={["/Others", 'Sonstiges']}>

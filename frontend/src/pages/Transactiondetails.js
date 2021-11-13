@@ -46,6 +46,7 @@ class Transactiondetails extends React.Component{
         "</td></tr><tr><td>VM Status Type</td><td>" + data[1][0].type +
         "</td></tr><tr><td>Expiration Date</td><td>" + data[1][0].expiration_date +
         "</td></tr>";
+        table += "<tr> <td>Version</td><td>" + data[0][0].version + "</td> </tr>";
 
         console.log(data);
         return table;
