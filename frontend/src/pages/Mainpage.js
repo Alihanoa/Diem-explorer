@@ -46,6 +46,18 @@ class Mainpage extends React.Component {
                     <input type="search" name="search_bar" id="search_bar"></input>
                 </form>
 
+                <table>
+                    <caption>General Information</caption>
+                    <thead>
+                        <tr id="general_information">
+                            <td>Average gas price: </td>
+                            <td>Transaction per hour: </td>
+                            <td>Hash rate: </td>
+                            <td>Market capacity:  Diem USD</td>
+                        </tr>
+                    </thead>
+                </table>
+
                 <table border="3">
                     <caption>Latest Transactions</caption>
                     <thead>

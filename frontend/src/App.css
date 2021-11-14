@@ -39,22 +39,28 @@
 
 /*Ab hier eigene styles.*/
 footer{
-    background-color: #C4C4C4;
+    background-color: #1B0184;
     text-align: center;
-    height: 50px;
+    height: 56px;
     width: 100%;
     bottom: 0;
-    color: #1B0184;
+    color: #FFFFFF;
 }
 
 header{
-    background-color: #C4C4C4;
+    background-color: #1B0184;
     color: white;
     top: 0;
     width: 100%;
-    height: 50px;
+    height: 56px;;
     margin-top: 0%;
-    color: #1B0184;
+    color: #FFFFFF;
+}
+#header_table{
+    border-spacing: 50px 10px;
+}
+#footer_table{
+    border-spacing: 15px;
 }
 
 body{
@@ -63,7 +69,18 @@ body{
 }
 
 table{
-    margin: auto;
+    margin:auto;
+    max-width: 80%;
+}
+caption{
+    text-align: left;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+#general_information{
+    background-color: #1B0184;
+    color: #FFFFFF;
 }
 
 #main_title{
@@ -74,4 +91,11 @@ table{
 #search_bar{
     width: 700px;
     height: 40px;
+}
+
+header a{
+    color: #FFFFFF;
+}
+footer a{
+    color: #FFFFFF;
 }

@@ -44,8 +44,12 @@ function App() {
         </Router>
 
         <footer>
-            <a target="_blank" href="https://developers.diem.com/docs/welcome-to-diem/">Diem Developers</a>
-            <a href="./Contact">Contact</a>
+            <table id="footer_table">
+                <tr>
+                    <td><a target="_blank" href="https://developers.diem.com/docs/welcome-to-diem/">Diem Developers</a></td>
+                    <td><a href="/Contact">Contact</a></td>
+                </tr>
+            </table>
         </footer>
 
         {/* Standard von React
@@ -69,5 +73,4 @@ function App() {
     </div>
     );
 }
-
 export default App;

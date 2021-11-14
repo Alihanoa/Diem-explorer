@@ -35,6 +35,9 @@ class Accounts extends React.Component{
     render(){
 
         return(
+            <div>
+            <h1>Accounts</h1>
+            
             <table border="3">
                 <caption>Accounts</caption>
                 <thead>
@@ -50,6 +53,7 @@ class Accounts extends React.Component{
 
                 </tbody>
             </table>
+            </div>
         );
     }
 }

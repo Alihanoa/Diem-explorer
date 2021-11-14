@@ -37,14 +37,6 @@ class Transactions extends React.Component {
         return table;
     }
 
-    clickVersion(version_number){
-        <Router>
-            <Route path="/Transactiondetails">
-                <Transactiondetails version={version_number}/>
-            </Route>
-        </Router>
-    }
-
     render() {
 
         return (
