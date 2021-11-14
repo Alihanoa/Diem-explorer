@@ -51,10 +51,11 @@ public class BlockchainThread extends Thread{
 
             transactions = client.getTransactions(version, 1, false);
 
-            for (JsonRpc.Transaction transaction : transactions) {
-                if(!transaction.getTransaction().getSender().equals("")) {
+            for (JsonRpc.Transaction transaction : transactions ) {
+                if(!transaction.getTransaction().getSender().equals("")||transaction.getTransaction().getType().equals("user")) {
                     String receiver = transaction.getTransaction().getScript().getReceiver();
                     getAccountAndSaveInDB(transaction, receiver);
+                    
                 }
                 if (!versionInDB(transaction.getVersion())) {
                     String date  = getDateFromTimeStamp(transaction);
@@ -139,24 +140,53 @@ public class BlockchainThread extends Thread{
 
         /*For each transaction, this method checks whether the account executing the transacion is within our database. If the account is already
          *in database its sequence number gets updated. If the account is not in the database its current values are being inserted in the database */
-        String address = transaction.getTransaction().getSender();
+        String senderaddress = transaction.getTransaction().getSender();
+        
         PreparedStatement statement;
-
-        JsonRpc.Account account = client.getAccount(address);
-
+//        receiver = transaction.getTransaction().getScript().getReceiver();
+        System.out.println(receiver);
+        JsonRpc.Account receiveraccount;
+        if(receiver.equals("" )){
+            receiveraccount = client.getAccount("000000000000000000000000000000dd");
+        }
+        else{
+            receiveraccount = client.getAccount(receiver);
+        }
+        if(receiveraccount==null){
+          System.out.println("Null Acc receiver");
+        }
+        JsonRpc.Account senderaccount = client.getAccount(senderaddress);
+        
          //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
-        if(accountInDB(address)){
-            String increaseSequenceNumber = "UPDATE account SET sequence_number=" + account.getSequenceNumber()+ " WHERE address='" + account.getAddress() + "'";
+        if(accountInDB(senderaddress)){
+            String increaseSequenceNumber = "UPDATE account SET sequence_number=" + senderaccount.getSequenceNumber()+ " WHERE address='" + senderaccount.getAddress() + "'";
             statement = con.prepareStatement(increaseSequenceNumber);
             statement.executeUpdate();
         }
         else {
             String insertstmnt = "INSERT INTO account (address, authentication_key,  is_frozen, sequence_number) "
-                    +" VALUES ('" + account.getAddress() + "'," + "'" + account.getAuthenticationKey() + "',"+ account.getIsFrozen() + "," + account.getSequenceNumber() +")";
+                    +" VALUES ('" + senderaccount.getAddress() + "'," + "'" + senderaccount.getAuthenticationKey() + "',"+ senderaccount.getIsFrozen() + "," + senderaccount.getSequenceNumber() +")";
             statement = con.prepareStatement(insertstmnt);
             statement.executeUpdate();
         }
-        //setAccountinformation(account);
+        
+        if (receiveraccount != null ){
+                if(accountInDB(receiver)){
+            String increaseSequenceNumber = "UPDATE account SET sequence_number=" + receiveraccount.getSequenceNumber()+ " WHERE address='" + receiveraccount.getAddress() + "'";
+            statement = con.prepareStatement(increaseSequenceNumber);
+            statement.executeUpdate();
+        }
+                else if (receiver!="") {
+            String insertstmnt = "INSERT INTO account (address, authentication_key,  is_frozen, sequence_number) "
+                    +" VALUES ('" + receiveraccount.getAddress() + "'," + "'" + receiveraccount.getAuthenticationKey() + "',"+ receiveraccount.getIsFrozen() + "," + receiveraccount.getSequenceNumber() +")";
+            statement = con.prepareStatement(insertstmnt);
+            statement.executeUpdate();
+        }
+                 setAccountinformation(receiveraccount);
+        }
+        
+        setAccountinformation(senderaccount);
+       
         setAccountBalances(transaction, receiver);
 
     }
@@ -269,61 +299,96 @@ public class BlockchainThread extends Thread{
 
 
         //Thread.sleep(10000);
-
+        receiver = transaction.getTransaction().getScript().getReceiver();
+        System.out.println(receiver);
         JsonRpc.Account receiveraccount;
-        if(receiver.equals("")){
+        if(receiver.equals("" )){
             receiveraccount = client.getAccount("000000000000000000000000000000dd");
         }
         else{
             receiveraccount = client.getAccount(receiver);
         }
-
+        if(receiveraccount==null){
+          System.out.println("Null Acc receiver");
+        }
         JsonRpc.Account sender = client.getAccount(transaction.getTransaction().getSender());
+        String addressSender = sender.getAddress();
 
-
-
+       if(sender==null){
+          System.out.println("Null Acc receiver");
+        }
 
 
 
       //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
         // String address = receiver.getAddress();
-        // List<JsonRpc.Amount> amounts = receiver.getBalancesList();
+//         List<JsonRpc.Amount> amounts = client.getAccount(receiver).getBalancesList();
 
 
+// Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
 
+       //First we have to figure out which currency is used in the transaction
+       //if the currency is XUS
+        if(receiveraccount!=null && sender!=null){
+	if(transaction.getTransaction().getScript().getCurrency().equals("XUS")){
+                                        // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
+                                        if(!amountInXUSDB(receiveraccount)){
 
-        // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
-				/*if(!amountInXUSDB(receiver)){
-
-						String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + address + "'," + receiver.getBalances(1).getAmount() + ")";
+						String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
 						PreparedStatement statement = con.prepareStatement(insertStatement);
 						statement.executeUpdate();
 
 					}
 
-					else if(amountInXUSDB(receiver)){
-						String updateStatement ="UPDATE accountbalancexus SET amount=" +  receiver.getBalances(1).getAmount() + " WHERE address='"  + address + "'";
+					else if(amountInXUSDB(receiveraccount)){
+						String updateStatement ="UPDATE accountbalancexus SET amount=" +  receiveraccount.getBalances(0).getAmount() + " WHERE address='"  + receiver + "'";
 						PreparedStatement statement = con.prepareStatement(updateStatement);
 						statement.executeUpdate();
 					}
+                                         //This Section inserts / updates the sender in the database
+                                        if(!amountInXUSDB(sender) ){
+				String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('"+addressSender+ "'," + sender.getBalances(0).getAmount() + ")";
+				PreparedStatement statement = con.prepareStatement(insert);
+				statement.executeUpdate();
+			}
+                                        
+			else if(amountInXUSDB(sender)){
+				String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(0).getAmount() + " WHERE address='" + addressSender + "'";
+				PreparedStatement statement = con.prepareStatement(update);
+				statement.executeUpdate();
+                                        }}
+        //if the currency ist XDX                
+        else if(transaction.getTransaction().getScript().getCurrency().equals("XDX")){
+                                // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
+				if(!amountInXDXDB(receiveraccount)){
 
-
-				if(!amountInXDXDB(receiver)){
-
-					String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + address + "'," + receiver.getBalances(0).getAmount() + ")";
+					String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(1).getAmount() + ")";
 					PreparedStatement statement = con.prepareStatement(updateStatement);
 					statement.executeUpdate();
 				}
 
-				else if(amountInXDXDB(receiver)){
-					String updateStatement = "UPDATE accountbalancexdx SET amount=" +  receiver.getBalances(0).getAmount() + " WHERE address='"  + address + "'";
+				else if(amountInXDXDB(receiveraccount)){
+					String updateStatement = "UPDATE accountbalancexdx SET amount=" +  receiveraccount.getBalances(1).getAmount() + " WHERE address='"  + receiver + "'";
 					PreparedStatement statement = con.prepareStatement(updateStatement);
 					statement.executeUpdate();
 				}
-*/
+                                 //This Section inserts / updates the sender in the database
+                                if(!amountInXDXDB(sender)){
+				String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(1).getAmount() + ")";
+				PreparedStatement statement = con.prepareStatement(insert);
+				statement.executeUpdate();
+			}
+			else if(amountInXDXDB(sender)){
+				String update = "UPDATE accountbalancexdx SET amount="+ sender.getBalances(1).getAmount() + " WHERE address='"+addressSender + "'";
+				PreparedStatement statement = con.prepareStatement(update);
+				statement.executeUpdate();
+			}}
+        }   
+        
+        
         //This Section inserts / updates the sender in the database
-        String addressSender = sender.getAddress();
+//        String addressSender = sender.getAddress();
 
 
 /*			if(!amountInXUSDB(sender) ){
@@ -410,7 +475,7 @@ public class BlockchainThread extends Thread{
                     + account.getRole().getComplianceKey() + "','"
                     + account.getRole().getComplianceKeyRotationEventsKey() + "','"
                     + account.getRole().getBaseUrlRotationEventsKey() + "',"
-                    + (account.getRole().getType().equals("designated_dealer") ? account.getRole().getPreburnBalances(0) : null) + ",'"
+                    + (account.getRole().getType().equals("designated_dealer") ? account.getRole().getPreburnBalances(0).getAmount() : null) + ",'"
                     + account.getRole().getReceivedMintEventsKey() + "')";
 
             statement = con.prepareStatement(insert);

@@ -17,9 +17,9 @@ import java.util.List;
 
 @SpringBootApplication
 public class ExplorerApplication {
-
-	// private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
-	// private static long vers = 127;
+//
+	 private static DiemJsonRpcClient client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
+	 private static long vers = 127;
 	// private static int limit = 1;
 	// private static long sek;
 	// private static List<JsonRpc.Transaction> transactions;
@@ -32,9 +32,9 @@ public class ExplorerApplication {
 
 		BlockchainThread blockchainThread = new BlockchainThread();
 		blockchainThread.start();
+               
 
-
-
+//                System.out.println(client.getAccount("b2c98e0c53ebbc7bc59bec69c1cbad03").getBalances(0).getAmount());
 
 //		getTransactions();
 
