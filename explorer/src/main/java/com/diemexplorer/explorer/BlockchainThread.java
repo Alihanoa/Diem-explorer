@@ -12,7 +12,7 @@ import java.util.List;
 public class BlockchainThread extends Thread{
     private  DiemJsonRpcClient client;
     private  Connection con;
-    private int version = 0;
+    private int version = 127;
 
 
     public BlockchainThread () throws SQLException {
@@ -60,18 +60,18 @@ public class BlockchainThread extends Thread{
                 if (!versionInDB(transaction.getVersion())) {
                     String date  = getDateFromTimeStamp(transaction);
 
-                    String query = "INSERT INTO  transactiondetails (version, amount, currency, gas_used, gas_currency, public_key, sender_id, receiver_id, date, type) "
+                    String query = "INSERT INTO  transactions (version, amount, currency, gas_used, gas_currency, public_key, sender_id, receiver_id, date, type) "
                             + "VALUES (" + transaction.getVersion() + ","  + transaction.getTransaction().getScript().getAmount() + ","
                             + "'" + transaction.getTransaction().getScript().getCurrency() + "'" + "," + transaction.getGasUsed() + ","
                             + "'" + transaction.getTransaction().getGasCurrency() + "'" + ", '" + transaction.getTransaction().getPublicKey() + "','"
                             + transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "', '" + transaction.getTransaction().getType() + "')";
-                    System.out.println(transaction.getTransaction().getTimestampUsecs());
+
                     statement = con.prepareStatement(query);
                     statement.executeUpdate();
 
-                    getTransactionBlockchaindetails(transaction);
-                    System.out.println(transaction);
-                    System.out.println(transaction.getTransaction().getTimestampUsecs());
+                    getTransactiondetails(transaction);
+
+
 
                 }
 
@@ -82,46 +82,7 @@ public class BlockchainThread extends Thread{
     }
 
 
-	/*public static void getTransactionsasec(int a) throws DiemException, SQLException {
-		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
-		PreparedStatement statement;
-		transactions = new ArrayList();
-		while (true) {
-			sek = c.millis() / 1000;
-			if (sek % a == 0) {
-				List<JsonRpc.Transaction> listOfTransactions = client.getTransactions(vers, limit, false);
-				int i = listOfTransactions.size();
-				if (i != 0) {
-					vers = listOfTransactions.get(i - 1).getVersion();
-					for (JsonRpc.Transaction transaction : listOfTransactions) {
-						//getAccountAndSaveInDB(transaction.getTransaction().getSender());
 
-						if(!versionInDB(transaction.getVersion())) {
-
-
-							if (transaction.getTransaction().getScript().getType().equals("peer_to_peer_with_metadata"))
-							{
-								transactions.add(transaction);
-								String query = "INSERT INTO transactiondetails (version, sender_id, public_key, amount, currency, gas_currency, gas_used, expiration_timestamp_seconds) "
-										+ "VALUES (" + transaction.getVersion() + "," + "'" + transaction.getTransaction().getSender() + "'" + ","
-										+ "'" + transaction.getTransaction().getPublicKey() + "'" + "," + transaction.getTransaction().getScript().getAmount() + ","
-										+ "'" + transaction.getTransaction().getScript().getCurrency() + "'" + ", '" + transaction.getTransaction().getGasCurrency() + "',"
-										+ transaction.getGasUsed() + "," + transaction.getTransaction().getExpirationTimestampSecs() + ")";
-								transaction.getTransaction().getTimestampUsecs();
-								statement = con.prepareStatement(query);
-								statement.executeUpdate();
-
-
-							}
-						}
-					}
-				}
-				listOfTransactions.clear();
-				vers = vers + limit;
-			}
-		}
-
-	}*/
 
     public  boolean versionInDB(long version) throws SQLException{
 
@@ -144,7 +105,7 @@ public class BlockchainThread extends Thread{
         
         PreparedStatement statement;
 //        receiver = transaction.getTransaction().getScript().getReceiver();
-        System.out.println(receiver);
+
         JsonRpc.Account receiveraccount;
         if(receiver.equals("" )){
             receiveraccount = client.getAccount("000000000000000000000000000000dd");
@@ -159,12 +120,12 @@ public class BlockchainThread extends Thread{
         
          //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         if(accountInDB(senderaddress)){
-            String increaseSequenceNumber = "UPDATE account SET sequence_number=" + senderaccount.getSequenceNumber()+ " WHERE address='" + senderaccount.getAddress() + "'";
+            String increaseSequenceNumber = "UPDATE accounts SET sequence_number=" + senderaccount.getSequenceNumber()+ " WHERE address='" + senderaccount.getAddress() + "'";
             statement = con.prepareStatement(increaseSequenceNumber);
             statement.executeUpdate();
         }
         else {
-            String insertstmnt = "INSERT INTO account (address, authentication_key,  is_frozen, sequence_number) "
+            String insertstmnt = "INSERT INTO accounts (address, authentication_key,  is_frozen, sequence_number) "
                     +" VALUES ('" + senderaccount.getAddress() + "'," + "'" + senderaccount.getAuthenticationKey() + "',"+ senderaccount.getIsFrozen() + "," + senderaccount.getSequenceNumber() +")";
             statement = con.prepareStatement(insertstmnt);
             statement.executeUpdate();
@@ -172,12 +133,12 @@ public class BlockchainThread extends Thread{
         
         if (receiveraccount != null ){
                 if(accountInDB(receiver)){
-            String increaseSequenceNumber = "UPDATE account SET sequence_number=" + receiveraccount.getSequenceNumber()+ " WHERE address='" + receiveraccount.getAddress() + "'";
+            String increaseSequenceNumber = "UPDATE accounts SET sequence_number=" + receiveraccount.getSequenceNumber()+ " WHERE address='" + receiveraccount.getAddress() + "'";
             statement = con.prepareStatement(increaseSequenceNumber);
             statement.executeUpdate();
         }
                 else if (receiver!="") {
-            String insertstmnt = "INSERT INTO account (address, authentication_key,  is_frozen, sequence_number) "
+            String insertstmnt = "INSERT INTO accounts (address, authentication_key,  is_frozen, sequence_number) "
                     +" VALUES ('" + receiveraccount.getAddress() + "'," + "'" + receiveraccount.getAuthenticationKey() + "',"+ receiveraccount.getIsFrozen() + "," + receiveraccount.getSequenceNumber() +")";
             statement = con.prepareStatement(insertstmnt);
             statement.executeUpdate();
@@ -196,17 +157,17 @@ public class BlockchainThread extends Thread{
 
        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
-        String query = "SELECT address FROM account WHERE address='" + address + "'";
+        String query = "SELECT address FROM accounts WHERE address='" + address + "'";
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery();
         return  resultSet.next();
     }
 
-    public  void getTransactionBlockchaindetails(JsonRpc.Transaction transaction) throws SQLException{
+    public  void getTransactiondetails(JsonRpc.Transaction transaction) throws SQLException{
 
        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
-        String insertStatement = "INSERT INTO transactionblockchaindetails (version, chain_id, hash, metadata, metadata_signature, script_hash, abort_code, category, category_description, reason, reason_description, location, type)" +
+        String insertStatement = "INSERT INTO transactiondetails (version, chain_id, hash, metadata, metadata_signature, script_hash, abort_code, category, category_description, reason, reason_description, location, type, gas_unit_price, expiration_date)" +
                 " VALUES ( " + transaction.getVersion() + ","
                 + transaction.getTransaction().getChainId() + ",'"
                 + transaction.getHash() + "','"
@@ -218,7 +179,9 @@ public class BlockchainThread extends Thread{
                 + transaction.getVmStatus().getExplanation().getCategoryDescription() + "','"
                 + transaction.getVmStatus().getExplanation().getReason() + "','" + transaction.getVmStatus().getExplanation().getReasonDescription() + "','"
                 + transaction.getVmStatus().getLocation() + "','"
-                + transaction.getVmStatus().getType() + "')";
+                + transaction.getVmStatus().getType() + "', "
+                + transaction.getTransaction().getGasUnitPrice() +  ",'"
+                + getDateFromExpirationTimestamp(transaction) + "')";
 
         PreparedStatement statement = con.prepareStatement(insertStatement);
         statement.executeUpdate();
@@ -238,7 +201,7 @@ public class BlockchainThread extends Thread{
 
         if ((transaction.getTransaction().getTimestampUsecs() == 0) && transaction.getVersion()>1) {
 
-            String query = "SELECT date FROM transactiondetails WHERE version<" + transaction.getVersion() + " AND type='blockmetadata' ORDER BY version DESC LIMIT 1";
+            String query = "SELECT date FROM transactions WHERE version<" + transaction.getVersion() + " AND type='blockmetadata' ORDER BY version DESC LIMIT 1";
             preparedStatement = con.prepareStatement(query);
             ResultSet resultset = preparedStatement.executeQuery();
             resultset.next();
@@ -357,7 +320,8 @@ public class BlockchainThread extends Thread{
 				String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(0).getAmount() + " WHERE address='" + addressSender + "'";
 				PreparedStatement statement = con.prepareStatement(update);
 				statement.executeUpdate();
-                                        }}
+                                        }
+    }
         //if the currency ist XDX                
         else if(transaction.getTransaction().getScript().getCurrency().equals("XDX")){
                                 // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
@@ -453,7 +417,7 @@ public class BlockchainThread extends Thread{
         PreparedStatement statement;
 
         if (!accountInformationInDB(account)) {
-            String insert = "INSERT INTO accountinformation 	(address," +
+            String insert = "INSERT INTO accountdetails 	(address," +
                     "											 sent_events_key," +
                     "											 receive_events_key," +
                     "											 rtype," +
@@ -481,7 +445,7 @@ public class BlockchainThread extends Thread{
             statement = con.prepareStatement(insert);
             statement.executeUpdate();
         } else {
-            String update = "UPDATE  accountinformation SET rtype = '" + account.getRole().getType() + "', expiration_time= '" + expirationtime + "', preburn_balancexus = " + (account.getRole().getType().equals("designated_dealer") ? account.getRole().getPreburnBalances(0).getAmount() : null) + " WHERE address='" + account.getAddress() + "'";
+            String update = "UPDATE  accountdetails SET rtype = '" + account.getRole().getType() + "', expiration_time= '" + expirationtime + "', preburn_balancexus = " + (account.getRole().getType().equals("designated_dealer") ? account.getRole().getPreburnBalances(0).getAmount() : null) + " WHERE address='" + account.getAddress() + "'";
             statement = con.prepareStatement(update);
             statement.executeUpdate();
 
@@ -490,7 +454,7 @@ public class BlockchainThread extends Thread{
 
     public  boolean accountInformationInDB(JsonRpc.Account account) throws SQLException{
         // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
-        String query = "SELECT * FROM AccountInformation WHERE address= '"  + account.getAddress() + "'";
+        String query = "SELECT * FROM accountdetails WHERE address= '"  + account.getAddress() + "'";
 
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery();

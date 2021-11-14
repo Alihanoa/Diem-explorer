@@ -7,6 +7,8 @@ package com.diemexplorer.explorer.Repositories;
 
 import com.diemexplorer.explorer.Entities.Transactiondetails;
 import java.util.List;
+
+import com.diemexplorer.explorer.Entities.Transactiondetails;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,8 +21,5 @@ public interface TransactiondetailsRepository extends CrudRepository<Transaction
     
     List<Transactiondetails> findAll();
     
-    List<Transactiondetails> findTransactiondetailsByVersion(long version);
-
-
-
+    List<Transactiondetails>findTransactiondetailsByVersion(long version);
 }

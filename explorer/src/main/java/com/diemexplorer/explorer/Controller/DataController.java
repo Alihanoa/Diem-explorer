@@ -1,6 +1,7 @@
 package com.diemexplorer.explorer.Controller;
 
 import com.diemexplorer.explorer.Entities.Transactiondetails;
+import com.diemexplorer.explorer.Entities.Transactions;
 import com.diemexplorer.explorer.Repositories.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +12,9 @@ import java.util.List;
 @CrossOrigin
 public class DataController {
 
-    private TransactiondetailsRepository transactiondetailsRepository;
+    private TransactionsRepository transactionsRepository;
 
-    private TransactionBlockchaindetailsRepository transactionBlockchaindetailsRepository;
+    private TransactiondetailsRepository transactiondetailsRepository;
 
     private AccountRepository accountRepository;
 
@@ -25,30 +26,30 @@ public class DataController {
 
 
     public DataController(TransactiondetailsRepository transactiondetailsRepository,
-                          TransactionBlockchaindetailsRepository transactionBlockchaindetailsRepository,
+                          TransactiondetailsRepository transactionBdetailsRepository,
                           AccountRepository accountRepository,
                           AccountInformationRepository accountInformationRepository,
                           AccountBalanceXUSRepository accountBalanceXUSRepository,
                           AccountBalanceXDXRepository accountBalanceXDXRepository){
 
 
+        this.transactionsRepository=transactionsRepository;
         this.transactiondetailsRepository=transactiondetailsRepository;
-        this.transactionBlockchaindetailsRepository=transactionBlockchaindetailsRepository;
         this.accountRepository=accountRepository;
         this.accountInformationRepository=accountInformationRepository;
         this.accountBalanceXUSRepository=accountBalanceXUSRepository;
         this.accountBalanceXDXRepository=accountBalanceXDXRepository;
     }
     @GetMapping("/rest/transactions")
-    public List<Transactiondetails> getTransactiondetails(){
-        return this.transactiondetailsRepository.findAll();
+    public List<Transactions> getTransactions(){
+        return this.transactionsRepository.findAll();
     }
 
     @GetMapping("/rest/transaction")
     public List<Object> getTransactionInformation(@RequestParam long version){
         List<Object> allTransactionInformation = new ArrayList<Object>();
+        allTransactionInformation.add(this.transactionsRepository.findTransactionsByVersion(version));
         allTransactionInformation.add(this.transactiondetailsRepository.findTransactiondetailsByVersion(version));
-        allTransactionInformation.add(this.transactionBlockchaindetailsRepository.findTransactionBlockchainDetailsByVersion(version));
         return allTransactionInformation;
     }
 }

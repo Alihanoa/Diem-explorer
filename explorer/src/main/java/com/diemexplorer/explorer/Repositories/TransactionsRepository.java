@@ -5,8 +5,10 @@
  */
 package com.diemexplorer.explorer.Repositories;
 
-import com.diemexplorer.explorer.Entities.TransactionBlockchaindetails;
+import com.diemexplorer.explorer.Entities.Transactiondetails;
 import java.util.List;
+
+import com.diemexplorer.explorer.Entities.Transactions;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +17,12 @@ import org.springframework.stereotype.Repository;
  * @author Msi
  */
 @Repository
-public interface TransactionBlockchaindetailsRepository extends CrudRepository<TransactionBlockchaindetails, Long>{
+public interface TransactionsRepository extends CrudRepository<Transactions, Long>{
     
-    List<TransactionBlockchaindetails> findAll();
+    List<Transactions> findAll();
     
-    List<TransactionBlockchaindetails>findTransactionBlockchainDetailsByVersion(long version);
+    List<Transactions> findTransactionsByVersion(long version);
+
+
+
 }

@@ -7,10 +7,9 @@ package com.diemexplorer.explorer.Entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-
+import javax.persistence.Table;
 
 /**
  *
@@ -21,47 +20,64 @@ import javax.persistence.OneToOne;
 public class Transactiondetails implements Serializable{
     
     @Id
-    private  Long version;
+    private Long version;
     
-    private  String sender_id;
+    private long chain_id;
 
-    private String receiver_id;
-    
-    private String public_key;
-    
-    private double amount;
-    
-    private String currency;
-    
-    private String gas_currency;
-
-    private double gas_used;
-    
+    private String hash;
 
 
-    private String date;
+    // The Metadata variables are part of the script
+    private String metadata;
+
+    private String metadata_signature;
+
+
+
+    private String script_hash;
+
+    //All the variables below are part of the VM Status. Type is always set while the others aren't
+    
+    private int abort_code;
+
+    private String category;
+
+    private String category_description;
+
+    private String reason;
+
+    private String reason_description;
+
+    private String location;
 
     private String type;
-    
+
+    private String expiration_date;
+    private double gas_unit_price;
+
+
+   
     public Transactiondetails(){
         
     }
 
-    public Transactiondetails(Long version,String receiver_id, String sender_id, String public_key, double amount, String currency, String gas_currency, double gas_used, String date, String type) {
+    public Transactiondetails(Long version, long chain_id, String hash, String metadata, String metadata_signature, String script_hash, int abort_code, String category, String category_description, String reason, String reason_description, String location, String type, String expiration_date, double gas_unit_price) {
         this.version = version;
-        this.sender_id = sender_id;
-        this.public_key = public_key;
-        this.amount = amount;
-        this.currency = currency;
-        this.gas_currency = gas_currency;
-        this.gas_used = gas_used;
-
-        this.date = date;
-        this.receiver_id=receiver_id;
-        this.type=type;
+        this.chain_id = chain_id;
+        this.hash = hash;
+        this.metadata = metadata;
+        this.metadata_signature = metadata_signature;
+        this.script_hash = script_hash;
+        this.abort_code = abort_code;
+        this.category = category;
+        this.category_description = category_description;
+        this.reason = reason;
+        this.reason_description = reason_description;
+        this.location = location;
+        this.type = type;
+        this.expiration_date=expiration_date;
+        this.gas_unit_price=gas_unit_price;
     }
-    
-    
 
     public Long getVersion() {
         return version;
@@ -71,68 +87,92 @@ public class Transactiondetails implements Serializable{
         this.version = version;
     }
 
-    public String getSender_id() {
-        return sender_id;
+    public long getChain_id() {
+        return chain_id;
     }
 
-    public void setSender_id(String sender_id) {
-        this.sender_id = sender_id;
+    public void setChain_id(long chain_id) {
+        this.chain_id = chain_id;
     }
 
-    public String getPublic_key() {
-        return public_key;
+    public String getHash() {
+        return hash;
     }
 
-    public void setPublic_key(String public_key) {
-        this.public_key = public_key;
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 
-    public double getAmount() {
-        return amount;
+    public String getMetadata() {
+        return metadata;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setMetadata(String metadata) {
+        this.metadata = metadata;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getMetadata_signature() {
+        return metadata_signature;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setMetadata_signature(String metadata_signature) {
+        this.metadata_signature = metadata_signature;
     }
 
-    public String getGas_currency() {
-        return gas_currency;
+    public String getScript_hash() {
+        return script_hash;
     }
 
-    public void setGas_currency(String gas_currency) {
-        this.gas_currency = gas_currency;
+    public void setScript_hash(String script_hash) {
+        this.script_hash = script_hash;
     }
 
-    public double getGas_used() {
-        return gas_used;
+    public int getAbort_code() {
+        return abort_code;
     }
 
-    public void setGas_used(double gas_used) {
-        this.gas_used = gas_used;
+    public void setAbort_code(int abort_code) {
+        this.abort_code = abort_code;
     }
 
-    public String getDate() {
-        return date;
+    public String getCategory() {
+        return category;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getReceiver_id() {
-        return receiver_id;
+    public String getCategory_description() {
+        return category_description;
     }
 
-    public void setReceiver_id(String receiver_id) {
-        this.receiver_id = receiver_id;
+    public void setCategory_description(String category_description) {
+        this.category_description = category_description;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getReason_description() {
+        return reason_description;
+    }
+
+    public void setReason_description(String reason_description) {
+        this.reason_description = reason_description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getType() {
@@ -141,5 +181,21 @@ public class Transactiondetails implements Serializable{
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getExpiration_date() {
+        return expiration_date;
+    }
+
+    public void setExpiration_date(String expiration_date) {
+        this.expiration_date = expiration_date;
+    }
+
+    public double getGas_unit_price() {
+        return gas_unit_price;
+    }
+
+    public void setGas_unit_price(double gas_unit_price) {
+        this.gas_unit_price = gas_unit_price;
     }
 }
