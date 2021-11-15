@@ -5,8 +5,9 @@
  */
 package com.diemexplorer.explorer.Repositories;
 
-import com.diemexplorer.explorer.Entities.AccountInformation;
 import java.util.List;
+
+import com.diemexplorer.explorer.Entities.Accountdetails;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,11 +16,10 @@ import org.springframework.stereotype.Repository;
  * @author Msi
  */
 @Repository
-public interface AccountInformationRepository extends CrudRepository<AccountInformation, String>{
+public interface AccountdetailsRepository extends CrudRepository<Accountdetails, String>{
     
-    List<AccountInformation> findAll();
+    List<Accountdetails> findAll();
     
-    AccountInformation findAccountInformationByAddress(String address);
-    
-    //AccountInformation findAccountInformationByAddressDesc(String address);
+    Accountdetails findAccountInformationByAddress(String address);
+
 }

@@ -143,10 +143,10 @@ public class BlockchainThread extends Thread{
             statement = con.prepareStatement(insertstmnt);
             statement.executeUpdate();
         }
-                 setAccountinformation(receiveraccount);
+                 setAccountdetails(receiveraccount);
         }
         
-        setAccountinformation(senderaccount);
+        setAccountdetails(senderaccount);
        
         setAccountBalances(transaction, receiver);
 
@@ -410,13 +410,13 @@ public class BlockchainThread extends Thread{
         return resultSet.next();
     }
 
-    public  void setAccountinformation(JsonRpc.Account account) throws SQLException, DiemException {
+    public  void setAccountdetails(JsonRpc.Account account) throws SQLException, DiemException {
       //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         String expirationtime = String.valueOf(account.getRole().getExpirationTime());
 
         PreparedStatement statement;
 
-        if (!accountInformationInDB(account)) {
+        if (!accountdetailsInDB(account)) {
             String insert = "INSERT INTO accountdetails 	(address," +
                     "											 sent_events_key," +
                     "											 receive_events_key," +
@@ -452,7 +452,7 @@ public class BlockchainThread extends Thread{
         }
     }
 
-    public  boolean accountInformationInDB(JsonRpc.Account account) throws SQLException{
+    public  boolean accountdetailsInDB(JsonRpc.Account account) throws SQLException{
         // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         String query = "SELECT * FROM accountdetails WHERE address= '"  + account.getAddress() + "'";
 

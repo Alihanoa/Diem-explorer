@@ -1,11 +1,10 @@
 package com.diemexplorer.explorer.Controller;
 
 import com.diemexplorer.explorer.Entities.AccountBalanceXUS;
-import com.diemexplorer.explorer.Entities.AccountInformation;
-import com.diemexplorer.explorer.Repositories.AccountBalanceXDXRepository;
-import com.diemexplorer.explorer.Repositories.AccountBalanceXUSRepository;
-import com.diemexplorer.explorer.Repositories.AccountInformationRepository;
-import com.diemexplorer.explorer.Repositories.AccountRepository;
+import com.diemexplorer.explorer.Entities.Accountdetails;
+import com.diemexplorer.explorer.Repositories.*;
+import com.diemexplorer.explorer.Repositories.AccountsRepository;
+import com.diemexplorer.explorer.Repositories.AccountdetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +22,8 @@ public class AccountController {
 
 
 
-    private AccountInformationRepository accountInformationRepository;
-    private AccountRepository accountRepository;
+    private AccountdetailsRepository accountdetailsRepository;
+    private AccountsRepository accountsRepository;
     private AccountBalanceXDXRepository accountBalanceXDXRepository;
     private AccountBalanceXUSRepository accountBalanceXUSRepository;
 
@@ -34,26 +33,26 @@ public class AccountController {
     @Autowired
     public AccountController(AccountBalanceXDXRepository accountBalanceXDXRepository,
                                  AccountBalanceXUSRepository accountBalanceXUSRepository,
-                                 AccountRepository accountRepository,
-                                 AccountInformationRepository accountInformationRepository) {
+                                 AccountsRepository accountsRepository,
+                                 AccountdetailsRepository accountdetailsRepository) {
 
             this.accountBalanceXDXRepository=accountBalanceXDXRepository;
-            this.accountRepository= accountRepository;
-            this.accountInformationRepository= accountInformationRepository;
+            this.accountsRepository= accountsRepository;
+            this.accountdetailsRepository= accountdetailsRepository;
             this.accountBalanceXUSRepository=accountBalanceXUSRepository;
 
     }
 
     @GetMapping("/rest/accounts")
-    public List<Account> getAccounts(){
-            return this.accountRepository.findAll();
+    public List<Accounts> getAccounts(){
+            return this.accountsRepository.findAll();
     }
 
     @GetMapping ("/rest/account")
     public List<Object> getAccountInformation(@RequestParam String address){
             List<Object> allAccountInfos = new ArrayList<Object>();
-                    allAccountInfos.add(this.accountRepository.findAccountByAddress(address));
-                    allAccountInfos.add(this.accountInformationRepository.findAccountInformationByAddress(address));
+                    allAccountInfos.add(this.accountsRepository.findAccountByAddress(address));
+                    allAccountInfos.add(this.accountdetailsRepository.findAccountInformationByAddress(address));
                     allAccountInfos.add(this.accountBalanceXUSRepository.findAccountBalanceXUSByAddress((address)));
             return allAccountInfos;
     }

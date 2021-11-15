@@ -16,8 +16,8 @@ import javax.persistence.Table;
  * @author Msi
  */
 @Entity
-@Table(name="accountinformation")
-public class AccountInformation implements Serializable{
+@Table(name="accountdetails")
+public class Accountdetails implements Serializable{
     
     @Id
     private String address;
@@ -45,10 +45,10 @@ public class AccountInformation implements Serializable{
     private long preburn_balancexus;
 
 
-    public AccountInformation() {
+    public Accountdetails() {
     }
 
-    public AccountInformation(String address, String sent_events_key, String receive_events_key, String rtype, String parent_vasp_name, String base_url, String expiration_time, String compliance_key, String compliance_key_rotation_events_key, String base_url_rotation_events_key,String received_mint_events_key, long preburn_balancexus, long preburn_balancexdx) {
+    public Accountdetails(String address, String sent_events_key, String receive_events_key, String rtype, String parent_vasp_name, String base_url, String expiration_time, String compliance_key, String compliance_key_rotation_events_key, String base_url_rotation_events_key,String received_mint_events_key, long preburn_balancexus, long preburn_balancexdx) {
         this.address = address;
         this.sent_events_key = sent_events_key;
         this.receive_events_key = receive_events_key;

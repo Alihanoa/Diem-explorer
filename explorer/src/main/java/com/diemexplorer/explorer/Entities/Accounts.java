@@ -15,8 +15,8 @@ import javax.persistence.Table;
  * @author Msi
  */
 @Entity
-@Table(name="account")
-public class Account implements Serializable{
+@Table(name="accounts")
+public class Accounts implements Serializable{
     
     @Id
     private String address;
@@ -29,11 +29,11 @@ public class Account implements Serializable{
 
     private String human_name;
     
-    public Account(){
+    public Accounts(){
         
     }
 
-    public Account(String address, String authentication_key, int sequence_number, boolean is_frozen, String human_name) {
+    public Accounts(String address, String authentication_key, int sequence_number, boolean is_frozen, String human_name) {
         this.address = address;
         this.authentication_key = authentication_key;
         this.sequence_number = sequence_number;
