@@ -3,6 +3,7 @@ package com.diemexplorer.explorer.Controller;
 import com.diemexplorer.explorer.Entities.Transactiondetails;
 import com.diemexplorer.explorer.Entities.Transactions;
 import com.diemexplorer.explorer.Repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,9 +18,9 @@ public class DataController {
     private TransactiondetailsRepository transactiondetailsRepository;
 
 
-
-    public DataController(TransactiondetailsRepository transactiondetailsRepository,
-                          TransactiondetailsRepository transactionBdetailsRepository){
+    @Autowired
+    public DataController(TransactionsRepository transactionsRepository,
+                          TransactiondetailsRepository transactiondetailsRepository){
 
         this.transactionsRepository=transactionsRepository;
         this.transactiondetailsRepository=transactiondetailsRepository;

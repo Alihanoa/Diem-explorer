@@ -12,7 +12,7 @@ import java.util.List;
 public class BlockchainThread extends Thread{
     private  DiemJsonRpcClient client;
     private  Connection con;
-    private int version = 127;
+    private int version = 0;
 
 
     public BlockchainThread () throws SQLException {
