@@ -44,14 +44,12 @@ public class Accountdetails implements Serializable{
     
     private String base_url_rotation_events_key;
 
-    @Nullable
-    private int preburn_balancexus;
 
 
     public Accountdetails() {
     }
 
-    public Accountdetails(String address, String sent_events_key, String receive_events_key, String rtype, String parent_vasp_name, String base_url, String expiration_time, String compliance_key, String compliance_key_rotation_events_key, String base_url_rotation_events_key,String received_mint_events_key, int preburn_balancexus) {
+    public Accountdetails(String address, String sent_events_key, String receive_events_key, String rtype, String parent_vasp_name, String base_url, String expiration_time, String compliance_key, String compliance_key_rotation_events_key, String base_url_rotation_events_key,String received_mint_events_key) {
         this.address = address;
         this.sent_events_key = sent_events_key;
         this.receive_events_key = receive_events_key;
@@ -63,7 +61,6 @@ public class Accountdetails implements Serializable{
         this.received_mint_events_key = received_mint_events_key;
         this.compliance_key_rotation_events_key = compliance_key_rotation_events_key;
         this.base_url_rotation_events_key = base_url_rotation_events_key;
-        this.preburn_balancexus = preburn_balancexus;
     }
 
     public String getAddress() {
@@ -144,14 +141,6 @@ public class Accountdetails implements Serializable{
 
     public void setBase_url_rotation_events_key(String base_url_rotation_events_key) {
         this.base_url_rotation_events_key = base_url_rotation_events_key;
-    }
-
-    public int getPreburn_balancexus() {
-        return preburn_balancexus;
-    }
-
-    public void setPreburn_balancexus(int preburn_balancexus) {
-        this.preburn_balancexus = preburn_balancexus;
     }
 
     public String getReceived_mint_events_key() {

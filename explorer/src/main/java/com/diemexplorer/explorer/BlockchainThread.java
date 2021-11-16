@@ -428,7 +428,6 @@ public class BlockchainThread extends Thread{
                     "											 compliance_key," +
                     "											 compliance_key_rotation_events_key," +
                     "											 base_url_rotation_events_key," +
-                    "											 preburn_balancexus," +
                     "											 received_mint_events_key) VALUES (" +
                     "'" + account.getAddress() + "','"
                     + account.getSentEventsKey() + "','"
@@ -439,14 +438,13 @@ public class BlockchainThread extends Thread{
                     + expirationtime + "','"
                     + account.getRole().getComplianceKey() + "','"
                     + account.getRole().getComplianceKeyRotationEventsKey() + "','"
-                    + account.getRole().getBaseUrlRotationEventsKey() + "',"
-                    +"'" +  (account.getRole().getType().equals("designated_dealer") ? String.valueOf(account.getRole().getPreburnBalances(0).getAmount()) : null) + "','"
+                    + account.getRole().getBaseUrlRotationEventsKey() + "','"
                     + account.getRole().getReceivedMintEventsKey() + "')";
 
             statement = con.prepareStatement(insert);
             statement.executeUpdate();
         } else {
-            String update = "UPDATE  accountdetails SET rtype = '" + account.getRole().getType() + "', expiration_time= '" + expirationtime + "', preburn_balancexus = '" + (account.getRole().getType().equals("designated_dealer") ? String.valueOf(account.getRole().getPreburnBalances(0).getAmount()) : "") + "'" + " WHERE address='" + account.getAddress() + "'";
+            String update = "UPDATE  accountdetails SET rtype = '" + account.getRole().getType() + "', expiration_time= '" + expirationtime + "' WHERE address='" + account.getAddress() + "'";
             statement = con.prepareStatement(update);
             statement.executeUpdate();
 
