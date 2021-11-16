@@ -1,6 +1,7 @@
 import React from "react";
 
 class Mainpage extends React.Component {
+    
     constructor(props) {
         super(props);
     }
@@ -24,10 +25,15 @@ class Mainpage extends React.Component {
         let table = [];
         for (let i = data.length - 1; i >= data.length - 10; i--) { 
             //let children = [];
-            table += "<tr> <td><a href=Transactiondetails/" + data[i].version + ">" + data[i].version + "</a></td> <td>" 
-                + data[i].sender_id + "</td>  <td>"
-                + data[i].receiver_id + "</td>  <td>" + data[i].public_key + "</td>  <td>" + data[i].amount + "</td>  <td> " + data[i].currency + "</td> <td>"
-                + data[i].gas_used + "</td> <td> " + data[i].gas_currency + "</td> <td>" + data[i].date + "</td> <td>" + data[i].type + "</td> </tr>";
+            table += "<tr> <td><a href=Transactiondetails/" + data[i].version + ">"
+                + data[i].version + "</a></td> <td>" 
+                + data[i].sender_id + "</td> <td>"
+                + data[i].public_key + "</td> <td>"
+                + data[i].receiver_id + "</td> <td>"
+                + data[i].amount + "" + data[i].currency + "</td> <td>"
+                + data[i].gas_used + "" + data[i].gas_currency + "</td> <td>"
+                + data[i].date + "</td> <td>"
+                + data[i].type + "</td> </tr>";
         }
         console.log(data);
         return table;
@@ -41,45 +47,29 @@ class Mainpage extends React.Component {
         return (
             <div>
                 <h1 id="main_title">Diem Explorer</h1>
-
-                <form>
-                    <input type="search" name="search_bar" id="search_bar"></input>
+                <form class="search">
+                    <input type="text" placeholder="Search..." name="search_bar" id="search_bar"></input>
+                    <button type="submit" name="search_button" id="search_button"><i class="fa fa-search"></i></button>
                 </form>
-
-                <table>
-                    <caption>General Information</caption>
-                    <thead>
-                        <tr id="general_information">
-                            <td>Average gas price: </td>
-                            <td>Transaction per hour: </td>
-                            <td>Hash rate: </td>
-                            <td>Market capacity:  Diem USD</td>
-                        </tr>
-                    </thead>
-                </table>
-
-                <table border="3">
+                <table id="table_transactions">
                     <caption>Latest Transactions</caption>
                     <thead>
                         <tr>
                             <th>Version</th>
-                            <th>Sender_ID</th>
-                            <th>Receiver_ID</th>
-                            <th>public_key</th>
+                            <th>From</th>
+                            <th>Public Key</th>
+                            <th>To</th>
                             <th>Amount</th>
-                            <th>Currency</th>
-                            <th>Gas-Amount</th>
-                            <th>Gas-Currency</th>
+                            <th>Gas Amount</th>
                             <th>Date</th>
-                            <th>type</th>
+                            <th>Type</th>
                         </tr>
                     </thead>
-                    <tbody id="transactions">
-
-                    </tbody>
+                    <tbody id="transactions"></tbody>
                 </table>
             </div>
         );
     }
 }
+
 export default Mainpage;

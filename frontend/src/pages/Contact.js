@@ -9,7 +9,7 @@ class Contact extends React.Component{
 
         return(
             <body>
-                <h1>Kontakt</h1>
+                <h1 id="main_title">Contact</h1>
             </body>
         );
     }

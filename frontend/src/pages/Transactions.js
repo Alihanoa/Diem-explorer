@@ -41,7 +41,7 @@ class Transactions extends React.Component {
 
         return (
             
-            <div><h1>Transactions</h1>
+            <div><h1 id="main_title">Transactions</h1>
             <table border="5">
                 <caption>Latest Transactions</caption>
                 <thead>

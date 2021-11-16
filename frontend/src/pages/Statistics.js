@@ -9,7 +9,7 @@ class Statistics extends React.Component{
 
         return(
             <div>
-                <h1>Statistics</h1>
+                <h1 id="main_title">Statistics</h1>
             </div>
         );
     }

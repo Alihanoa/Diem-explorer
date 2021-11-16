@@ -38,7 +38,7 @@ class Accountdetails extends React.Component{
 
         return(
             <div>
-                <h1>Account Details</h1>
+                <h1 id="main_title">Account Details</h1>
                 <table border="3">
                     <thead>
 
