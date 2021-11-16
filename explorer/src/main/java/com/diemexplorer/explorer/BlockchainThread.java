@@ -167,7 +167,7 @@ public class BlockchainThread extends Thread{
 
        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
-        String insertStatement = "INSERT INTO transactiondetails (version, chain_id, hash, metadata, metadata_signature, script_hash, abort_code, category, category_description, reason, reason_description, location, type, gas_unit_price, expiration_date)" +
+        String insertStatement = "INSERT INTO transactiondetails (version, chain_id, hash, metadata, metadata_signature, script_hash, abort_code, category, category_description, reason, reason_description, location, type, gas_unit_price, expiration_date, max_gas_amount)" +
                 " VALUES ( " + transaction.getVersion() + ","
                 + transaction.getTransaction().getChainId() + ",'"
                 + transaction.getHash() + "','"
@@ -181,7 +181,8 @@ public class BlockchainThread extends Thread{
                 + transaction.getVmStatus().getLocation() + "','"
                 + transaction.getVmStatus().getType() + "', "
                 + transaction.getTransaction().getGasUnitPrice() +  ",'"
-                + getDateFromExpirationTimestamp(transaction) + "')";
+                + getDateFromExpirationTimestamp(transaction) + "',"
+                + transaction.getTransaction().getMaxGasAmount() + ")";
 
         PreparedStatement statement = con.prepareStatement(insertStatement);
         statement.executeUpdate();
@@ -439,13 +440,13 @@ public class BlockchainThread extends Thread{
                     + account.getRole().getComplianceKey() + "','"
                     + account.getRole().getComplianceKeyRotationEventsKey() + "','"
                     + account.getRole().getBaseUrlRotationEventsKey() + "',"
-                    + (account.getRole().getType().equals("designated_dealer") ? account.getRole().getPreburnBalances(0).getAmount() : null) + ",'"
+                    +"'" +  (account.getRole().getType().equals("designated_dealer") ? String.valueOf(account.getRole().getPreburnBalances(0).getAmount()) : null) + "','"
                     + account.getRole().getReceivedMintEventsKey() + "')";
 
             statement = con.prepareStatement(insert);
             statement.executeUpdate();
         } else {
-            String update = "UPDATE  accountdetails SET rtype = '" + account.getRole().getType() + "', expiration_time= '" + expirationtime + "', preburn_balancexus = " + (account.getRole().getType().equals("designated_dealer") ? account.getRole().getPreburnBalances(0).getAmount() : null) + " WHERE address='" + account.getAddress() + "'";
+            String update = "UPDATE  accountdetails SET rtype = '" + account.getRole().getType() + "', expiration_time= '" + expirationtime + "', preburn_balancexus = '" + (account.getRole().getType().equals("designated_dealer") ? String.valueOf(account.getRole().getPreburnBalances(0).getAmount()) : "") + "'" + " WHERE address='" + account.getAddress() + "'";
             statement = con.prepareStatement(update);
             statement.executeUpdate();
 

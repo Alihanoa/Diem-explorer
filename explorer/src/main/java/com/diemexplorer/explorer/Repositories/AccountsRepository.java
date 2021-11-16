@@ -8,6 +8,7 @@ package com.diemexplorer.explorer.Repositories;
 import java.util.List;
 
 import com.diemexplorer.explorer.Entities.Accounts;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +21,6 @@ public interface AccountsRepository extends CrudRepository<Accounts, String>{
     
     List<Accounts> findAll();
     
-    Accounts findAccountByAddress(String address);
+
+    Accounts findAccountsByAddress(String address);
 }

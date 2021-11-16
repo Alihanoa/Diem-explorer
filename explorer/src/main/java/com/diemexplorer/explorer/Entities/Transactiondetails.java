@@ -53,15 +53,17 @@ public class Transactiondetails implements Serializable{
     private String type;
 
     private String expiration_date;
+
     private double gas_unit_price;
 
+    private double max_gas_amount;
 
    
     public Transactiondetails(){
         
     }
 
-    public Transactiondetails(Long version, long chain_id, String hash, String metadata, String metadata_signature, String script_hash, int abort_code, String category, String category_description, String reason, String reason_description, String location, String type, String expiration_date, double gas_unit_price) {
+    public Transactiondetails(Long version, long chain_id, String hash, String metadata, String metadata_signature, String script_hash, int abort_code, String category, String category_description, String reason, String reason_description, String location, String type, String expiration_date, double gas_unit_price, double max_gas_amount) {
         this.version = version;
         this.chain_id = chain_id;
         this.hash = hash;
@@ -77,6 +79,7 @@ public class Transactiondetails implements Serializable{
         this.type = type;
         this.expiration_date=expiration_date;
         this.gas_unit_price=gas_unit_price;
+        this.max_gas_amount = max_gas_amount;
     }
 
     public Long getVersion() {
@@ -197,5 +200,13 @@ public class Transactiondetails implements Serializable{
 
     public void setGas_unit_price(double gas_unit_price) {
         this.gas_unit_price = gas_unit_price;
+    }
+
+    public double getMax_gas_amount() {
+        return max_gas_amount;
+    }
+
+    public void setMax_gas_amount(double max_gas_amount) {
+        this.max_gas_amount = max_gas_amount;
     }
 }

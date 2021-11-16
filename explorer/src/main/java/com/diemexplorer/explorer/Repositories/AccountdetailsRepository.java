@@ -20,6 +20,6 @@ public interface AccountdetailsRepository extends CrudRepository<Accountdetails,
     
     List<Accountdetails> findAll();
     
-    Accountdetails findAccountInformationByAddress(String address);
+    Accountdetails findAccountdetailsByAddress(String address);
 
 }
