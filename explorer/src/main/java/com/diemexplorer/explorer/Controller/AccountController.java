@@ -1,7 +1,5 @@
 package com.diemexplorer.explorer.Controller;
 
-import com.diemexplorer.explorer.Entities.AccountBalanceXUS;
-import com.diemexplorer.explorer.Entities.Accountdetails;
 import com.diemexplorer.explorer.Repositories.*;
 import com.diemexplorer.explorer.Repositories.AccountsRepository;
 import com.diemexplorer.explorer.Repositories.AccountdetailsRepository;
@@ -30,6 +28,7 @@ public class AccountController {
     public AccountController(){
 
     }
+
     @Autowired
     public AccountController(AccountBalanceXDXRepository accountBalanceXDXRepository,
                                  AccountBalanceXUSRepository accountBalanceXUSRepository,
@@ -49,12 +48,17 @@ public class AccountController {
     }
 
     @GetMapping ("/rest/account")
-    public List<Object> getAccountInformation(@RequestParam String address){
+    public List<Object> getAccountdetails(@RequestParam String address){
             List<Object> allAccountInfos = new ArrayList<Object>();
-                    allAccountInfos.add(this.accountsRepository.findAccountByAddress(address));
-                    allAccountInfos.add(this.accountdetailsRepository.findAccountInformationByAddress(address));
+                    allAccountInfos.add(this.accountsRepository.findAccountsByAddress(address));
+                    allAccountInfos.add(this.accountdetailsRepository.findAccountdetailsByAddress(address));
                     allAccountInfos.add(this.accountBalanceXUSRepository.findAccountBalanceXUSByAddress((address)));
             return allAccountInfos;
+    }
+
+    @GetMapping("/rest/accountdetails")
+    public List<Accountdetails> getAllAccountdetails(){
+        return this.accountdetailsRepository.findAll();
     }
 
 
