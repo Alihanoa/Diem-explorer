@@ -268,6 +268,7 @@ public class BlockchainThread extends Thread{
         JsonRpc.Account receiveraccount;
         if(receiver.equals("" )){
             receiveraccount = client.getAccount("000000000000000000000000000000dd");
+
         }
         else{
             receiveraccount = client.getAccount(receiver);

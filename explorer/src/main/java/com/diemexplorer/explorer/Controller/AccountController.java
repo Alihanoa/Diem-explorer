@@ -62,4 +62,8 @@ public class AccountController {
     }
 
 
+    @GetMapping("/rest/balances")
+    public List<AccountBalanceXUS> getAllBalances(){
+        return this.accountBalanceXUSRepository.findAll();
+    }
 }
