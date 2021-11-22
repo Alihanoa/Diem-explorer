@@ -24,9 +24,10 @@ class Mainpage extends React.Component {
         let table = [];
         for (let i = data.length - 1; i >= data.length - 10; i--) { 
             //let children = [];
-            table += "<tr> <td><a href=Transactiondetails/" + data[i].version + ">" + data[i].version + "</a></td> <td>" 
-                + data[i].sender_id + "</td>  <td>" + data[i].public_key + "</td> <td>"
-                + data[i].receiver_id + "</td>  <td>" + data[i].amount + " " + data[i].currency + "</td> <td>"
+            table += "<tr> <td><a href=Transactiondetails/" + data[i].version + ">" + data[i].version + 
+            "</a></td> <td><a href=Accountdetails/" + data[i].sender_id + ">"
+                + data[i].sender_id + "</a></td>  <td>" + data[i].public_key + "</td> <td><a href=Accountdetails/" + data[i].receiver_id + ">"
+                + data[i].receiver_id + "</a></td>  <td>" + data[i].amount + " " + data[i].currency + "</td> <td>"
                 + data[i].gas_used + " " + data[i].gas_currency + "</td> <td>" + data[i].date + "</td> <td>" + data[i].type + "</td> </tr>";
         }
         console.log(data);

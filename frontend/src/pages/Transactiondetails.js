@@ -63,6 +63,7 @@ class Transactiondetails extends React.Component{
         return(
             <div>
                 <h1 id="main_title">Transaction Details</h1>
+                <h2>Transaction Version {this.props.match.params.version}</h2>
                 <table>
                     <thead>
                         
