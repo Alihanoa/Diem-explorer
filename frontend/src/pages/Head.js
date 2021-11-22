@@ -10,7 +10,7 @@ class Head extends React.Component{
         return(
             <header>
                 <div id="header_bar">
-                    <a href="/">Logo</a>
+                    <a href="/">Home</a>
                     Testnet
                     <b/>
                     <a href="/Transactions">Transactions</a>

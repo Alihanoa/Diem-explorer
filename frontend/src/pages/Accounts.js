@@ -36,9 +36,9 @@ class Accounts extends React.Component{
 
         return(
             <div>
-            <h1>Accounts</h1>
+            <h1 id="main_title">Accounts</h1>
             
-            <table border="3">
+            <table>
                 <caption>Accounts</caption>
                 <thead>
                     <tr>
@@ -53,6 +53,9 @@ class Accounts extends React.Component{
 
                 </tbody>
             </table>
+            <br></br>
+            <br></br>
+            <br></br>
             </div>
         );
     }

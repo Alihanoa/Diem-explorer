@@ -42,10 +42,12 @@ class Mainpage extends React.Component {
             <div>
                 <h1 id="main_title">Diem Explorer</h1>
 
-                <form>
-                    <input type="search" name="search_bar" id="search_bar"></input>
+                <form class="search">
+                    <input type="search" placeholder="Search..." name="search_bar" id="search_bar"></input>
+                    {/* <button type="submit" name="search_button" id="search_button"></button> */}
                 </form>
-
+                <br></br>
+                <br></br>
                 <table id="general_information">
                     <caption>General Information</caption>
                     <thead>
@@ -57,8 +59,8 @@ class Mainpage extends React.Component {
                         </tr>
                     </thead>
                 </table>
-
-                <table border="3">
+                <br></br>
+                <table>
                     <caption>Latest Transactions</caption>
                     <thead>
                         <tr>
@@ -72,10 +74,10 @@ class Mainpage extends React.Component {
                             <th>Type</th>
                         </tr>
                     </thead>
-                    <tbody id="transactions">
-
-                    </tbody>
+                    <tbody id="transactions"></tbody>
                 </table>
+                <br></br>
+                <br></br>
             </div>
         );
     }

@@ -41,8 +41,8 @@ class Transactions extends React.Component {
 
         return (
 
-            <div><h1>Transactions</h1>
-                <table border="5">
+            <div><h1 id="main_title">Transactions</h1>
+                <table>
                     <caption>Latest Transactions</caption>
                     <thead>
                         <tr>
@@ -56,10 +56,10 @@ class Transactions extends React.Component {
                             <th>Type</th>
                         </tr>
                     </thead>
-                    <tbody id="transactions">
-
-                    </tbody>
+                    <tbody id="transactions"></tbody>
                 </table>
+                <br></br>
+                <br></br>
             </div>
         );
     }
