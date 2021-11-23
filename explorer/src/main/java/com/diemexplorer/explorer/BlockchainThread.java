@@ -296,8 +296,17 @@ public class BlockchainThread extends Thread{
        //First we have to figure out which currency is used in the transaction
        //if the currency is XUS
         if(receiveraccount!=null && sender!=null){
+            
+             if(receiver.equals("")||receiver.equals("000000000000000000000000000000dd" )|| addressSender.equals("") || addressSender.equals("000000000000000000000000000000dd") ){setAccountBalanceFaucet(transaction,sender,receiveraccount);}
+             
+             else{
 	if(transaction.getTransaction().getScript().getCurrency().equals("XUS")){
-                                        // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
+                                  
+           
+            
+            
+           
+// Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver                                      
                                         if(!amountInXUSDB(receiveraccount)){
 
 						String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
@@ -351,9 +360,11 @@ public class BlockchainThread extends Thread{
 				statement.executeUpdate();
 			}}
         }   
+        }
         
         
-        //This Section inserts / updates the sender in the database
+        
+        //This Section inserts / updates  the sender in the database
 //        String addressSender = sender.getAddress();
 
 
@@ -383,7 +394,140 @@ public class BlockchainThread extends Thread{
     }
 
 
+   public void setAccountBalanceFaucet(JsonRpc.Transaction transaction, JsonRpc.Account sender, JsonRpc.Account receiveraccount) throws SQLException, DiemException, InterruptedException{
+       String receiver=receiveraccount.getAddress();
+       String addressSender= sender.getAddress();
+       
+       
+       if(receiver.equals("")||receiver.equals("000000000000000000000000000000dd" )){
+       if(transaction.getTransaction().getScript().getCurrency().equals("XUS")){
+                                  
+           
+            
+            
+           
+// Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver                                      
+                                        if(!amountInXUSDB(receiveraccount)){
 
+						String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(1).getAmount() + ")";
+						PreparedStatement statement = con.prepareStatement(insertStatement);
+						statement.executeUpdate();
+
+					}
+
+					else if(amountInXUSDB(receiveraccount)){
+						String updateStatement ="UPDATE accountbalancexus SET amount=" +  receiveraccount.getBalances(1).getAmount() + " WHERE address='"  + receiver + "'";
+						PreparedStatement statement = con.prepareStatement(updateStatement);
+						statement.executeUpdate();
+					}
+                                         //This Section inserts / updates the sender in the database
+                                        if(!amountInXUSDB(sender) ){
+				String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('"+addressSender+ "'," + sender.getBalances(0).getAmount() + ")";
+				PreparedStatement statement = con.prepareStatement(insert);
+				statement.executeUpdate();
+			}
+                                        
+			else if(amountInXUSDB(sender)){
+				String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(0).getAmount() + " WHERE address='" + addressSender + "'";
+				PreparedStatement statement = con.prepareStatement(update);
+				statement.executeUpdate();
+                                        }
+    }
+        //if the currency ist XDX                
+        else if(transaction.getTransaction().getScript().getCurrency().equals("XDX")){
+                                // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
+				if(!amountInXDXDB(receiveraccount)){
+
+					String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
+					PreparedStatement statement = con.prepareStatement(updateStatement);
+					statement.executeUpdate();
+				}
+
+				else if(amountInXDXDB(receiveraccount)){
+					String updateStatement = "UPDATE accountbalancexdx SET amount=" +  receiveraccount.getBalances(0).getAmount() + " WHERE address='"  + receiver + "'";
+					PreparedStatement statement = con.prepareStatement(updateStatement);
+					statement.executeUpdate();
+				}
+                                 //This Section inserts / updates the sender in the database
+                                if(!amountInXDXDB(sender)){
+				String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(1).getAmount() + ")";
+				PreparedStatement statement = con.prepareStatement(insert);
+				statement.executeUpdate();
+			}
+			else if(amountInXDXDB(sender)){
+				String update = "UPDATE accountbalancexdx SET amount="+ sender.getBalances(1).getAmount() + " WHERE address='"+addressSender + "'";
+				PreparedStatement statement = con.prepareStatement(update);
+				statement.executeUpdate();
+			}}}
+       
+       
+       else if(addressSender.equals("") || addressSender.equals("000000000000000000000000000000dd")){
+           
+           
+       if(transaction.getTransaction().getScript().getCurrency().equals("XUS")){
+                                  
+           
+            
+            
+           
+// Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver                                      
+                                        if(!amountInXUSDB(receiveraccount)){
+
+						String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
+						PreparedStatement statement = con.prepareStatement(insertStatement);
+						statement.executeUpdate();
+
+					}
+
+					else if(amountInXUSDB(receiveraccount)){
+						String updateStatement ="UPDATE accountbalancexus SET amount=" +  receiveraccount.getBalances(0).getAmount() + " WHERE address='"  + receiver + "'";
+						PreparedStatement statement = con.prepareStatement(updateStatement);
+						statement.executeUpdate();
+					}
+                                         //This Section inserts / updates the sender in the database
+                                        if(!amountInXUSDB(sender) ){
+				String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('"+addressSender+ "'," + sender.getBalances(1).getAmount() + ")";
+				PreparedStatement statement = con.prepareStatement(insert);
+				statement.executeUpdate();
+			}
+                                        
+			else if(amountInXUSDB(sender)){
+				String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(1).getAmount() + " WHERE address='" + addressSender + "'";
+				PreparedStatement statement = con.prepareStatement(update);
+				statement.executeUpdate();
+                                        }
+    }
+        //if the currency ist XDX                
+        else if(transaction.getTransaction().getScript().getCurrency().equals("XDX")){
+                                // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
+				if(!amountInXDXDB(receiveraccount)){
+
+					String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(1).getAmount() + ")";
+					PreparedStatement statement = con.prepareStatement(updateStatement);
+					statement.executeUpdate();
+				}
+
+				else if(amountInXDXDB(receiveraccount)){
+					String updateStatement = "UPDATE accountbalancexdx SET amount=" +  receiveraccount.getBalances(1).getAmount() + " WHERE address='"  + receiver + "'";
+					PreparedStatement statement = con.prepareStatement(updateStatement);
+					statement.executeUpdate();
+				}
+                                 //This Section inserts / updates the sender in the database
+                                if(!amountInXDXDB(sender)){
+				String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(0).getAmount() + ")";
+				PreparedStatement statement = con.prepareStatement(insert);
+				statement.executeUpdate();
+			}
+			else if(amountInXDXDB(sender)){
+				String update = "UPDATE accountbalancexdx SET amount="+ sender.getBalances(0).getAmount() + " WHERE address='"+addressSender + "'";
+				PreparedStatement statement = con.prepareStatement(update);
+				statement.executeUpdate();
+			}}
+           
+           
+       }
+       
+   }
 
 
 
