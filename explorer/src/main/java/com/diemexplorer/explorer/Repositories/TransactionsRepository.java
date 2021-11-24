@@ -9,6 +9,7 @@ import com.diemexplorer.explorer.Entities.Transactiondetails;
 import java.util.List;
 
 import com.diemexplorer.explorer.Entities.Transactions;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +25,9 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
     List<Transactions> findTransactionsByVersion(long version);
 
 
+    @Query("SELECT count(t) FROM Transactions t WHERE t.date like %:date%")
+    int transactionsToday(String date);
 
+    @Query("SELECT t from Transactions t WHERE t.amount >=:parameter")
+    List<Transactions>  findTransactionsWithAmountGreaterOrEqualToParam(double parameter);
 }

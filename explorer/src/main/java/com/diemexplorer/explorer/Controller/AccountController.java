@@ -66,4 +66,9 @@ public class AccountController {
     public List<AccountBalanceXUS> getAllBalances(){
         return this.accountBalanceXUSRepository.findAll();
     }
+
+    @GetMapping("/rest/sumbalances")
+    public double getSumOfAllBalances(){
+        return this.accountBalanceXUSRepository.sumOfAllBalances();
+    }
 }

@@ -192,7 +192,7 @@ public class BlockchainThread extends Thread{
 
     public  String getDateFromTimeStamp(JsonRpc.Transaction transaction) throws SQLException{
 
-        /*Timestamp is stored on the blockchain as microseconds. In order to safe it as a date, it is necessary to cut off the last 3 digits and format
+        /*Timestamp is stored on the blockchain in microseconds. In order to safe it as a date, it is necessary to cut off the last 3 digits and format
          * it in european date wit a SimpleDateFormat Object. Format: DD/MM/YYYY HH:MM:SS
          */
        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
@@ -206,7 +206,7 @@ public class BlockchainThread extends Thread{
             preparedStatement = con.prepareStatement(query);
             ResultSet resultset = preparedStatement.executeQuery();
             resultset.next();
-            String date = null;
+            String date = resultset.getString("date");
 
 
 
