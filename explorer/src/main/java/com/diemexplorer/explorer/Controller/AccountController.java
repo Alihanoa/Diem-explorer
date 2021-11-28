@@ -71,4 +71,6 @@ public class AccountController {
     public double getSumOfAllBalances(){
         return this.accountBalanceXUSRepository.sumOfAllBalances();
     }
+
+
 }

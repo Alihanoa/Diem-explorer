@@ -60,4 +60,9 @@ public class DataController {
     public List<Transactions> getTransactionsWithEqualOrGreaterAmount(@RequestParam String amount){
         return this.transactionsRepository.findTransactionsWithAmountGreaterOrEqualToParam(Double.parseDouble(amount));
     }
+
+    @GetMapping("/rest/tradingvolume")
+    public double getTradingVolumeOfDate(@RequestParam String date){
+        return this.transactionsRepository.getTradingVolumeToday((date));
+    }
 }

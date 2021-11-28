@@ -30,4 +30,7 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
 
     @Query("SELECT t from Transactions t WHERE t.amount >=:parameter")
     List<Transactions>  findTransactionsWithAmountGreaterOrEqualToParam(double parameter);
+
+    @Query("SELECT SUM(t.amount) FROM Transactions t WHERE t.date LIKE %:date%")
+    double getTradingVolumeToday(String date);
 }
