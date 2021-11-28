@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Bar } from 'react-chartjs-2'
 
 class Statistics extends React.Component{
+
     constructor(props){
         super(props);
     }
@@ -76,6 +77,7 @@ class Statistics extends React.Component{
                         maintainAspectRatio: false,
                     }}
                 />
+                */
             </div>
         );
     }
