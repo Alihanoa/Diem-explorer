@@ -38,7 +38,7 @@
 }
 
 /*Ab hier eigene styles.*/
-footer{
+footer {
     background-color: #42318C;
     text-align: center;
     height: 56px;
@@ -49,14 +49,14 @@ footer{
     overflow: hidden;
 }
 
-footer a{
+footer a {
     text-align: center;
     padding: 56px 20px;
     text-decoration: none;
     color: #FFFFFF;
 }
 
-header{
+header {
     background-color: #42318C;
     top: 0;
     width: 100%;
@@ -65,7 +65,7 @@ header{
     color: #FFFFFF;
 }
 
-header a{
+header a {
     text-align: center;
     padding: 56px 40px;
     text-decoration: none;
@@ -77,18 +77,22 @@ header a{
     
 } */
 
-header b{
+header b {
     padding: 20px 320px;
 }
 
-body{
+body {
     text-align: center;
 }
 
-caption{
+caption {
     text-align: left;
     font-size: 26px;
     font-weight: bold;
+    color: #42318C;
+}
+
+h2 {
     color: #42318C;
 }
 
@@ -118,11 +122,11 @@ form.search input {
   background: #43217D;
 }*/
 
-#general_information caption{
+#general_information caption {
     color: #42318C;
 }
 
-#general_information{
+#general_information {
     width: 80%;
     height: 40px;
     margin: auto;
@@ -131,7 +135,13 @@ form.search input {
     background-color: #42318C;
 }
 
-table{
+#chart-wrapper {
+    width: 80%;
+    height: 300px;
+    margin: auto;
+}
+
+table {
     width: 80%;
     height: 40px;
     left: 0;
@@ -139,7 +149,7 @@ table{
     margin: auto;
     border-radius: 8px;
     border-spacing: 0;
-    border-collapse: separate;
+    border-collapse: collapse;
     font-family: Roboto;
 }
 
@@ -147,10 +157,10 @@ table th {
     text-align: left;
     background-color: #42318C;
     color: #ffffff;
+    border: 2px solid #ffffff;
 }
 
 table td, table th {
-    border: 1px solid #ddd;
     padding: 8px;  
 }
 
@@ -158,6 +168,7 @@ table tr:first-child th:first-child,
 table tr:first-child td:first-child {
     border-top-left-radius: 10px
 }
+
 table tr:first-child th:last-child,
 table tr:first-child td:last-child {
     border-top-right-radius: 10px
@@ -171,11 +182,11 @@ table tr:last-child td:last-child {
     border-bottom-right-radius: 8px;
 }
 
-table tr:nth-child(even){
+table tr:nth-child(even) {
     background-color: #f0f2f3;
 }
 
-#main_title{
+#main_title {
     font-size: 60px;
     color: #42318C;
 }

@@ -76,7 +76,7 @@ class Accountdetails extends React.Component{
             <div>
                 <h1>Account Details</h1>
                 <h2>Account Address {this.props.match.params.address}</h2>
-                <table border="3">
+                <table>
                     <thead>
 
                     </thead>
@@ -88,7 +88,7 @@ class Accountdetails extends React.Component{
 
                 <p/>
 
-                <table border="3">
+                <table>
                     <caption>Transactions of this Account</caption>
                     <thead>
                         <tr>

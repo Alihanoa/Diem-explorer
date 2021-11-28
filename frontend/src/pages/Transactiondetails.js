@@ -22,8 +22,7 @@ class Transactiondetails extends React.Component{
     createTable(data) {
 
         let table = [];
-        table += "<tr><td>Version</td><td>" + data[0][0].version + 
-        "</td></tr><tr><td>From</td><td>" + data[0][0].sender_id + 
+        table += "<tr><td>From</td><td>" + data[0][0].sender_id + 
         "</td></tr><tr><td>Public Key</td><td>" + data[0][0].public_key + 
         "</td></tr><tr><td>To</td><td>" + data[0][0].receiver_id +
         "</td></tr><tr><td>Amount</td><td>" + data[0][0].amount + data[0][0].currency + 
@@ -65,13 +64,8 @@ class Transactiondetails extends React.Component{
                 <h1 id="main_title">Transaction Details</h1>
                 <h2>Transaction Version {this.props.match.params.version}</h2>
                 <table>
-                    <thead>
-                        
-                    </thead>
-
-                    <tbody id="transaction">
-                        
-                    </tbody>
+                    <thead></thead>
+                    <tbody id="transaction"></tbody>
                 </table>
                 <br></br>
                 <br></br>
