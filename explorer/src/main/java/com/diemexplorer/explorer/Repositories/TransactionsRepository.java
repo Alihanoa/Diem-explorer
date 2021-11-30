@@ -22,7 +22,7 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
     
     List<Transactions> findAll();
     
-    List<Transactions> findTransactionsByVersion(long version);
+    Transactions findTransactionsByVersion(long version);
 
 
     @Query("SELECT count(t) FROM Transactions t WHERE t.date like %:date%")
@@ -33,4 +33,11 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
 
     @Query("SELECT SUM(t.amount) FROM Transactions t WHERE t.date LIKE %:date%")
     double getTradingVolumeToday(String date);
+
+    @Query(value = "SELECT * from Transactions t ORDER BY t.version Desc LIMIT 10", nativeQuery = true)
+    List<Transactions> findTransactionsLimitByTen();
+
+    @Query(value = "SELECT * FROM Transactions t WHERE t.type='user' ORDER BY t.version Desc LIMIT 10", nativeQuery = true)
+    List<Transactions> findRealTransactionsLimitByTen();
+
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-public class DataController {
+public class TransactionController {
 
     private TransactionsRepository transactionsRepository;
 
@@ -21,8 +21,8 @@ public class DataController {
 
 
     @Autowired
-    public DataController(TransactionsRepository transactionsRepository,
-                          TransactiondetailsRepository transactiondetailsRepository){
+    public TransactionController(TransactionsRepository transactionsRepository,
+                                 TransactiondetailsRepository transactiondetailsRepository){
 
         this.transactionsRepository=transactionsRepository;
         this.transactiondetailsRepository=transactiondetailsRepository;
@@ -64,5 +64,28 @@ public class DataController {
     @GetMapping("/rest/tradingvolume")
     public double getTradingVolumeOfDate(@RequestParam String date){
         return this.transactionsRepository.getTradingVolumeToday((date));
+    }
+
+    @GetMapping("/rest/lastten")
+    public List<Transactions> getLastTenTransactions(){
+        return this.transactionsRepository.findTransactionsLimitByTen();
+    }
+
+    @GetMapping("/rest/lasttenreal")
+    public List<Transactions> getLastTenRealTransactions(){
+        return this.transactionsRepository.findRealTransactionsLimitByTen();
+    }
+
+    @GetMapping("/rest/lasttensmartcontracts")
+    public List<Transactions> getLastTenSmartContracts(){
+        List<Transactions> lastTenSmartContracts =new ArrayList<>();
+
+        List<Transactiondetails> contracts = this.transactiondetailsRepository.FindLastTenSmartContracts();
+
+        for( Transactiondetails td : contracts){
+            lastTenSmartContracts.add(this.transactionsRepository.findTransactionsByVersion(td.getVersion()));
+        }
+
+        return lastTenSmartContracts;
     }
 }

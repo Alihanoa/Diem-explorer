@@ -9,6 +9,7 @@ import com.diemexplorer.explorer.Entities.Transactiondetails;
 import java.util.List;
 
 import com.diemexplorer.explorer.Entities.Transactiondetails;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +23,8 @@ public interface TransactiondetailsRepository extends CrudRepository<Transaction
     List<Transactiondetails> findAll();
     
     List<Transactiondetails>findTransactiondetailsByVersion(long version);
+
+    @Query(value = "SELECT * FROM Transactiondetails td WHERE td.type='move_abort' ORDER BY td.version Desc LIMIT 10", nativeQuery = true)
+    List<Transactiondetails> FindLastTenSmartContracts();
+
 }

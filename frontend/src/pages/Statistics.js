@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import { Bar } from 'react-chartjs-2'
 
 class Statistics extends React.Component{
-
+     state = {
+         dataforchart : []
+     }
     constructor(props){
+
         super(props);
     }
 
@@ -13,12 +16,20 @@ class Statistics extends React.Component{
     }
 
     async componentDidMount(){
-    let data = await this.readData();
-    let dataForChart = this.computeData(data);
-    
 
-    console.log(data);
+    let  rawdata = await this.readData();
+    let data = this.computeData(rawdata);
 
+    this.setState({dataforchart : data});
+    // document.getElementById("chart").innerhtml = (<div>{this.chart}</div>);
+    }
+
+     addData(chart, data) {
+
+        this.chart.data.forEach((dataset) => {
+            dataset.data.push(data);
+        });
+        this.chart.update();
     }
 
     computeData(data){
@@ -43,41 +54,46 @@ class Statistics extends React.Component{
 
         return countings;
     }
+
+    basicChart (data) {
+
+        
+        console.log(data);
+   
+    }
      render(props){
         
-
         return(
-            <div>
+            <div id="chart">
                 <Bar id="barChart"
-                    data ={{labels : ['weniger', 'gleich', 'mehr'],
-                    datasets: [{
-                        label: 'Wieviele Accounts haben mindestens 1 XUS Token',
-                        data: [this.props.dataForChart],
-                        backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
+        data ={{labels : ['weniger', 'gleich', 'mehr'],
+        datasets: [{
+            label: 'Wieviele Accounts haben mindestens 1 XUS Token',
+            data: this.state.dataforchart,
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)'
 /*                       'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)' */
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)' /*
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)' */
-                        ],
-                        borderWidth: 1
-                    }]}}
-                    height={400}
-                    width = {600}
-                    options = {{
-                        maintainAspectRatio: false,
-                    }}
-                />
-                */
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)' */
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)' /*
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)' */
+            ],
+            borderWidth: 1
+        }]}}
+        height={400}
+        width = {600}
+        options = {{
+            maintainAspectRatio: false,
+        }}
+    />
             </div>
         );
     }
