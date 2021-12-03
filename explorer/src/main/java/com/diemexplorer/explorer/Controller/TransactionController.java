@@ -88,4 +88,24 @@ public class TransactionController {
 
         return lastTenSmartContracts;
     }
+    
+    @GetMapping("/rest/lasttenBlock")
+    public List<Transactions> getLastTenBlockMetaData(){
+        return this.transactionsRepository.findBlockMetaDataLimitTen();
+    }
+    
+        @GetMapping("/rest/AverageGasUnitPriceFromTo")
+    public float getAverageGasUnitPrice(@RequestParam long versionFrom, long versionTo){
+        return this.transactiondetailsRepository.getAverageGasUnitPriceFromTo(versionFrom, versionTo);
+    }
+    
+    @GetMapping("/rest/AverageGasUnitPriceToday")
+    public float getAverageGasUnitPrice(){
+        Date date = java.util.Calendar.getInstance().getTime();
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+        String todaysDate = dateformat.format(date);
+
+       return this.transactiondetailsRepository.getAverageGasUnitPriceFromTo(this.transactionsRepository.firstTransactionToday(todaysDate).getVersion(), this.transactionsRepository.getLastTransaction().getVersion()) ;
+    }
+    
 }
