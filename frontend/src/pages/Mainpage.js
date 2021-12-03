@@ -12,32 +12,29 @@ class Mainpage extends React.Component {
     }
 
     async componentDidMount() {
-
-        let lasttenanything = await fetch("http://localhost:8888/rest/lastten").then(result  => result.json());
-        let lasttensmartcontracts = await fetch("http://localhost:8888/rest/lasttensmartcontracts").then(result => result.json());
-        let lasttentransactions = await fetch("http://localhost:8888/rest/lasttenreal").then(result => result.json());
+        let transactions_last_minute = await fetch("http://localhost:8888/rest/transactionstodate?date=28/04/2021").then(result => result.json());
         let tradingvolume = await fetch("http://localhost:8888/rest/tradingvolume?date=28/04/2021").then(result => result.json());
+        let market_capacity = await fetch("http://localhost:8888/rest/sumbalances").then(result => result.json());
 
-        document.getElementById("tradingvolume").innerHTML = "Trading volume today: " + tradingvolume;
-
-        console.log(tradingvolume);
-        console.log(lasttenanything);
-        console.log(lasttensmartcontracts);
-        console.log(lasttentransactions);
-
-        let data = await this.readData();
-        this.setState({chartdataTransactions : data});
-
-        let table = this.createTable(lasttentransactions);
-        document.getElementById("transactions").innerHTML = table;
-        console.log(table)
-    }
-
-    // Data gets fetched from the backend
-    async readData() {
-
+        // let data = await this.readData();
+        
         let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
-        return data;
+        // let lasttenanything = await fetch("http://localhost:8888/rest/lastten").then(result  => result.json());
+        // let lasttensmartcontracts = await fetch("http://localhost:8888/rest/lasttensmartcontracts").then(result => result.json());
+        // let lasttentransactions = await fetch("http://localhost:8888/rest/lasttenreal").then(result => result.json());
+
+        this.setState({chartdataTransactions : data});
+        
+        // let table = this.createTable(lasttentransactions);
+        let table = this.createTable(data);
+
+        document.getElementById("transactions_last_minute").innerHTML = transactions_last_minute;
+        document.getElementById("tradingvolume").innerHTML = tradingvolume + " XUS";
+        document.getElementById("market_capacity").innerHTML = market_capacity + " XUS";
+
+        document.getElementById("transactions").innerHTML = table;
+
+        // console.log(transactions_last_minute, tradingvolume, market_capacity, table, lasttenanything, lasttensmartcontracts, lasttentransactions);
     }
 
     addData(chart, data) {
@@ -68,6 +65,7 @@ class Mainpage extends React.Component {
 
         // var json_object = this.getData();
         // console.log(json_object);
+
         return (
             <div>
                 <h1 id="main_title">Diem Explorer</h1>
@@ -82,15 +80,14 @@ class Mainpage extends React.Component {
                     <caption>General Information</caption>
                     <thead>
                         <tr>
-                            <td>Average gas price: </td>
-                            <td>Transaction per hour: </td>
-                            <td id="tradingvolume" > </td>
-                            <td>Market capacity:  Diem USD</td>
+                            <td>Average gas unit price: 0</td>
+                            <td>Transactions in the last minute: <div id="transactions_last_minute"></div></td>
+                            <td>Trading volume today: <div id="tradingvolume"/></td>
+                            <td>Market capacity:  <div id="market_capacity"/></td>
                         </tr>
                     </thead>
                 </table>
                 <br></br>
-
 
                 <div id="chart-wrapper">
                     <caption>Developments</caption>

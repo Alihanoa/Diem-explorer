@@ -1,98 +1,55 @@
-.App {
-    text-align: center;
-}
-
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
-
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/*Ab hier eigene styles.*/
-footer {
+header, footer{
     background-color: #42318C;
-    text-align: center;
+    color: #FFFFFF;
+    font-family: roboto;
+    width: 100%;
     height: 56px;
-    width: 100%;
+    font-size: 16px;
+    line-height: 56px;
+}
+header a, footer a{
+    padding: 8vh;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+#free_room{
+    padding: 16vh;
+}
+footer{
     bottom: 0;
+    margin-top: -56px;
+    position: absolute;
+}
+* {
+    margin:0;
+    padding:0;
+}
+#wrapper{
+    padding-bottom: 56px;
+}
+#site{
     position: relative;
-    color: #FFFFFF;
-    overflow: hidden;
+    min-height: 100vh;
 }
-
-footer a {
+html, body{
     text-align: center;
-    padding: 56px 20px;
-    text-decoration: none;
-    color: #FFFFFF;
+    height: 100%;
+}  
+#chart-wrapper{
+    width: 80%;
+    height: 25vh;
+    margin: auto;
+    max-width: 80%;
+}
+#transactions{
+    max-width: 80%;
+    width: 80%;
 }
 
-header {
-    background-color: #42318C;
-    top: 0;
-    width: 100%;
-    height: 56px;;
-    margin-top: 0%;
-    color: #FFFFFF;
-}
-
-header a {
-    text-align: center;
-    padding: 56px 40px;
-    text-decoration: none;
-    color: #FFFFFF;
-}
-
-/* #header_bar{
-    width: 70%;
-    
-} */
-
-header b {
-    padding: 20px 320px;
-}
-
-body {
-    text-align: center;
-}
-
-caption {
+caption{
     text-align: left;
     font-size: 26px;
     font-weight: bold;
-    color: #42318C;
-}
-
-h2 {
     color: #42318C;
 }
 
@@ -122,11 +79,11 @@ form.search input {
   background: #43217D;
 }*/
 
-#general_information caption {
+#general_information caption{
     color: #42318C;
 }
 
-#general_information {
+#general_information{
     width: 80%;
     height: 40px;
     margin: auto;
@@ -135,21 +92,16 @@ form.search input {
     background-color: #42318C;
 }
 
-#chart-wrapper {
+table{
     width: 80%;
-    height: 300px;
-    margin: auto;
-}
-
-table {
-    width: 80%;
+    max-width: 80%;
     height: 40px;
     left: 0;
     right: 0;
-    margin: auto;
+    margin:auto;
     border-radius: 8px;
     border-spacing: 0;
-    border-collapse: collapse;
+    border-collapse: separate;
     font-family: Roboto;
 }
 
@@ -157,18 +109,17 @@ table th {
     text-align: left;
     background-color: #42318C;
     color: #ffffff;
-    border: 2px solid #ffffff;
 }
 
 table td, table th {
-    padding: 8px;  
+    border: 1px solid #ddd;
+    padding: 8px; 
 }
 
 table tr:first-child th:first-child,
 table tr:first-child td:first-child {
     border-top-left-radius: 10px
 }
-
 table tr:first-child th:last-child,
 table tr:first-child td:last-child {
     border-top-right-radius: 10px
@@ -182,11 +133,11 @@ table tr:last-child td:last-child {
     border-bottom-right-radius: 8px;
 }
 
-table tr:nth-child(even) {
+table tr:nth-child(even){
     background-color: #f0f2f3;
 }
 
-#main_title {
+#main_title{
     font-size: 60px;
     color: #42318C;
 }

@@ -31,9 +31,8 @@ class Accountdetails extends React.Component{
 
         let table = [];
         table += "<tr><td>Authentication Key</td><td>" + data[0].authentication_key + 
-        "</td></tr><tr><td>Sequence Number</td><td>" + data[0].human_name + 
-        "</td></tr><tr><td>Frozen</td><td>" + data[0].sequence_number + 
-        "</td></tr><tr><td>Human Name</td><td>" + data[0].is_frozen + 
+        "</td></tr><tr><td>Sequence Number</td><td>" + data[0].sequence_number + 
+        "</td></tr><tr><td>Frozen</td><td>" + data[0].is_frozen + 
         "</td></tr><tr><td>Balance</td><td>" + data[2].amount + 
         "</td></tr><tr><td>Sent Events Keys</td><td>" + data[1].sent_events_key + 
         "</td></tr><tr><td>Receive Event Keys</td><td>" + data[1].receive_events_key + 
@@ -45,6 +44,7 @@ class Accountdetails extends React.Component{
         "</td></tr><tr><td>Received Mint Events Key</td><td>" + data[1].received_mint_events_key + 
         "</td></tr><tr><td>Compliance Key Rotation Events Key</td><td>" + data[1].compliance_key_rotation_events_key + 
         "</td></tr><tr><td>Base URL Rotation Events Key</td><td>" + data[1].base_url_rotation_events_key + 
+        // "</td></tr><tr><td>Human Name</td><td>" + data[0].human_name + 
         // "</td></tr><tr><td>Preburn Balance USD</td><td>" + data[1].preburn_balancexus + 
         // "</td></tr><tr><td>First Seen</td><td>" + data[1].amount + 
         // "</td></tr><tr><td>Last Seen</td><td>" + data[1].amount + 

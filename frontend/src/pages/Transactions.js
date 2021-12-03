@@ -1,8 +1,10 @@
 import React from "react";
 import Transactiondetails from "./Transactiondetails";
 import Transaction from "./Transactiondetails";
-import reactDom from "react-dom";
+import ReactDom from "react-dom";
+import { ReactDOM } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { data } from "jquery";
 
 class Transactions extends React.Component {
     constructor(props) {
@@ -13,8 +15,17 @@ class Transactions extends React.Component {
         let data = await this.readData();
         let table = this.createTable(data);
         document.getElementById("transactions").innerHTML = table;
+        // ReactDOM.findDOMNode(this.refs.tabelle).addEventListener('scroll', this.listenScrollEvent);
         console.log(table)
     }
+
+    // componentWillUnmount() {
+    //     ReactDOM.findDOMNode(this.refs.table).removeEventListener('scroll', this.listenScrollEvent);
+    // }
+
+    // listenScrollEvent() {
+    //     console.log('Scroll event detected!');
+    // }
 
     // Data gets fetched from the backend
     async readData() {
@@ -26,7 +37,7 @@ class Transactions extends React.Component {
     createTable(data) {
 
         let table = [];
-        for (let i = data.length - 1; i >= 0; i--) {
+        for (let i = data.length - 1; i >= data.length - 100; i--) {
             // let children = [];
             table += "<tr> <td><a href=Transactiondetails/" + data[i].version + ">" + data[i].version + "</a></td> <td><a href=Accountdetails/" + data[i].sender_id + ">"
             + data[i].sender_id + "</a></td>  <td>" + data[i].public_key + "</td> <td><a href=Accountdetails/" + data[i].receiver_id + ">"
@@ -43,6 +54,7 @@ class Transactions extends React.Component {
 
             <div><h1 id="main_title">Transactions</h1>
                 <table>
+                    {/* ref="tabelle" onScroll={this.listenScrollEvent.bind(this)} */}
                     <caption>Latest Transactions</caption>
                     <thead>
                         <tr>
@@ -56,10 +68,10 @@ class Transactions extends React.Component {
                             <th>Type</th>
                         </tr>
                     </thead>
-                    <tbody id="transactions"></tbody>
+                    <tbody id="transactions">
+
+                    </tbody>
                 </table>
-                <br></br>
-                <br></br>
             </div>
         );
     }
