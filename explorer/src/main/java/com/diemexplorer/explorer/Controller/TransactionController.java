@@ -105,7 +105,23 @@ public class TransactionController {
         SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
         String todaysDate = dateformat.format(date);
 
-       return this.transactiondetailsRepository.getAverageGasUnitPriceFromTo(this.transactionsRepository.firstTransactionToday(todaysDate).getVersion(), this.transactionsRepository.getLastTransaction().getVersion()) ;
+       return this.transactiondetailsRepository.getAverageGasUnitPriceFromTo(this.transactionsRepository.firstTransactionOfDay(todaysDate).getVersion(), this.transactionsRepository.getLastTransaction().getVersion()) ;
     }
+    
+        @GetMapping("/rest/firstTransactionOfDay")
+    public Transactions getFirstTransactionOfDay(@RequestParam String date){
+        return this.transactionsRepository.firstTransactionOfDay(date);
+    }
+    
+    @GetMapping("/rest/lastTransactionOfDay")
+    public Transactions getLastTransactionOfDay(@RequestParam String date){
+        return this.transactionsRepository.lastTransactionOfDay(date);
+    }
+    
+    @GetMapping("/rest/lastTransaction")
+    public Transactions getLastTransaction(){
+        return this.transactionsRepository.getLastTransaction();
+    }
+    
     
 }

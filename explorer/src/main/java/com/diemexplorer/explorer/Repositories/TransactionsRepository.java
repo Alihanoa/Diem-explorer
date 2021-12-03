@@ -44,7 +44,10 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
     List<Transactions> findBlockMetaDataLimitTen();
     
     @Query(value = "SELECT * FROM Transactions t WHERE t.date like %:date% ORDER BY t.version Asc LIMIT 1", nativeQuery = true)
-    Transactions firstTransactionToday(String date);
+    Transactions firstTransactionOfDay(String date);
+    
+    @Query(value ="SELECT * FROM Transactions t WHERE t.date like %:date% ORDER BY t.version Desc LIMIT 1", nativeQuery=true)
+    Transactions lastTransactionOfDay(String date);
     
     @Query(value="SELECT * From Transactions t ORDER BY t.version Desc LIMIT 1", nativeQuery=true)
     Transactions getLastTransaction();
