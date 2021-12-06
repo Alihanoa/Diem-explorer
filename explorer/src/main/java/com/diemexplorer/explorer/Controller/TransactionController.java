@@ -138,4 +138,4 @@ public class TransactionController {
         return this.transactionsRepository.findAllTransactionsBetweenTwoDates(minversion, maxversion);
     }
 }
-}
+
