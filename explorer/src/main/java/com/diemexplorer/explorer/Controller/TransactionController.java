@@ -122,6 +122,20 @@ public class TransactionController {
     public Transactions getLastTransaction(){
         return this.transactionsRepository.getLastTransaction();
     }
-    
-    
+
+
+    @GetMapping("/rest/smallestversion")
+    public Long getFirstTransactionOfDate(@RequestParam String starting){
+        return this.transactionsRepository.findFirstTransactionOfDate(starting);
+    }
+
+    @GetMapping("/rest/alltransactionsinbetween")
+    public List<Transactions> getAllTransactionsBetweenToDates(@RequestParam String starting, @RequestParam String ending){
+
+        long minversion = this.transactionsRepository.findFirstTransactionOfDate(starting);
+        long maxversion = this.transactionsRepository.findLastTransactionOfDate((ending));
+
+        return this.transactionsRepository.findAllTransactionsBetweenTwoDates(minversion, maxversion);
+    }
+}
 }

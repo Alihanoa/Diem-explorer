@@ -51,8 +51,18 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
     
     @Query(value="SELECT * From Transactions t ORDER BY t.version Desc LIMIT 1", nativeQuery=true)
     Transactions getLastTransaction();
-    
-    //@Query (value="SELECT * FROM Transactions WHERE t.version in (SELECT version from transactiondetails td where td.type='blockmetadata' ORDER BY td.version DESC LIMIT 10)", nativeQuery= true)
+
+    @Query(value = "SELECT MAX(t.version) FROM Transactions t WHERE t.date LIKE %:starting% AND t.type='user'", nativeQuery = false)
+    Long findFirstTransactionOfDate(String starting);
+
+    @Query("SELECT MAX(t.version) FROM Transactions t WHERE t.date LIKE %:ending% and t.type='user'")
+    Long findLastTransactionOfDate(String ending);
+
+    @Query("SELECT t FROM Transactions t WHERE t.version<=:max AND t.version >=:min AND t.type='user'")
+    List<Transactions> findAllTransactionsBetweenTwoDates(long min, long max);
+}
+
+//@Query (value="SELECT * FROM Transactions WHERE t.version in (SELECT version from transactiondetails td where td.type='blockmetadata' ORDER BY td.version DESC LIMIT 10)", nativeQuery= true)
     //List<Transactions> getBlockMetaDataLast10();
     
 
