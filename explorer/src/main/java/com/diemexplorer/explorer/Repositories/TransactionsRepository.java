@@ -52,7 +52,7 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
     @Query(value="SELECT * From Transactions t ORDER BY t.version Desc LIMIT 1", nativeQuery=true)
     Transactions getLastTransaction();
 
-    @Query(value = "SELECT MAX(t.version) FROM Transactions t WHERE t.date LIKE %:starting% AND t.type='user'", nativeQuery = false)
+    @Query(value = "SELECT MIN(t.version) FROM Transactions t WHERE t.date LIKE %:starting% AND t.type='user'", nativeQuery = false)
     Long findFirstTransactionOfDate(String starting);
 
     @Query("SELECT MAX(t.version) FROM Transactions t WHERE t.date LIKE %:ending% and t.type='user'")
