@@ -27,7 +27,7 @@ public interface TransactiondetailsRepository extends CrudRepository<Transaction
     @Query(value = "SELECT * FROM Transactiondetails td WHERE td.type='move_abort' ORDER BY td.version Desc LIMIT 10", nativeQuery = true)
     List<Transactiondetails> FindLastTenSmartContracts();
     
-    @Query (value = "SELECT AVG(gas_unit_price) from Transactiondetails td where td.version >=:versionFrom AND td.version <=:versionTO")
+    @Query (value = "SELECT AVG(td.gas_unit_price) from Transactiondetails td where td.version >=:versionFrom AND td.version <=:versionTo")
     float getAverageGasUnitPriceFromTo(long versionFrom, long versionTo);
 
 }
