@@ -164,8 +164,6 @@ class Mainpage extends React.Component {
                     </thead>
                     <tbody id="transactions"></tbody>
                 </table>
-                <br></br>
-                <br></br>
             </div>
         );
     }

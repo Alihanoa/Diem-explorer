@@ -67,8 +67,6 @@ class Transactiondetails extends React.Component{
                     <thead></thead>
                     <tbody id="transaction"></tbody>
                 </table>
-                <br></br>
-                <br></br>
             </div>
         );
     }

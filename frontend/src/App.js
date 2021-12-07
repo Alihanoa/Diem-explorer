@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './index.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import Mainpage from './pages/Mainpage';
@@ -18,15 +18,18 @@ function App() {
     return (
         <div id="site">
             <div id="wrapper">
-                <header id="header_bar">
-                    <div id="header_content">
-                        <a href="/">Home</a>
-                        <a>Testnet</a>
-                        <a id="free_room" />
-                        <a href="/Transactions">Transactions</a>
-                        <a href="/Accounts">Accounts</a>
-                        <a href="/Statistics">Statistics</a>
-                        <a href="/Contact">Contact</a>
+                <header>
+                    <div class="header_wrapper">
+                            <div class="header_left">
+                                <a id="home" href="/">Home</a>
+                                <p>Testnet</p>
+                            </div>
+                            <div class="header_right">
+                                <a href="/Transactions">Transactions</a>
+                                <a href="/Accounts">Accounts</a>
+                                <a href="/Statistics">Statistics</a>
+                                <a href="/Contact">Contact</a>
+                            </div>
                     </div>
                 </header>
 
@@ -39,12 +42,8 @@ function App() {
                     <Route path="/Transactiondetails/:version" exact component={Transactiondetails} />
                     <Route path="/Accountdetails/:address" component={Accountdetails} />
                     <Route path="/Contact" component={Contact} />
-                    {/* Hier führen mehrere Pfade auf dieselbe Seite.
-                    <Route path={["/Others", 'Sonstiges']}>
-                    <Others name="Kantar" isBig={true} />
-                    </Route>
-                    
-                    <Route path='/'>
+
+                    {/* <Route path='/'>
                     {42 == 42 ? <Redirect to="/CurrencyCalculator"/> : <Clock/>}
                     </Route> */}
                 </Router>

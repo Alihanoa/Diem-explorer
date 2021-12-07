@@ -9,29 +9,56 @@ import { data } from "jquery";
 class Transactions extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            rows: 10,
+            loadingState: false
+        };
     }
 
     async componentDidMount() {
-        let data = await this.readData();
+        let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
+        this.setState({ rows: data });
         let table = this.createTable(data);
         document.getElementById("transactions").innerHTML = table;
-        // ReactDOM.findDOMNode(this.refs.tabelle).addEventListener('scroll', this.listenScrollEvent);
-        console.log(table)
+        console.log(table);
+
+        //Ab hier Code für Scrollen:
+        this.refs.iScroll.addEventListener("scroll", () => {
+            if (this.refs.iScroll.scrollTop + this.refs.iScroll.clientHeight >= this.refs.iScroll.scrollHeight - 20) {
+                this.loadMoreRows();
+            }
+        });
     }
 
-    // componentWillUnmount() {
-    //     ReactDOM.findDOMNode(this.refs.table).removeEventListener('scroll', this.listenScrollEvent);
+    loadMoreRows() {
+        if (this.state.loadingState) {
+            return;
+        }
+        this.setState({ loadingState: true });
+        setTimeout(() => {
+            this.setState({ rows: this.state.rows + 10, loadingState: false });
+        }, 1000);
+    }
+
+    // scrollState(scroll) {
+    //     var visibleStart = Math.floor(scroll / this.state.recordHeight);
+    //     var visibleEnd = Math.min(visibleStart + this.state.recordsPerBody, this.state.total - 1);
+
+    //     var displayStart = Math.max(0, Math.floor(scroll / this.state.recordHeight) - this.state.recordsPerBody * 1.5);
+    //     var displayEnd = Math.min(displayStart + 4 * this.state.recordsPerBody, this.state.total - 1);
+
+    //     this.setState({
+    //         visibleStart: visibleStart,
+    //         visibleEnd: visibleEnd,
+    //         displayStart: displayStart,
+    //         displayEnd: displayEnd,
+    //         scroll: scroll
+    //     });
     // }
 
     // listenScrollEvent() {
     //     console.log('Scroll event detected!');
     // }
-
-    // Data gets fetched from the backend
-    async readData() {
-        let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
-        return data;
-    }
 
     // create table row for each object within the data array
     createTable(data) {
@@ -40,8 +67,8 @@ class Transactions extends React.Component {
         for (let i = data.length - 1; i >= data.length - 100; i--) {
             // let children = [];
             table += "<tr> <td><a href=Transactiondetails/" + data[i].version + ">" + data[i].version + "</a></td> <td><a href=Accountdetails/" + data[i].sender_id + ">"
-            + data[i].sender_id + "</a></td>  <td>" + data[i].public_key + "</td> <td><a href=Accountdetails/" + data[i].receiver_id + ">"
-            + data[i].receiver_id + "</a></td>  <td>" + data[i].amount + " " + data[i].currency + "</td> <td>"
+                + data[i].sender_id + "</a></td>  <td>" + data[i].public_key + "</td> <td><a href=Accountdetails/" + data[i].receiver_id + ">"
+                + data[i].receiver_id + "</a></td>  <td>" + data[i].amount + " " + data[i].currency + "</td> <td>"
                 + data[i].gas_used + " " + data[i].gas_currency + "</td> <td>" + data[i].date + "</td> <td>" + data[i].type + "</td> </tr>";
         }
         console.log(data);
@@ -52,9 +79,10 @@ class Transactions extends React.Component {
 
         return (
 
-            <div><h1 id="main_title">Transactions</h1>
+            <div ref = "iScroll">
+                <h1 id="main_title">Transactions</h1>
+                
                 <table>
-                    {/* ref="tabelle" onScroll={this.listenScrollEvent.bind(this)} */}
                     <caption>Latest Transactions</caption>
                     <thead>
                         <tr>
@@ -69,9 +97,10 @@ class Transactions extends React.Component {
                         </tr>
                     </thead>
                     <tbody id="transactions">
-
+                        
                     </tbody>
                 </table>
+                {/* {this.state.loadingState ? <p className="loading"> loading More Rows..</p> : ""} */}
             </div>
         );
     }
