@@ -22,15 +22,15 @@ class Transactiondetails extends React.Component{
     createTable(data) {
 
         let table = [];
-        table += "<tr><td>From</td><td>" + data[0][0].sender_id + 
-        "</td></tr><tr><td>Public Key</td><td>" + data[0][0].public_key + 
-        "</td></tr><tr><td>To</td><td>" + data[0][0].receiver_id +
-        "</td></tr><tr><td>Amount</td><td>" + data[0][0].amount + data[0][0].currency + 
-        "</td></tr><tr><td>Gas Amount</td><td>" + data[0][0].gas_used + data[0][0].gas_currency + 
-        "</td></tr><tr><td>Gas Unit Price</td><td>" + data[0][0].gas_unit_price +
-        "</td></tr><tr><td>Maximal Gas Amount</td><td>" + data[0][0].max_gas_amount +
-        "</td></tr><tr><td>Date</td><td>" + data[0][0].date +
-        "</td></tr><tr><td>Type</td><td>" + data[0][0].type +
+        table += "<tr><td>From</td><td>" + data[0].sender_id + 
+        "</td></tr><tr><td>Public Key</td><td>" + data[0].public_key + 
+        "</td></tr><tr><td>To</td><td>" + data[0].receiver_id +
+        "</td></tr><tr><td>Amount</td><td>" + data[0].amount + data[0].currency + 
+        "</td></tr><tr><td>Gas Amount</td><td>" + data[0].gas_used + data[0].gas_currency + 
+        "</td></tr><tr><td>Gas Unit Price</td><td>" + data[0].gas_unit_price +
+        "</td></tr><tr><td>Maximal Gas Amount</td><td>" + data[0].max_gas_amount +
+        "</td></tr><tr><td>Date</td><td>" + data[0].date +
+        "</td></tr><tr><td>Type</td><td>" + data[0].type +
         "</td></tr><tr><td>Chain ID</td><td>" + data[1][0].chain_id +
         "</td></tr><tr><td>Hash</td><td>" + data[1][0].hash +
         "</td></tr><tr><td>Metadata</td><td>" + data[1][0].metadata +
@@ -67,8 +67,6 @@ class Transactiondetails extends React.Component{
                     <thead></thead>
                     <tbody id="transaction"></tbody>
                 </table>
-                <br></br>
-                <br></br>
             </div>
         );
     }
