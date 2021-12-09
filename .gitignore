@@ -47,3 +47,7 @@ diem/target/classes/id/diem/dbtests.class
 diem/src/main/java/id/diem/dbtests.java
 
 explorer/src/main/java/com/diemexplorer/explorer/JSONRPCtoDB/myjsonrpc.java
+
+explorer/src/main/java/com/diemexplorer/explorer/JSONRPCtoDB/testing.java
+
+explorer/nbactions.xml

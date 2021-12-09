@@ -18,36 +18,37 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @Table(name="transactions")
-public class Transactions implements Serializable{
-    
+public class Transactions implements Serializable {
+
     @Id
-    private  Long version;
-    
-    private  String sender_id;
+    private Long version;
+
+    private String sender_id;
 
     private String receiver_id;
-    
+
     private String public_key;
-    
+
     private double amount;
-    
+
     private String currency;
-    
+
     private String gas_currency;
 
     private double gas_used;
-    
 
 
     private String date;
 
     private String type;
-    
-    public Transactions(){
-        
+
+    private long timestamp;
+
+    public Transactions() {
+
     }
 
-    public Transactions(Long version,String receiver_id, String sender_id, String public_key, double amount, String currency, String gas_currency, double gas_used, String date, String type) {
+    public Transactions(Long version, String receiver_id, String sender_id, String public_key, double amount, String currency, String gas_currency, double gas_used, String date, String type, long timestamp) {
         this.version = version;
         this.sender_id = sender_id;
         this.public_key = public_key;
@@ -57,11 +58,11 @@ public class Transactions implements Serializable{
         this.gas_used = gas_used;
 
         this.date = date;
-        this.receiver_id=receiver_id;
-        this.type=type;
+        this.receiver_id = receiver_id;
+        this.type = type;
+        this.timestamp = timestamp;
     }
-    
-    
+
 
     public Long getVersion() {
         return version;
@@ -142,4 +143,14 @@ public class Transactions implements Serializable{
     public void setType(String type) {
         this.type = type;
     }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp =timestamp;
+    }
+
+
 }

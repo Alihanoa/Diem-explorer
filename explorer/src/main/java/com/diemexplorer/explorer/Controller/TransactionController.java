@@ -6,8 +6,11 @@ import com.diemexplorer.explorer.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -137,5 +140,67 @@ public class TransactionController {
 
         return this.transactionsRepository.findAllTransactionsBetweenTwoDates(minversion, maxversion);
     }
+
+ @GetMapping("/rest/datalast365days")
+    public String[][] statisticForLast365Days(){
+
+        Date date = new Date();
+
+        Long timestampnow = date.getTime();
+        Long timestampOneYearBack = timestampnow - 31536000000L;
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+
+
+        String datum = dateformat.format(timestampOneYearBack);
+
+        long mintimestamp = timestampOneYearBack;
+        long maxtimestamp= timestampOneYearBack +43200000;
+        String[][] alldates = new String[732][2];
+        int counter = 0;
+        while(timestampnow> maxtimestamp && counter < 732){
+            date.setTime(mintimestamp);
+            alldates[counter][0] = date.toString();
+
+
+
+
+            date.setTime(timestampOneYearBack);
+            datum = dateformat.format(date);
+
+
+            long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
+
+            alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+            mintimestamp = mintimestamp + 43200000;
+            maxtimestamp = maxtimestamp + 43200000;
+            counter ++;
+
+        }
+        return alldates;
+    }
+
+    @GetMapping("/rest/abcd")
+    public long counter(){
+        Date date = new Date();
+       long timestamp = 1619553342441L;
+       long othertimestamp = 1619596542441L;
+        long versionmin =0;
+        long versionmax =0;
+        int counter =0;
+      /*  System.out.println(timestamp);
+        Long wrapper = this.transactionsRepository.getFirstVersionOfUnixTimestamp(timestamp);
+        Long otherwrapper = this.transactionsRepository.getFirstVersionOfUnixTimestamp(othertimestamp);
+                   if(wrapper != null){
+                    versionmin = (this.transactionsRepository.getFirstVersionOfUnixTimestamp(timestamp));
+                     }
+                   if(otherwrapper != null){
+                       versionmax = this.transactionsRepository.getFirstVersionOfUnixTimestamp(othertimestamp);
+                   }
+                   int output = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(versionmin, versionmax);
+
+                   return output;*/
+        return 0;
+    }
+
 }
 

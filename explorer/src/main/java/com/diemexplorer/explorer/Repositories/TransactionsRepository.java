@@ -43,10 +43,10 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
     @Query(value = "SELECT * FROM Transactions t WHERE t.type='blockmetadata' ORDER BY t.version Desc LIMIT 10", nativeQuery = true)
     List<Transactions> findBlockMetaDataLimitTen();
     
-    @Query(value = "SELECT * FROM Transactions t WHERE t.date like %:date% ORDER BY t.version Asc LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM Transactions t WHERE t.date like '%:date%' ORDER BY t.version Asc LIMIT 1", nativeQuery = true)
     Transactions firstTransactionOfDay(String date);
     
-    @Query(value ="SELECT * FROM Transactions t WHERE t.date like %:date% ORDER BY t.version Desc LIMIT 1", nativeQuery=true)
+    @Query(value ="SELECT * FROM Transactions t WHERE t.date like '%:date%' ORDER BY t.version Desc LIMIT 1", nativeQuery=true)
     Transactions lastTransactionOfDay(String date);
     
     @Query(value="SELECT * From Transactions t ORDER BY t.version Desc LIMIT 1", nativeQuery=true)
@@ -60,6 +60,19 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
 
     @Query("SELECT t FROM Transactions t WHERE t.version<=:max AND t.version >=:min AND t.type='user'")
     List<Transactions> findAllTransactionsBetweenTwoDates(long min, long max);
+
+    @Query("SELECT count(t) FROM Transactions t WHERE t.version<=:max AND t.version >=:min AND t.type='user'")
+    int countAllTransactionsBetweenTwoDates(long min, long max);
+
+    @Query(value = "SELECT version FROM Transactions t WHERE t.date like ':date%' ORDER BY t.version Asc LIMIT 1", nativeQuery = true)
+    long firstshit(String date);
+
+   /* @Query("SELECT MIN(t.version) FROM Transactions t WHERE t.timestamp >= :timestampneeded AND t.type='user'")
+    Long getFirstVersionOfUnixTimestamp(long timestampneeded);*/
+
+    @Query("SELECT count(t.version) FROM Transactions t WHERE t.timestamp >= :mintimestamp AND t.timestamp <= :maxtimestamp AND t.type='user'")
+    int getNumberOfTransactionsBetweenTwoVersions(long mintimestamp, long maxtimestamp);
+
 }
 
 //@Query (value="SELECT * FROM Transactions WHERE t.version in (SELECT version from transactiondetails td where td.type='blockmetadata' ORDER BY td.version DESC LIMIT 10)", nativeQuery= true)

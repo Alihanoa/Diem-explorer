@@ -58,13 +58,31 @@ public class BlockchainThread extends Thread{
                     
                 }
                 if (!versionInDB(transaction.getVersion())) {
-                    String date  = getDateFromTimeStamp(transaction);
 
-                    String query = "INSERT INTO  transactions (version, amount, currency, gas_used, gas_currency, public_key, sender_id, receiver_id, date, type) "
+                    // For some reason when the transaction is an actual transaction / smart contract, the timestamp is set to 0.
+                    // Therefore we estimated that this transaction has to happen a couple miliseconds after the lalst blockmetadata. therefore we need to take its timestamp.
+                    long timestamp = transaction.getTransaction().getTimestampUsecs();
+                    if(transaction.getTransaction().getTimestampUsecs() ==0 && transaction.getVersion() > 0){
+
+                        PreparedStatement statementfortimestamp;
+                        String timestampbefore = "SELECT timestamp FROM transactions WHERE version<" + transaction.getVersion() + " AND type='blockmetadata' ORDER BY version DESC LIMIT 1";
+                        statementfortimestamp = con.prepareStatement(timestampbefore);
+                        ResultSet resultset = statementfortimestamp.executeQuery();
+                        resultset.next();
+                        timestamp = resultset.getLong("timestamp");
+                    }
+
+                    String date  = getDateFromTimeStamp(transaction);
+                    if(transaction.getTransaction().getType().equals("blockmetadata")){
+                        timestamp = timestamp/1000;
+
+                    }
+
+                    String query = "INSERT INTO  transactions (version, amount, currency, gas_used, gas_currency, public_key, sender_id, receiver_id, date, type, timestamp) "
                             + "VALUES (" + transaction.getVersion() + ","  + transaction.getTransaction().getScript().getAmount() + ","
                             + "'" + transaction.getTransaction().getScript().getCurrency() + "'" + "," + transaction.getGasUsed() + ","
                             + "'" + transaction.getTransaction().getGasCurrency() + "'" + ", '" + transaction.getTransaction().getPublicKey() + "','"
-                            + transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "', '" + transaction.getTransaction().getType() + "')";
+                            + transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "', '" + transaction.getTransaction().getType() + "'," +  timestamp +  ")";
 
                     statement = con.prepareStatement(query);
                     statement.executeUpdate();
@@ -198,7 +216,7 @@ public class BlockchainThread extends Thread{
        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
         PreparedStatement preparedStatement;
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss");
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss.SSS");
 
         if ((transaction.getTransaction().getTimestampUsecs() == 0) && transaction.getVersion()>1) {
 
