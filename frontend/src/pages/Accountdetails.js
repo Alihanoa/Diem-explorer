@@ -89,7 +89,7 @@ class Accountdetails extends React.Component{
                 <p/>
 
                 <table>
-                    <caption>Transactions of this Account</caption>
+                    <caption>Transactions made</caption>
                     <thead>
                         <tr>
                             <th>Version</th>

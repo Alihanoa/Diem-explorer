@@ -170,7 +170,8 @@ public class TransactionController {
 
             long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
 
-            alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+            alldates[counter][1] = String.valueOf(numberoftransactions);
             mintimestamp = mintimestamp + 43200000;
             maxtimestamp = maxtimestamp + 43200000;
             counter ++;
