@@ -38,7 +38,19 @@ public class BlockchainThread extends Thread{
 
         }
     }
+    
 
+    public int getLatestDBVersion () throws SQLException {
+        PreparedStatement statement;
+        String query = "SELECT MAX(version) FROM transactions";
+        statement = con.prepareStatement(query);
+        ResultSet rs = statement.executeQuery();
+        rs.next();
+        int maxvalue = rs.getInt("MAX(version)");
+        System.out.println(maxvalue);
+        return maxvalue;
+
+    }
 
     public void cancel() {
         interrupt();
@@ -48,6 +60,7 @@ public class BlockchainThread extends Thread{
       //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         List<JsonRpc.Transaction> transactions;
         PreparedStatement statement;
+        this.version = getLatestDBVersion() +1;
 
             transactions = client.getTransactions(version, 1, false);
 
