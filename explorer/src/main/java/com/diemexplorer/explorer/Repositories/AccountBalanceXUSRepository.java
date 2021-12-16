@@ -25,4 +25,10 @@ public interface AccountBalanceXUSRepository extends CrudRepository<AccountBalan
 
     @Query("SELECT sum(b.amount) FROM AccountBalanceXUS b")
     double sumOfAllBalances();
+    
+    @Query("SELECT b FROM AccountBalanceXUS b ORDER BY b.amount ASC")
+    List<AccountBalanceXUS> getBalancesXUSRichFirst();
+    
+    @Query("SELECT b FROM AccountBalanceXUS b ORDER BY b.amount DESC")
+    List<AccountBalanceXUS> getBalancesXUSPoorFirst();
 }

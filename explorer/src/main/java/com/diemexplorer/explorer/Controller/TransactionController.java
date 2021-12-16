@@ -180,27 +180,160 @@ public class TransactionController {
         return alldates;
     }
 
-    @GetMapping("/rest/abcd")
-    public long counter(){
-        Date date = new Date();
-       long timestamp = 1619553342441L;
-       long othertimestamp = 1619596542441L;
-        long versionmin =0;
-        long versionmax =0;
-        int counter =0;
-      /*  System.out.println(timestamp);
-        Long wrapper = this.transactionsRepository.getFirstVersionOfUnixTimestamp(timestamp);
-        Long otherwrapper = this.transactionsRepository.getFirstVersionOfUnixTimestamp(othertimestamp);
-                   if(wrapper != null){
-                    versionmin = (this.transactionsRepository.getFirstVersionOfUnixTimestamp(timestamp));
-                     }
-                   if(otherwrapper != null){
-                       versionmax = this.transactionsRepository.getFirstVersionOfUnixTimestamp(othertimestamp);
-                   }
-                   int output = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(versionmin, versionmax);
+@GetMapping("/rest/datalastMonth")
+    public String[][] statisticForLastMonth(){
 
-                   return output;*/
-        return 0;
+        Date date = new Date();
+
+        Long timestampnow = date.getTime();
+        Long timestampOneYearBack = timestampnow - 2629800000L;
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+
+
+        String datum = dateformat.format(timestampOneYearBack);
+
+        long mintimestamp = timestampOneYearBack;
+        long maxtimestamp= timestampOneYearBack +3600000;
+        String[][] alldates = new String[722][2];
+        int counter = 0;
+        while(timestampnow> maxtimestamp && counter < 722){
+            date.setTime(mintimestamp);
+            alldates[counter][0] = date.toString();
+
+
+
+
+            date.setTime(timestampOneYearBack);
+            datum = dateformat.format(date);
+
+
+            long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
+
+            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+            alldates[counter][1] = String.valueOf(numberoftransactions);
+            mintimestamp = mintimestamp + 3600000;
+            maxtimestamp = maxtimestamp + 3600000;
+            counter ++;
+
+        }
+        return alldates;
+    }
+    
+@GetMapping("/rest/datalastWeek")
+    public String[][] statisticForLastWeek(){
+
+        Date date = new Date();
+
+        Long timestampnow = date.getTime();
+        Long timestampOneYearBack = timestampnow - 604800017;
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+
+
+        String datum = dateformat.format(timestampOneYearBack);
+
+        long mintimestamp = timestampOneYearBack;
+        long maxtimestamp= timestampOneYearBack + 900000;
+        String[][] alldates = new String[674][2];
+        int counter = 0;
+        while(timestampnow> maxtimestamp && counter < 674){
+            date.setTime(mintimestamp);
+            alldates[counter][0] = date.toString();
+
+
+
+
+            date.setTime(timestampOneYearBack);
+            datum = dateformat.format(date);
+
+
+            long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
+
+            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+            alldates[counter][1] = String.valueOf(numberoftransactions);
+            mintimestamp = mintimestamp + 900000;
+            maxtimestamp = maxtimestamp + 900000;
+            counter ++;
+
+        }
+        return alldates;
+    }
+    
+    @GetMapping("/rest/datalastDay")
+    public String[][] statisticForLastDay(){
+
+        Date date = new Date();
+
+        Long timestampnow = date.getTime();
+        Long timestampOneYearBack = timestampnow - 86400000;
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+
+
+        String datum = dateformat.format(timestampOneYearBack);
+
+        long mintimestamp = timestampOneYearBack;
+        long maxtimestamp= timestampOneYearBack + 120000;
+        String[][] alldates = new String[674][2];
+        int counter = 0;
+        while(timestampnow> maxtimestamp && counter < 674){
+            date.setTime(mintimestamp);
+            alldates[counter][0] = date.toString();
+
+
+
+
+            date.setTime(timestampOneYearBack);
+            datum = dateformat.format(date);
+
+
+            long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
+
+            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+            alldates[counter][1] = String.valueOf(numberoftransactions);
+            mintimestamp = mintimestamp + 120000;
+            maxtimestamp = maxtimestamp + 120000;
+            counter ++;
+
+        }
+        return alldates;
+    }
+    
+        @GetMapping("/rest/datalastHour")
+    public String[][] statisticForLastHour(){
+
+        Date date = new Date();
+
+        Long timestampnow = date.getTime();
+        Long timestampOneYearBack = timestampnow - 3600000;
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+
+
+        String datum = dateformat.format(timestampOneYearBack);
+
+        long mintimestamp = timestampOneYearBack;
+        long maxtimestamp= timestampOneYearBack + 5000;
+        String[][] alldates = new String[674][2];
+        int counter = 0;
+        while(timestampnow> maxtimestamp && counter < 674){
+            date.setTime(mintimestamp);
+            alldates[counter][0] = date.toString();
+
+
+
+
+            date.setTime(timestampOneYearBack);
+            datum = dateformat.format(date);
+
+
+            long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
+
+            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+            alldates[counter][1] = String.valueOf(numberoftransactions);
+            mintimestamp = mintimestamp + 5000;
+            maxtimestamp = maxtimestamp + 5000;
+            counter ++;
+
+        }
+        return alldates;
     }
 
 }
