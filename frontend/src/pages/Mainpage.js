@@ -13,19 +13,25 @@ class Mainpage extends React.Component {
 
     async componentDidMount() {
 
-        let transactions_last_minute = await fetch("http://localhost:8888/rest/transactionstodate?date=28/04/2021").then(result => result.json());
-        let tradingvolume = await fetch("http://localhost:8888/rest/tradingvolume?date=28/04/2021").then(result => result.json());
-        let market_capacity = await fetch("http://localhost:8888/rest/sumbalances").then(result => result.json());
+        let transactions_last_minute = await fetch("http://localhost:8888/rest/transactionstodate?date=28/04/2021", { mode:'no-cors'}).then(result => result.json());
+        let tradingvolume = await fetch("http://localhost:8888/rest/tradingvolume?date=28/04/2021", { mode:'no-cors'}).then(result => result.json());
+        let market_capacity = await fetch("http://localhost:8888/rest/sumbalances", { mode:'no-cors'}).then(result => result.json());
         
-        let rawChartdataTransactions = await fetch('http://localhost:8888/rest/datalast365days').then(result => result.json());
+
+        let rawChartdataTransactions = await fetch('http://localhost:8888/rest/datalast365days', { mode:'no-cors'}).then(result => result.json());
         let chartdataTransactions = this.processChartdata(rawChartdataTransactions);
         this.setState({chartdataTransactions : rawChartdataTransactions});
         // this.setState({chartlabelsTransactions : rawChartdataTransactions});
 
-        let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
+        // let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
         // let lasttenanything = await fetch("http://localhost:8888/rest/lastten").then(result  => result.json());
+
+        // let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
+        let data = await fetch("http://localhost:8888/rest/lastten", { mode:'no-cors'}).then(result  => result.json());
+
         // let lasttensmartcontracts = await fetch("http://localhost:8888/rest/lasttensmartcontracts").then(result => result.json());
-        // let lasttentransactions = await fetch("http://localhost:8888/rest/lasttenreal").then(result => result.json());
+        // let data = await fetch("http://localhost:8888/rest/lasttenreal").then(result => result.json());
+
 
         // let table = this.createTable(lasttentransactions);
         let table = this.createTable(data);
@@ -39,6 +45,7 @@ class Mainpage extends React.Component {
         // console.log(transactions_last_minute, tradingvolume, market_capacity, table, lasttenanything, lasttensmartcontracts, lasttentransactions);
     }
 
+
     processChartdata(data) {
 
         let processedData = [];
@@ -46,7 +53,6 @@ class Mainpage extends React.Component {
             processedData[i] = data[i][1];
         }
     }
-
     // addData(chart, data) {
 
     //     this.chart.data.forEach((dataset) => {
