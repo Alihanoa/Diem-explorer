@@ -72,5 +72,40 @@ public class AccountController {
         return this.accountBalanceXUSRepository.sumOfAllBalances();
     }
 
-
+    
+   @GetMapping("/rest/getXusAccRankingRichFirst")
+   public List<Accounts> getAllAccRankedRichFirst(){
+   
+    List<AccountBalanceXUS> ranking = this.accountBalanceXUSRepository.getBalancesXUSRichFirst();
+    List<Accounts> rankAcc = new ArrayList<>();
+    for (AccountBalanceXUS A : ranking){
+    rankAcc.add(this.accountsRepository.findAccountsByAddress(A.getAddress()));
+            }
+    return rankAcc;
+       }
+   
+   
+   @GetMapping("/rest/getXusAccRankingPoorFirst")
+   public List<Accounts> getAllAccRankedPoorFirst(){
+       
+       List<AccountBalanceXUS> ranking = this.accountBalanceXUSRepository.getBalancesXUSPoorFirst();
+    List<Accounts> rankAcc = new ArrayList<>();
+    for (AccountBalanceXUS A : ranking){
+    rankAcc.add(this.accountsRepository.findAccountsByAddress(A.getAddress()));
+            }
+    return rankAcc;
+       
+   }
+   
+   @GetMapping("rest/getBalanceXUSRankedRichFirst")
+   public List <AccountBalanceXUS> getXUSBalanceRichFirst(){
+   
+       return this.accountBalanceXUSRepository.getBalancesXUSRichFirst();       
+   }
+   
+      @GetMapping("rest/getBalanceXUSRankedPoorFirst")
+   public List <AccountBalanceXUS> getXUSBalancePoorFirst(){
+   
+       return this.accountBalanceXUSRepository.getBalancesXUSPoorFirst();       
+   }
 }
