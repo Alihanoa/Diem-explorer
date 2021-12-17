@@ -16,12 +16,12 @@ class Mainpage extends React.Component {
     
     async componentDidMount() {
         
-        let transactions_last_minute = await fetch("http://" + this.serverAdress + ":8888/rest/transactionstodate?date=28/04/2021", { mode:'no-cors'}).then(result => result.json());
-        let tradingvolume = await fetch("http://" + this.serverAdress + ":8888/rest/tradingvolume?date=28/04/2021", { mode:'no-cors'}).then(result => result.json());
-        let market_capacity = await fetch("http://" + this.serverAdress + ":8888/rest/sumbalances", { mode:'no-cors'}).then(result => result.json());
+        let transactions_last_minute = await fetch("http://diemexplorer.internet-sicherheit.de:8888/rest/transactionstodate?date=28/04/2021", { mode:'no-cors'}).then(result => result.json());
+        let tradingvolume = await fetch("http://diemexplorer.internet-sicherheit.de:8888/rest/tradingvolume?date=28/04/2021", { mode:'no-cors'}).then(result => result.json());
+        let market_capacity = await fetch("http://diemexplorer.internet-sicherheit.de:8888/rest/sumbalances", { mode:'no-cors'}).then(result => result.json());
         
 
-        let rawChartdataTransactions = await fetch("http://" + this.serverAdress + ":8888/rest/datalast365days", { mode:'no-cors'}).then(result => result.json());
+        let rawChartdataTransactions = await fetch("http://diemexplorer.internet-sicherheit.de:8888/rest/datalast365days", { mode:'no-cors'}).then(result => result.json());
         let chartdataTransactions = this.processChartdata(rawChartdataTransactions);
         this.setState({chartdataTransactions : rawChartdataTransactions});
         // this.setState({chartlabelsTransactions : rawChartdataTransactions});
@@ -30,7 +30,7 @@ class Mainpage extends React.Component {
         // let lasttenanything = await fetch("http://localhost:8888/rest/lastten").then(result  => result.json());
 
         // let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
-        let data = await fetch("http://" + this.serverAdress + ":8888/rest/lastten", { mode:'no-cors'}).then(result  => result.json());
+        let data = await fetch("http://diemexplorer.internet-sicherheit.de:8888/rest/lastten", { mode:'no-cors'}).then(result  => result.json());
 
         // let lasttensmartcontracts = await fetch("http://localhost:8888/rest/lasttensmartcontracts").then(result => result.json());
         // let data = await fetch("http://localhost:8888/rest/lasttenreal").then(result => result.json());
