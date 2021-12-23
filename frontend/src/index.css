@@ -25,11 +25,11 @@ header, footer, #general_information, table th{
   color:#42318C;
 }
 
-a{
+a, Link{
   text-decoration: none;
   color: #42318C;
 }
-a:hover{
+a:hover, Link:hover{
   font-size:large;
 }
 
@@ -42,7 +42,7 @@ header, footer{
   justify-content:center;
   align-items:center;
 }
-header a, footer a{
+header a, footer a, header Link, footer Link{
   width: 12vh;
   color: #FFFFFF;
 }

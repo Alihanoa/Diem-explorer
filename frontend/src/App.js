@@ -16,58 +16,42 @@ import Accountdetails from './pages/Accountdetails';
 function App() {
 
     return (
-
-        <div id="site">
-            <div id="wrapper">
-                <header>
-                    <div class="header_wrapper">
-                        <div class="header_left">
-                            <a id="home" href="/">Home</a>
-                            <p>Testnet</p>
-                        </div>
-                        <>
-                            <Router>
-                                <div class="header_right">
+        <Router>
+            <div id="site">
+                <div id="wrapper">
+                    <header>
+                        <div class="header_wrapper">
+                            <div class="header_left">
+                            <Link to="/">Home</Link>
+                                {/* <a id="home" href="/">Home</a> */}
+                                <p>Testnet</p>
+                            </div>
 
 
+                            <div class="header_right">
 
+                                <Link to="/Transactions">Transactions</Link>
+                                <Link to="/Accounts">Accounts</Link>
+                                <Link to="/Statistics">Statistics</Link>
+                                <Link to="/Contact">Contact</Link>
 
-
-
-
-
-                                    <nav>
-                                        <ul id="nav-links">
-                                            <Link to="/Transactions" class="link">
-                                                <li>
-                                                    Transactions
-                                                </li>
-                                            </Link>
-                                            <Link to="/Accounts" class="link">
-                                                <li>
-                                                    Accounts
-                                                </li>
-                                            </Link>
-                                            <Link to="/Statistics" class="link">
-                                                <li>
-                                                    Statistics
-                                                </li>
-                                            </Link>
-                                            <Link to="/Contact" class="link">
-                                                <li>
-                                                    Contact
-                                                </li>
-                                            </Link>
-                                        </ul>
-
-                                    </nav>
-                                    {/* <a href="/Transactions">Transactions</a>
+                                {/* <a href="/Transactions">Transactions</a>
                                 <a href="/Accounts">Accounts</a>
                                 <a href="/Statistics">Statistics</a>
                                 <a href="/Contact">Contact</a> */}
-                                </div>
+                            </div>
 
                                 {/*exact sorgt dafür, dass nur bei genau dem Pfad die Komponente angezeigt wird.*/}
+                               
+                                {/* <Route path='/'>
+                    {42 == 42 ? <Redirect to="/CurrencyCalculator"/> : <Clock/>}
+                    </Route> */}
+
+                            
+
+
+                        </div>
+                    </header>
                                 <Switch>
                                     <Route path="/" exact component={Mainpage} />
                                     <Route path="/Transactions" exact component={Transactions} />
@@ -77,24 +61,17 @@ function App() {
                                     <Route path="/Accountdetails/:address" exact component={Accountdetails} />
                                     <Route path="/Contact" exact component={Contact} />
                                 </Switch>
-                                {/* <Route path='/'>
-                    {42 == 42 ? <Redirect to="/CurrencyCalculator"/> : <Clock/>}
-                    </Route> */}
-                            </Router>
-                        </>
-                    </div>
-                </header>
 
 
 
+                </div>
 
+                <footer>
+                    <a target="_blank" href="https://developers.diem.com/docs/welcome-to-diem/">Diem Developers</a>
+                    <a href="/Contact">Contact</a>
+                </footer>
             </div>
-
-            <footer>
-                <a target="_blank" href="https://developers.diem.com/docs/welcome-to-diem/">Diem Developers</a>
-                <a href="/Contact">Contact</a>
-            </footer>
-        </div>
+        </Router>
     );
 }
 export default App;
