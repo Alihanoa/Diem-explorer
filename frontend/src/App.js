@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import Mainpage from './pages/Mainpage';
 import Transactions from './pages/Transactions';
@@ -16,37 +16,78 @@ import Accountdetails from './pages/Accountdetails';
 function App() {
 
     return (
+
         <div id="site">
             <div id="wrapper">
                 <header>
                     <div class="header_wrapper">
-                            <div class="header_left">
-                                <a id="home" href="/">Home</a>
-                                <p>Testnet</p>
-                            </div>
-                            <div class="header_right">
-                                <a href="/Transactions">Transactions</a>
+                        <div class="header_left">
+                            <a id="home" href="/">Home</a>
+                            <p>Testnet</p>
+                        </div>
+                        <>
+                            <Router>
+                                <div class="header_right">
+
+
+
+
+
+
+
+
+                                    <nav>
+                                        <ul id="nav-links">
+                                            <Link to="/Transactions" class="link">
+                                                <li>
+                                                    Transactions
+                                                </li>
+                                            </Link>
+                                            <Link to="/Accounts" class="link">
+                                                <li>
+                                                    Accounts
+                                                </li>
+                                            </Link>
+                                            <Link to="/Statistics" class="link">
+                                                <li>
+                                                    Statistics
+                                                </li>
+                                            </Link>
+                                            <Link to="/Contact" class="link">
+                                                <li>
+                                                    Contact
+                                                </li>
+                                            </Link>
+                                        </ul>
+
+                                    </nav>
+                                    {/* <a href="/Transactions">Transactions</a>
                                 <a href="/Accounts">Accounts</a>
                                 <a href="/Statistics">Statistics</a>
-                                <a href="/Contact">Contact</a>
-                            </div>
+                                <a href="/Contact">Contact</a> */}
+                                </div>
+
+                                {/*exact sorgt dafür, dass nur bei genau dem Pfad die Komponente angezeigt wird.*/}
+                                <Switch>
+                                    <Route path="/" exact component={Mainpage} />
+                                    <Route path="/Transactions" exact component={Transactions} />
+                                    <Route path="/Accounts" exact component={Accounts} />
+                                    <Route path="/Statistics" exact component={Statistics} />
+                                    <Route path="/Transactiondetails/:version" exact component={Transactiondetails} />
+                                    <Route path="/Accountdetails/:address" exact component={Accountdetails} />
+                                    <Route path="/Contact" exact component={Contact} />
+                                </Switch>
+                                {/* <Route path='/'>
+                    {42 == 42 ? <Redirect to="/CurrencyCalculator"/> : <Clock/>}
+                    </Route> */}
+                            </Router>
+                        </>
                     </div>
                 </header>
 
-                <Router>
-                    {/*exact sorgt dafür, dass nur bei genau dem Pfad die Komponente angezeigt wird.*/}
-                    <Route path="/" exact component={Mainpage} />
-                    <Route path="/Transactions" component={Transactions} />
-                    <Route path="/Accounts" component={Accounts} />
-                    <Route path="/Statistics" component={Statistics} />
-                    <Route path="/Transactiondetails/:version" exact component={Transactiondetails} />
-                    <Route path="/Accountdetails/:address" component={Accountdetails} />
-                    <Route path="/Contact" component={Contact} />
 
-                    {/* <Route path='/'>
-                    {42 == 42 ? <Redirect to="/CurrencyCalculator"/> : <Clock/>}
-                    </Route> */}
-                </Router>
+
+
             </div>
 
             <footer>
