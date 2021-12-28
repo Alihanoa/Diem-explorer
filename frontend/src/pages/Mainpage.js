@@ -11,7 +11,9 @@ class Mainpage extends React.Component {
     state = {
         chartdataTransactions : [],
         // serverAdress : "diemexplorer.internet-sicherheit.de:8888"
-        serverAdress : "localhost:8888"
+        serverAdress : "localhost:8888",
+        searchfieldvalue : "",
+        choiceboxvalue : "Address",
     }
 
     
@@ -22,7 +24,7 @@ class Mainpage extends React.Component {
         let market_capacity = await fetch("http://" + this.state.serverAdress +"/rest/sumbalances").then(result => result.json());
         
 
-        let rawChartdataTransactions = await fetch("http://" + this.state.serverAdress +"/rest/datalast365days").then(result => result.json());
+        let rawChartdataTransactions = {}//await fetch("http://" + this.state.serverAdress +"/rest/datalastWeek").then(result => result.json());
         let chartdataTransactions = this.processChartdata(rawChartdataTransactions);
         this.setState({chartdataTransactions : rawChartdataTransactions});
         // this.setState({chartlabelsTransactions : rawChartdataTransactions});
@@ -49,9 +51,6 @@ class Mainpage extends React.Component {
         // console.log(transactions_last_minute, tradingvolume, market_capacity, table, lasttenanything, lasttensmartcontracts, lasttentransactions);
     }
 
-
-
-
     processChartdata(data) {
 
         let processedData = [];
@@ -59,6 +58,8 @@ class Mainpage extends React.Component {
             processedData[i] = data[i][1];
         }
     }
+
+
     // addData(chart, data) {
 
     //     this.chart.data.forEach((dataset) => {
@@ -93,8 +94,40 @@ class Mainpage extends React.Component {
                 <h1 id="main_title">Diem Explorer</h1>
 
                 <form class="search">
-                    <input type="search" placeholder="Search..." name="search_bar" id="search_bar"></input>
-                    {/* <button type="submit" name="search_button" id="search_button"></button> */}
+                    <input type="search" placeholder="Search..." name="search_bar" id="search_bar" onChange= {(e) =>
+                         {this.state.searchfieldvalue = e.target.value; console.log(this.state.searchfieldvalue)}
+                         }>
+                         </input>
+                    <button name="search_button" id="search_button" onClick={(e) =>{
+                            e.preventDefault();
+                            e.nativeEvent.stopPropagation();
+                            e.nativeEvent.stopImmediatePropagation();
+                            if(this.state.choiceboxvalue === "Address" && this.state.searchfieldvalue != ""){
+                                window.location.href = "http://localhost:3000/Accountdetails/" + this.state.searchfieldvalue;
+                            }
+                            else if(this.state.choiceboxvalue === "Transactionnumber" && this.state.searchfieldvalue != ""){
+                                this.props.history.push("/Transactiondetails/"+this.state.searchfieldvalue);
+                            }
+                            else if(this.state.choiceboxvalue === "Date" && this.state.searchfieldvalue != ""){
+                                window.location.href ="http://localhost:3000/Transactions/" + this.state.searchfieldvalue + "/" +  this.state.choiceboxvalue;
+                            }
+                            else if(this.state.choiceboxvalue === "Amount greater than" && this.state.searchfieldvalue != ""){
+                                window.location.href ="http://localhost:3000/Transactions/" + this.state.searchfieldvalue;
+                            }
+                            else if(this.state.choiceboxvalue === "Amount less than" && this.state.searchfieldvalue!= ""){
+                                window.location.href = "http://localhost:3099/Transactions/" + this.state.searchfieldvalue;
+                            }
+                        }
+                    }></button>
+                    <select onChange={(e) => {
+                        this.state.choiceboxvalue = e.target.value; console.log(this.state.choiceboxvalue);
+                    }}>
+                        <option>Address</option>
+                        <option>Transactionnumber</option>
+                        <option>Amount greater than</option>
+                        <option>Amount less than</option>
+                        <option>Date</option>
+                    </select>
                 </form>
                 <br></br>
                 <br></br>

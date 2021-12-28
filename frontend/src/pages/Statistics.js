@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { Bar } from 'react-chartjs-2'
+import { Bar,Doughnut } from 'react-chartjs-2'
 
 class Statistics extends React.Component{
      state = {
-         dataforchart : []
+         dataforchart : [],
+         dataDougnutChart: []
      }
     constructor(props){
 
@@ -22,6 +23,11 @@ class Statistics extends React.Component{
 
     this.setState({dataforchart : data});
     // document.getElementById("chart").innerhtml = (<div>{this.chart}</div>);
+
+
+    let dataForDoughnut = await fetch('http://localhost:8888/rest/doughnutchart').then(res => res.json());
+    console.log(dataForDoughnut)
+    this.setState({dataDougnutChart : dataForDoughnut})
     }
 
      addData(chart, data) {
@@ -55,15 +61,11 @@ class Statistics extends React.Component{
         return countings;
     }
 
-    basicChart (data) {
-
-        
-        console.log(data);
-   
-    }
      render(props){
         
         return(
+            
+            <>
             <div id="chart">
                 <Bar id="barChart"
         data ={{labels : ['weniger', 'gleich', 'mehr'],
@@ -95,6 +97,34 @@ class Statistics extends React.Component{
         }}
     />
             </div>
+            
+            <div id="chart2">
+                <Doughnut id="dougnutChart"
+                data={{Labels: ["Blockmetadata", "Transactions", "Smart Contracts"],
+            datasets: [{
+                label: '',
+                dataset: this.state.dataDougnutChart,
+                backgroundColor: [
+                    'rgba(255,0,0,100)',
+                    'rgba(0,255,0,100)',
+                    'rgba(0,0,255,100)',
+                ],
+                borderColor: [
+                    'rgba(255,0,0,100)',
+                    'rgba(0,255,0,100)',
+                    'rgba(0,0,255,100)',
+                ],
+                borderWidth: 1
+            
+            }]}}
+            height={400}
+            width={600}
+            options={{
+                maintainAspectRatio: false
+            }}
+            />
+            </div>
+            </>
         );
     }
 

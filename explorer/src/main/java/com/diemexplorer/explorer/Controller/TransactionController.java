@@ -336,5 +336,25 @@ public class TransactionController {
         return alldates;
     }
 
+    @GetMapping("/rest/getnextten")
+    public List<Transactions> getNextTenTransactions(@RequestParam String lastVersionNumber){
+        return this.transactionsRepository.getNextTen(Long.parseLong(lastVersionNumber));
+    }
+
+    @GetMapping("/rest/getlast50")
+    public List<Transactions> getLast50Transactions(){
+        return this.transactionsRepository.getLastFiftyTransactions();
+    }
+
+
+    @GetMapping("/rest/doughnutchart")
+    public int[] getDataForDoughnutChart(){
+        /* In order : Blockmetadata, Transactions, Smart Contracts */
+        int[] data = new int[]{this.transactionsRepository.getNumberOfBlockmetadata(),
+                               this.transactionsRepository.getNumberOfRealTransactions(),
+                               this.transactionsRepository.getNumberOfSmartContracts()};
+
+        return data;
+    }
 }
 

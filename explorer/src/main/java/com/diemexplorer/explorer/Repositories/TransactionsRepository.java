@@ -73,6 +73,20 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
     @Query("SELECT count(t.version) FROM Transactions t WHERE t.timestamp >= :mintimestamp AND t.timestamp <= :maxtimestamp AND t.type='user'")
     int getNumberOfTransactionsBetweenTwoVersions(long mintimestamp, long maxtimestamp);
 
+    @Query("SELECT t FROM Transactions t WHERE t.version < :eingabe AND t.version >= :eingabe-10")
+    List<Transactions> getNextTen(long eingabe);
+
+    @Query(value="SELECT * From Transactions t ORDER BY t.version Desc LIMIT 50", nativeQuery=true)
+    List<Transactions> getLastFiftyTransactions();
+
+    @Query("SELECT count(t) FROM Transactions t WHERE t.type='blockmetadata'")
+    int getNumberOfBlockmetadata();
+
+    @Query("SELECT COUNT(t) FROM Transactions t WHERE t.type='user' AND t.amount>0")
+    int getNumberOfRealTransactions();
+
+    @Query ("SELECT COUNT(t) FROM Transactions t WHERE t.type='user' AND t.amount=0")
+    int getNumberOfSmartContracts();
 }
 
 //@Query (value="SELECT * FROM Transactions WHERE t.version in (SELECT version from transactiondetails td where td.type='blockmetadata' ORDER BY td.version DESC LIMIT 10)", nativeQuery= true)

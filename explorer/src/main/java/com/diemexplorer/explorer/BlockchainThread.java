@@ -533,13 +533,13 @@ public class BlockchainThread extends Thread{
                                 // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
 				if(!amountInXDXDB(receiveraccount)){
 
-					String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(1).getAmount() + ")";
+					String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
 					PreparedStatement statement = con.prepareStatement(updateStatement);
 					statement.executeUpdate();
 				}
 
 				else if(amountInXDXDB(receiveraccount)){
-					String updateStatement = "UPDATE accountbalancexdx SET amount=" +  receiveraccount.getBalances(1).getAmount() + " WHERE address='"  + receiver + "'";
+					String updateStatement = "UPDATE accountbalancexdx SET amount=" +  receiveraccount.getBalances(0).getAmount() + " WHERE address='"  + receiver + "'";
 					PreparedStatement statement = con.prepareStatement(updateStatement);
 					statement.executeUpdate();
 				}
