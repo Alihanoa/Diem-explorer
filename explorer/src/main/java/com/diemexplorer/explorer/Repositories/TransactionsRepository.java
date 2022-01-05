@@ -87,6 +87,12 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
 
     @Query ("SELECT COUNT(t) FROM Transactions t WHERE t.type='user' AND t.amount=0")
     int getNumberOfSmartContracts();
+
+    @Query(value = "SELECT * from Transactions  WHERE sender_id=:address ORDER BY version Desc LIMIT 10", nativeQuery = true)
+    List<Transactions> getlasttentransactionsbyAsSender(String address);
+
+    @Query(value = "SELECT * FROM Transactions WHERE receiver_id=:address ORDER BY version Desc LIMIT 10", nativeQuery = true)
+    List<Transactions> getLastTenTransactionsAsReceiver(String address);
 }
 
 //@Query (value="SELECT * FROM Transactions WHERE t.version in (SELECT version from transactiondetails td where td.type='blockmetadata' ORDER BY td.version DESC LIMIT 10)", nativeQuery= true)
