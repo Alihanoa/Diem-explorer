@@ -1,30 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-class Accounts extends React.Component{
-    constructor(props){
-        super(props);
-    }
+export default function Accounts(props) {
 
-    async componentDidMount() {
-        let data = await this.readData();
-        let table = this.createTable(data);
+    useEffect(async () => {
+        let data = await fetch('http://localhost:8888/rest/accounts').then(result => result.json());
+        let table = createTable(data);
         document.getElementById("accounts").innerHTML = table;
         console.log(table)
-    }
-
-    // Data gets fetched from the backend
-    async readData() {
-        let data = await fetch('http://localhost:8888/rest/accounts').then(result => result.json());
-        return data;
-    }
+    }, []);
 
     // create table row for each object within the data array
-    createTable(data) {
+    function createTable(data) {
 
         let table = [];
-        for (let i = 0; i < data.length; i++) { 
+        for (let i = 0; i < data.length; i++) {
             // let children = [];
-            table += "<tr> <td><a href=Accountdetails/" + data[i].address + ">" + data[i].address + "</a></td> <td>" 
+            table += "<tr> <td><a href=Accountdetails/" + data[i].address + ">" + data[i].address + "</a></td> <td>"
                 + data[i].authentication_key + "</td>  <td>"
                 + data[i].sequence_number + "</td>  <td>" + data[i].is_frozen + "</td> </tr>";
         }
@@ -32,12 +23,10 @@ class Accounts extends React.Component{
         return table;
     }
 
-    render(){
-
-        return(
-            <div>
+    return (
+        <div>
             <h1 id="main_title">Accounts</h1>
-            
+
             <table>
                 <caption>Accounts</caption>
                 <thead>
@@ -52,8 +41,6 @@ class Accounts extends React.Component{
 
                 </tbody>
             </table>
-            </div>
-        );
-    }
+        </div>
+    );
 }
-export default Accounts;
