@@ -159,8 +159,8 @@ public class TransactionController {
         int counter = 0;
         while(timestampnow> maxtimestamp && counter < 732){
             date.setTime(mintimestamp);
-            alldates[counter][0] = date.toString();
-
+            // alldates[counter][0] = date.toString();
+            alldates[counter][0] = dateformat.format(date);
 
 
 
@@ -198,7 +198,8 @@ public class TransactionController {
         int counter = 0;
         while(timestampnow> maxtimestamp && counter < 722){
             date.setTime(mintimestamp);
-            alldates[counter][0] = date.toString();
+            // alldates[counter][0] = date.toString();
+            alldates[counter][0] = dateformat.format(date);
 
 
 
@@ -237,8 +238,8 @@ public class TransactionController {
         int counter = 0;
         while(timestampnow> maxtimestamp && counter < 674){
             date.setTime(mintimestamp);
-            alldates[counter][0] = date.toString();
-
+//            alldates[counter][0] = date.toString();
+            alldates[counter][0] = dateformat.format(date);
 
 
 

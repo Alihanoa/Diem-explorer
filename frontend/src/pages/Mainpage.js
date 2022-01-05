@@ -9,7 +9,7 @@ class Mainpage extends React.Component {
     }
 
     state = {
-        chartdataTransactions : [],
+        currentDataset: [],
         // serverAdress : "diemexplorer.internet-sicherheit.de:8888"
         serverAdress : "localhost:8888",
         searchfieldvalue : "",
@@ -22,12 +22,6 @@ class Mainpage extends React.Component {
         let transactions_last_minute = await fetch("http://" + this.state.serverAdress +"/rest/transactionstodate?date=28/04/2021").then(result => result.json());
         let tradingvolume = await fetch("http://" + this.state.serverAdress +"/rest/tradingvolume?date=28/04/2021").then(result => result.json());
         let market_capacity = await fetch("http://" + this.state.serverAdress +"/rest/sumbalances").then(result => result.json());
-        
-
-        let rawChartdataTransactions = {}//await fetch("http://" + this.state.serverAdress +"/rest/datalastWeek").then(result => result.json());
-        let chartdataTransactions = this.processChartdata(rawChartdataTransactions);
-        this.setState({chartdataTransactions : rawChartdataTransactions});
-        // this.setState({chartlabelsTransactions : rawChartdataTransactions});
 
         // let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
         // let lasttenanything = await fetch("http://localhost:8888/rest/lastten").then(result  => result.json());
@@ -38,7 +32,6 @@ class Mainpage extends React.Component {
         // let lasttensmartcontracts = await fetch("http://localhost:8888/rest/lasttensmartcontracts").then(result => result.json());
         // let data = await fetch("http://localhost:8888/rest/lasttenreal").then(result => result.json());
 
-
         // let table = this.createTable(lasttentransactions);
         let table = this.createTable(data);
 
@@ -48,25 +41,61 @@ class Mainpage extends React.Component {
 
         document.getElementById("transactions").innerHTML = table;
 
+        this.initializeChart();
+
         // console.log(transactions_last_minute, tradingvolume, market_capacity, table, lasttenanything, lasttensmartcontracts, lasttentransactions);
     }
 
-    processChartdata(data) {
+    async initializeChart() {
+        
+        console.log("initializeChart wird ausgeführt")
 
-        let processedData = [];
-        for (let i = 0; i < data.length; i++) {
-            processedData[i] = data[i][1];
-        }
+        // let chartdataTransactions365d = await fetch("http://localhost:8888/rest/datalast365days").then(result => result.json());
+        // this.setState({currentDataset: chartdataTransactions365d});
+        let chartdataTransactions365d = [
+            ["04/01/2021 12:00", "1746"], ["05/01/2021 12:00", "36829"],
+            ["06/01/2021 12:00", "17362"], ["07/01/2021 12:00", "67362"],
+            ["08/01/2021 12:00", "97362"], ["09/01/2021 12:00", "27362"]
+        ];
+        this.setState({currentDataset: chartdataTransactions365d});
+                
+        console.log("currentDataset nach Initialisierung: " + this.state.currentDataset);
     }
 
+    async updateChartinterval(e) {
+        
+        console.log("updateChartInterval wird ausgeführt")
 
-    // addData(chart, data) {
+        let selectedInterval = e.target.value;
+        console.log("selectedInterval: " + selectedInterval);
 
-    //     this.chart.data.forEach((dataset) => {
-    //         dataset.data.push(data);
-    //     });
-    //     this.chart.update();
-    // }
+        switch(this.selectedInterval) {
+
+            case "365days":
+                // console.log("case 365 days wird ausgeführt")
+                // let chartdataTransactions365d = await fetch("http://localhost:8888/rest/datalast365days").then(result => result.json());
+                // this.setState({currentDataset: chartdataTransactions365d});
+                let chartdataTransactions365d = [
+                    ["04/01/2021 12:00", "1746"], ["05/01/2021 12:00", "36829"],
+                    ["06/01/2021 12:00", "17362"], ["07/01/2021 12:00", "67362"],
+                    ["08/01/2021 12:00", "97362"], ["09/01/2021 12:00", "27362"]
+                ];
+                this.setState((state) => {return {currentDataset: chartdataTransactions365d}});
+                break;
+
+            case "30days":
+                // console.log("case 30 days wird ausgeführt")
+                // let chartdataTransactions30d = await fetch("http://localhost:8888/rest/datalastMonth").then(result => result.json());
+                // this.setState({currentDataset: chartdataTransactions30d});
+                let chartdataTransactions30d = [
+                    ["04/01/2021 12:00", "1746"], ["05/01/2021 12:00", "36829"],
+                    ["06/01/2021 12:00", "17362"]
+                ];
+                this.setState((state) => {return {currentDataset: chartdataTransactions30d}});
+                break;
+        }
+        console.log("currentDataset nach Befüllung: " + this.state.currentDataset);
+    }
 
     // create table row for each object within the data array
     createTable(data) {
@@ -146,56 +175,46 @@ class Mainpage extends React.Component {
 
                 <div id="chart-wrapper">
                     <caption>Developments</caption>
+                    <select id="chartdata">
+                        <option value="transactions" selected>Transactions</option>
+                        <option value="accounts">Accounts</option>
+                        <option value="gasPrice">Gas Price</option>
+                    </select>
+                    <select id="chartinterval" onChange={(e)=> {this.updateChartinterval(e)}}>
+                        <option value="totalTime">Total time</option>
+                        <option value="365days" selected>Last 365 days</option>
+                        <option value="30days">Last 30 days</option>
+                        <option value="7days">Last 7 days</option>
+                        <option value="24hours">Last 24 hours</option>
+                        <option value="60minutes">Last 60 minutes</option>
+                        <option value="60seconds">Last 60 seconds</option>
+                    </select>
                     <Line
                     data={{
-                        // labels: [this.state.chartlabelsTransactions[1], this.state.chartlabelsTransactions[2],
-                        //          this.state.chartlabelsTransactions[3], this.state.chartlabelsTransactions[4],
-                        //          this.state.chartlabelsTransactions[5], this.state.chartlabelsTransactions[6],
-                        //          this.state.chartlabelsTransactions[7], this.state.chartlabelsTransactions[8],
-                        //          this.state.chartlabelsTransactions[9], this.state.chartlabelsTransactions[10],
-                        //          this.state.chartlabelsTransactions[11], this.state.chartlabelsTransactions[12]],
                         datasets: [
                             {
-                                label: 'Transactions',
-                                data: this.state.chartdataTransactions,
+                                data: this.state.currentDataset,
                                 fill: true,
                                 lineTension: 0.1,
                                 backgroundColor: '#F0F3F2',
                                 borderColor: '#42318C',
-                                borderWidth: 2
-                            },
-                            // {
-                            //     label: 'Accounts',
-                            //     // data: this.state.chartdataAccounts,
-                            //     fill: true,
-                            //     lineTension: 0.5,
-                            //     backgroundColor: '#F0F3F2',
-                            //     borderColor: '#42318C',
-                            //     borderWidth: 2
-                            // },
-                            // {
-                            //     label: 'Gas price',
-                            //     // data: this.state.chartdataGasPrice,
-                            //     fill: true,
-                            //     lineTension: 0.5,
-                            //     backgroundColor: '#F0F3F2',
-                            //     borderColor: '#42318C',
-                            //     borderWidth: 2
-                            // }
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                hitRadius: 2,
+                                hoverRadius: 5
+                            }
                         ]
                     }}
                     options={{
                         maintainAspectRatio: false,
-                        options: {
-                            // tooltips: {
-                            //    mode: 'index',
-                            //    intersect: false
-                            // },
-                            // hover: {
-                            //    mode: 'index',
-                            //    intersect: false
-                            // }
-                         }
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        tooltips: {
+                            enabled: false
+                        }
                     }}
                     />
                 </div>

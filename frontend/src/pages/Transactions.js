@@ -56,33 +56,7 @@ class Transactions extends React.Component {
             observer.disconnect();
         }
         observer.observe(this.state.lastRow);
-
     }
-
-   
-
-    
-
-
-    // scrollState(scroll) {
-    //     var visibleStart = Math.floor(scroll / this.state.recordHeight);
-    //     var visibleEnd = Math.min(visibleStart + this.state.recordsPerBody, this.state.total - 1);
-
-    //     var displayStart = Math.max(0, Math.floor(scroll / this.state.recordHeight) - this.state.recordsPerBody * 1.5);
-    //     var displayEnd = Math.min(displayStart + 4 * this.state.recordsPerBody, this.state.total - 1);
-
-    //     this.setState({
-    //         visibleStart: visibleStart,
-    //         visibleEnd: visibleEnd,
-    //         displayStart: displayStart,
-    //         displayEnd: displayEnd,
-    //         scroll: scroll
-    //     });
-    // }
-
-    // listenScrollEvent() {
-    //     console.log('Scroll event detected!');
-    // }
 
     // create table row for each object within the data array
     createTable(data) {
@@ -107,7 +81,7 @@ class Transactions extends React.Component {
 
         return (
 
-            <div ref = "iScroll">
+            <div>
                 <h1 id="main_title">Transactions</h1>
                 
                 <table>
@@ -128,7 +102,6 @@ class Transactions extends React.Component {
                         
                     </tbody>
                 </table>
-                {/* {this.state.loadingState ? <p className="loading"> loading More Rows..</p> : ""} */}
             </div>
         );
     }
