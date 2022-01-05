@@ -40,10 +40,10 @@ export default function TransactionsTable(props) {
                         return (
                             <tr>
                                 <td> {entry.version}
-                </td> <td>
-                {entry.sender_id} </td>  <td>{entry.public_key}</td> <td>
-                {entry.receiver_id}</td>  <td>{entry.amount}{entry.currency}</td> <td>
-                {entry.gas_used}{entry.gas_currency}</td> <td>{entry.date}</td> <td>{entry.type}</td>
+                                </td> <td>
+                                    {entry.sender_id} </td>  <td>{entry.public_key}</td> <td>
+                                    {entry.receiver_id}</td>  <td>{entry.amount}{entry.currency}</td> <td>
+                                    {entry.gas_used}{entry.gas_currency}</td> <td>{entry.date}</td> <td>{entry.type}</td>
                             </tr>
                         )
                     })
