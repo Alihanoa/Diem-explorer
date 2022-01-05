@@ -356,5 +356,28 @@ public class TransactionController {
 
         return data;
     }
+
+    @GetMapping("/rest/lasttentransactionsofaccount")
+    public List<Transactions> getLastTenTransactionsOfAccount(@RequestParam String address){
+        List<Transactions> result = new ArrayList<>();
+        List<Transactions> sender = this.transactionsRepository.getlasttentransactionsbyAsSender(address);
+        List<Transactions> receiver = this.transactionsRepository.getLastTenTransactionsAsReceiver(address);
+
+        int senderCounter =0;
+        int receiverCounter =0;
+        for ( int i=0; i<10;i++){
+
+            if(sender.get(senderCounter).getVersion() > receiver.get(receiverCounter).getVersion()){
+                result.add(sender.get(senderCounter));
+                senderCounter ++;
+            }
+            else{
+                result.add(receiver.get(receiverCounter));
+                receiverCounter ++;
+            }
+
+        }
+        return result;
+    }
 }
 
