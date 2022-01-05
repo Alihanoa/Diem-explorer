@@ -16,7 +16,7 @@ code {
 
 /* Ab hier eigene Styles. */
 
-header, footer, #general_information, table th{
+header, footer, #general_information, table th, #submit-button{
   background-color: #42318C;
   color: #FFFFFF;
 }
@@ -30,7 +30,8 @@ a, Link{
   color: #42318C;
 }
 a:hover, Link:hover{
-  font-size:large;
+  /* font-size:18px; */
+  text-decoration: underline;
 }
 
 header, footer{
@@ -43,7 +44,7 @@ header, footer{
   align-items:center;
 }
 header a, footer a, header Link, footer Link{
-  width: 12vh;
+  width: 15vh;
   color: #FFFFFF;
 }
 .header_wrapper{
@@ -91,6 +92,52 @@ footer{
 #transactions{
   max-width: 80%;
   width: 80%;
+}
+
+.contact-wrapper{
+  max-width: 80%;
+  width: 80%;
+  margin: auto;
+  max-height:fit-content;
+  height:55vh;
+  background-color: #F0F3F2;
+  color: #42318C;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.contact-left{
+  padding: 5%;
+  width: 40%;
+  max-width: 40%;
+  text-align: left;
+}
+.contact-right{
+  width: 40%;
+  height: 80%;
+  max-width: 40%;
+  margin: 5% 5% 5% 5%;
+  background-color: #FFFFFF;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.person{
+  width: 20%;
+  height: 20%;
+}
+
+#submit-button, #name, #mail, #message{
+  border-radius:8px;
+}
+
+#name, #mail, #message{
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 1%;
+  /* border-radius: 8px; */
+  border: none;
 }
 
 /* Ab hier Daniels Code. */
