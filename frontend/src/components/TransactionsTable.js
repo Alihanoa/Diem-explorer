@@ -19,8 +19,8 @@ export default function TransactionsTable(props) {
         <>
             <input type="checkbox" id="smartContract" name="Include Smart Contracts" defaultChecked />
             <label for="smartContract"> Include Smart Contracts </label>
-            <input type="checkbox" id="blockMetaprops.data" name="Include Blockmetaprops.data" />
-            <label for="blockMetaprops.data"  > Include Blockmetaprops.data </label>
+            <input type="checkbox" id="blockMetadata" name="Include Blockmetadata" />
+            <label for="blockMetadata"  > Include Blockmetadata </label>
             <table>
                 <caption>Latest Transactions</caption>
                 <thead>

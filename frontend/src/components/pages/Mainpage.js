@@ -43,14 +43,14 @@ export default function Mainpage(props) {
 
         console.log("initializeChart wird ausgeführt")
 
-        // let chartdataTransactions365d = await fetch("http://localhost:8888/rest/datalast365days").then(result => result.json());
-        // setState({currentDataset: chartdataTransactions365d});
-        let chartdataTransactions365d = [
-            ["04/01/2021 12:00", "1746"], ["05/01/2021 12:00", "36829"],
-            ["06/01/2021 12:00", "17362"], ["07/01/2021 12:00", "67362"],
-            ["08/01/2021 12:00", "97362"], ["09/01/2021 12:00", "27362"]
-        ];
-        setCurrentDataset(chartdataTransactions365d);
+        let chartdataTransactions365d = await fetch("http://localhost:8888/rest/datalast365days").then(result => result.json());
+        setCurrentDataset(chartdataTransactions365d)
+        // let chartdataTransactions365d = [
+        //     ["04/01/2021 12:00", "1746"], ["05/01/2021 12:00", "36829"],
+        //     ["06/01/2021 12:00", "17362"], ["07/01/2021 12:00", "67362"],
+        //     ["08/01/2021 12:00", "97362"], ["09/01/2021 12:00", "27362"]
+        // ];
+        // setCurrentDataset(chartdataTransactions365d);
 
         console.log("currentDataset nach Initialisierung: " + currentDataset);
     }
