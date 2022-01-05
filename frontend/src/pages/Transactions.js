@@ -56,7 +56,7 @@ class Transactions extends React.Component {
             observer.disconnect();
         }
         observer.observe(this.state.lastRow);
-
+    }
 
     // create table row for each object within the data array
     createTable(data) {
