@@ -93,6 +93,12 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
 
     @Query(value = "SELECT * FROM Transactions WHERE receiver_id=:address ORDER BY version Desc LIMIT 10", nativeQuery = true)
     List<Transactions> getLastTenTransactionsAsReceiver(String address);
+
+    @Query(value ="SELECT * FROM Transactions WHERE sender_id=:address AND version<:version ORDER BY version Desc LIMIT 10", nativeQuery = true)
+    List<Transactions> getNextTenTransactionsAsSender(String address, long version);
+
+    @Query(value ="SELECT * FROM Transactions WHERE receiver_id=:address AND version<:version ORDER BY version Desc LIMIT 10", nativeQuery = true)
+    List<Transactions> getNextTenTransactionsAsReceiver(String address, long version);
 }
 
 //@Query (value="SELECT * FROM Transactions WHERE t.version in (SELECT version from transactiondetails td where td.type='blockmetadata' ORDER BY td.version DESC LIMIT 10)", nativeQuery= true)

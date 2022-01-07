@@ -22,7 +22,7 @@ class App extends React.Component {
     state = {
         address: "http://testnet.diem.com/v1"
     }
-    checkNetworkAvailability() {
+    async checkNetworkAvailability() {
 
         const options = {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -39,21 +39,21 @@ class App extends React.Component {
                 })
         };
 
-        return fetch(this.state.address, options, { mode: "no-cors" }).then(response => response.status).catch(function(error){return  404;})
+        return await fetch(this.state.address, options, { mode: "no-cors" }).then(response => response.status).catch(function(error){return  404;})
     }
 
     componentDidMount(){
 
-       this.checkNetworkAvailability(this.state.address).then(function(status){
-            if(status ===200){
-                document.getElementById("status").style.color= "green"
-                document.getElementById("status").innerHTML = "Testnet"
-            }
-            else if(status === 404){
-                document.getElementById("status").style.color= "red"
-                document.getElementById("status").innerHTML = "Testnet"
-            }
-        })
+    //    this.checkNetworkAvailability(this.state.address).then(function(status){
+    //         if(status ===200){
+    //             document.getElementById("status").style.color= "green"
+    //             document.getElementById("status").innerHTML = "Testnet"
+    //         }
+    //         else if(status === 404){
+    //             document.getElementById("status").style.color= "red"
+    //             document.getElementById("status").innerHTML = "Testnet"
+    //         }
+    //     })
     }
 
 

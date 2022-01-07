@@ -6,7 +6,6 @@ export default function Transactiondetails(props) {
         let data = await fetch("http://localhost:8888/rest/transaction?version=" + props.match.params.version).then(result => result.json());
         let table = createTable(data);
         document.getElementById("transaction").innerHTML = table;
-        console.log(table)
     }, []);
 
     // create table row for each object within the data array
@@ -42,9 +41,6 @@ export default function Transactiondetails(props) {
         "</td></tr><tr><td>Secondary Signatures</td><td>" + data[1][0].expiration_date +
         "</td></tr><tr><td>Secondary Public Keys</td><td>" + data[1][0].expiration_date +
         */}
-
-
-        console.log(data);
         return table;
     }
 

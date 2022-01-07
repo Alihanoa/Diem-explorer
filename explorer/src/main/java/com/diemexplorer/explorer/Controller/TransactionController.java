@@ -380,5 +380,27 @@ public class TransactionController {
         }
         return result;
     }
+    @GetMapping("/rest/nexttentransactionsofaccount")
+    public List<Transactions> getNextTenTransactionsOfAccount(@RequestParam String address, @RequestParam long version){
+        List<Transactions> result = new ArrayList<>();
+        List<Transactions> sender = this.transactionsRepository.getNextTenTransactionsAsSender(address, version);
+        List<Transactions> receiver = this.transactionsRepository.getNextTenTransactionsAsReceiver(address, version);
+
+
+        int senderCounter =0;
+        int receiverCounter=0;
+        for(int i = 0 ; i < 10; i++ ){
+            if(sender.get(senderCounter).getVersion() > receiver.get(receiverCounter).getVersion()){
+                result.add(sender.get(senderCounter));
+                senderCounter ++;
+            }
+            else{
+                result.add(receiver.get(receiverCounter));
+                receiverCounter ++;
+            }
+        }
+
+        return result;
+    }
 }
 

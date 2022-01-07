@@ -1,74 +1,68 @@
-import React, { useState, useEffect } from "react";
-import Transactiondetails from "./Transactiondetails";
-import Transaction from "./Transactiondetails";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import ReactDom from "react-dom";
 import { ReactDOM } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import { data } from "jquery";
 import axios from "axios";
 import TransactionsTable from "../TransactionsTable";
 
 export default function Transactions(props) {
 
     const [rows, setRows] = useState([]);
-    const [loadingState, setLoadingState] = useState(false);
-    const [lastRow, setLastRow] = useState(null);
-    const [lastRowVersion, setLastRowVersion] = useState(0);
-    const [table, setTable] = useState(null);
+    const [lastRowVersion, setLastRowVersion] = useState([]);
+    const [counter, setCounter] =useState(0);
+    const observer =useRef();
 
-    useEffect(async () => {
-        console.log("useeffect wurde aufgerufen")
-        let data = await fetch('http://localhost:8888/rest/getlast50').then(result => result.json());
+    const options = {
+        threshhold : 1
+    }
+
+    const lastElement = useCallback( () => {
+        if(observer.current) observer.current.disconnect();
+        observer.current = new IntersectionObserver(async (entries) => {
+            if(entries[0].isIntersecting){
+                let newData = await axios.get("http://localhost:8888/rest/getnextten?lastVersionNumber=" + lastRowVersion);
+                newData.data = newData.data.reverse()
+
+                let combinedData = [].concat(rows).concat(newData.data);
+                // console.log(combinedData)
+                setRows(combinedData);
+                setLastRowVersion(newData.data[newData.data.length -1].version)
+            }
+        }, options)
+        
+        observer.current.observe(document.getElementById("last"))
+    })
+
+useEffect(() => {
+    const loadRows = (async () => {
+        let data = await fetch("http://localhost:8888/rest/getlast50").then(res =>res.json());
         setRows(data);
         
-        // let generatedTable = createTable(data);
-        // document.getElementById("transactions").innerHTML = generatedTable;
-        // console.log(table);
+        setLastRowVersion(data[data.length -1].version);
+        setCounter(number => number+1);
+    })
+    
+    if(counter===0){
+        loadRows();
+    }
+  
+},[]) 
 
-        let stack = document.getElementById("transactions");
-        // let generatedLastRow = stack.rows[stack.rows.length - 1];
-        console.log(stack);
-        // setLastRow(generatedLastRow);
-        // let element = generatedLastRow.innerHTML
-        // console.log(element);
-        console.log(lastRow);
-    },[]);
+console.log(rows);
+console.log(lastRowVersion);
+console.log(counter);
 
-    //     let observer = new IntersectionObserver(rows => {
-    //         rows.forEach(async (row) => {
-    //             if (row.isIntersecting) {
-    //                 let newData = await axios.get("http://localhost:8888/rest/getnextten?lastVersionNumber=" + lastRowVersion);
-    //                 newData = newData.data.reverse();
-    //                 newData = createTable(newData);
-    //                 console.log(newData);
-    //                 generatedTable += newData;
-    //                 document.getElementById("transactions").innerHTML = table;
-    //                 let foo = document.getElementById("transactions");
-    //                 setLastRow(foo.rows[foo.rows.length - 1]);
-    //                 if (observer.current) {
-    //                     observer.disconnect();
-    //                 }
-    //                 observer.observe(lastRow);
-    //                 console.log(lastRow)
-    //             }
-
-    //         })
-    //     }, {
-    //         threshhold: 1
-    //     });
-    //     if (observer.current) {
-    //         observer.disconnect();
-    //     }
-    //     observer.observe(lastRow);
-    // }, lastRow);
-
-    console.log(rows)
     return (
-
+        <>
         <div>
             <h1 id="main_title">Transactions</h1>
-                    <TransactionsTable  id="unique" data={rows} />
+                    <TransactionsTable id="unique" data={rows} />
                 
         </div>
+        <div>
+            <p ref={lastElement} id="last"></p>
+        </div>
+        </>
+
     );
 }
