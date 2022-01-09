@@ -60,7 +60,7 @@ public class BlockchainThread extends Thread {
         //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         List<JsonRpc.Transaction> transactions;
         PreparedStatement statement;
-//        this.version = getLatestDBVersion() + 1;
+        this.version = getLatestDBVersion() + 1;
 
         transactions = client.getTransactions(version, 1, false);
 
