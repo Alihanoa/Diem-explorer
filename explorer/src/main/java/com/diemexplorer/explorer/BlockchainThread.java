@@ -12,7 +12,7 @@ import java.util.List;
 public class BlockchainThread extends Thread {
     private DiemJsonRpcClient client;
     private Connection con;
-    private int version = 0;
+    private int version = 237950;
 
 
     public BlockchainThread() throws SQLException {
@@ -60,7 +60,7 @@ public class BlockchainThread extends Thread {
         //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         List<JsonRpc.Transaction> transactions;
         PreparedStatement statement;
-        this.version = getLatestDBVersion() + 1;
+//        this.version = getLatestDBVersion() + 1;
 
         transactions = client.getTransactions(version, 1, false);
 
@@ -316,10 +316,11 @@ public class BlockchainThread extends Thread {
         //First we have to figure out which currency is used in the transaction
         //if the currency is XUS
 
-        int[] balancelistplacing = getBalanceListOfTransaction(transaction, sender, receiveraccount);
+        
 
         if (receiveraccount != null && sender != null) {
 
+            int[] balancelistplacing = getBalanceListOfTransaction(transaction, sender, receiveraccount); 
             if (receiver.equals("") || receiver.equals("000000000000000000000000000000dd") || addressSender.equals("") || addressSender.equals("000000000000000000000000000000dd")) {
                 setAccountBalanceFaucet(transaction, sender, receiveraccount);
             } else {
