@@ -116,23 +116,31 @@ footer{
   width: 40%;
   height: 80%;
   max-width: 40%;
-  margin: 5% 5% 5% 5%;
+  margin: 5%;
   background-color: #FFFFFF;
   display:flex;
-  justify-content: center;
-  align-items: center;
+  flex-flow: row wrap;
+  justify-content:center;
+  align-items:center; 
 }
 
 .person{
-  width: 20%;
-  height: 20%;
+  /* display: flexbox;
+  flex-flow: row wrap; */
+  /* max-width: 50vh; */
+  width: 50%;
+  height: 50%;
+}
+img{
+  /* width: 15vh;
+  height: 10vh; */
 }
 
-#submit-button, #name, #mail, #message{
+#submit-button, #name, #email, #message{
   border-radius:8px;
 }
 
-#name, #mail, #message{
+#name, #email, #message{
   width: 100%;
   box-sizing: border-box;
   margin-top: 1%;

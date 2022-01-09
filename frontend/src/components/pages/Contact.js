@@ -1,6 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Avatar from './Avatar.jpg';
 
 export default function Contact(props) {
+
+    function Formular(props) {
+
+        const [name, setName] = useState('');
+        const [email, setEmail] = useState('');
+        const [message, setMessage] = useState('');
+
+        function handleChange(event) {
+            if (event.target.name == "name") {
+                setName(event.target.value);
+            } else if (event.target.name == "email") {
+                setEmail(event.target.value);
+            } else if (event.target.name == 'message') {
+                setMessage(event.target.value);
+            }
+            console.log(name, email, message);
+        }
+
+        function handleSubmit() {
+            var link = "mailto:tevfikkantar@hotmail.de" +
+                "?cc=Tevfik.Kantar@studmail.w-hs.de" +
+                "&subject=Diem-Explorer Contact-Encuiry" +
+                "&body=" + message;
+
+            window.location.href = link;
+            window.alert("Your contact request was succesfully!\nThank you");
+        }
+
+        return (
+            <form>
+                <label>If you have any question or feedback, feel free to contact us!</label>
+                <br />
+                <input type="text" name="name" id="name" placeholder="Name" value={name} onChange={handleChange} />
+                <br />
+                <input type="email" placeholder="E-Mail Address" name="email" id="email" value={email} onChange={handleChange} />
+                <br />
+                <textarea name="message" id="message" placeholder="Message" rows="10" value={message} onChange={handleChange} />
+                <br />
+                <input type="submit" name="send" id="submit-button" value="Submit" onClick={handleSubmit} />
+            </form>
+        )
+    }
+
+    function Person(props) {
+        return (
+            <div class="person">
+                <figure>
+                    <img srcSet={Avatar} alt="Avatar" />
+                    <figcaption>{props}</figcaption>
+                </figure>
+            </div>
+        )
+    }
 
     return (
         <body>
@@ -8,55 +62,10 @@ export default function Contact(props) {
 
             <div class="contact-wrapper">
                 <div class="contact-left">
-                    <label>If you have any question or feedback, feel free to contact us!</label>
-                    <form>
-                        <br />
-                        <input type="text" name="name" id="name" placeholder="Name" />
-                        <br />
-                        <input type="email" placeholder="E-Mail Address" name="mail" id="mail" />
-                        <br />
-                        <textarea name="message" id="message" placeholder="Message" rows="10" />
-                        <br />
-                        <input type="submit" name="send" id="submit-button" value="Submit"
-                            onClick={
-                                function sendMail() {
-
-                                    var link = "mailto:tevfikkantar@hotmail.de" +
-                                        "?cc=Tevfik.Kantar@studmail.w-hs.de" +
-                                        "&subject=Diem-Explorer Contact-Encuiry" +
-                                        "&body=" + document.getElementById('message').value;
-
-                                    window.location.href = link;
-                                }
-                            }
-                        />
-                    </form>
+                    {Formular()}
                 </div>
                 <div class="contact-right">
-                    <div class="person">
-                        <figure>
-                            <img src="Avatar.jpg" alt="Avatar" />
-                            <figcaption>Alihan Türk</figcaption>
-                        </figure>
-                    </div>
-                    <div class="person">
-                        <figure>
-                            <img src="Avatar.jpg" alt="Avatar" />
-                            <figcaption>Daniel Mextorf</figcaption>
-                        </figure>
-                    </div>
-                    <div class="person">
-                        <figure>
-                            <img src="Avatar.jpg" alt="Avatar" />
-                            <figcaption>Tevfik Kantar</figcaption>
-                        </figure>
-                    </div>
-                    <div class="person">
-                        <figure>
-                            <img src="Avatar.jpg" alt="Avatar" />
-                            <figcaption>Tim Niesrath</figcaption>
-                        </figure>
-                    </div>
+                    {Person("Alihan Türk")}{Person("Daniel Mextorf")}{Person("Tevfik Kantar")}{Person("Tim Niestrath")}
                 </div>
             </div>
         </body>
