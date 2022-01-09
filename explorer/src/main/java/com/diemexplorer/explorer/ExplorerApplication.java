@@ -30,8 +30,8 @@ public class ExplorerApplication {
 
 		SpringApplication.run(ExplorerApplication.class, args);
 
-//		BlockchainThread blockchainThread = new BlockchainThread();
-//		blockchainThread.start();
+		BlockchainThread blockchainThread = new BlockchainThread();
+		blockchainThread.start();
                
 
 //                System.out.println(client.getAccount("b2c98e0c53ebbc7bc59bec69c1cbad03").getBalances(0).getAmount());

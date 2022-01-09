@@ -9,20 +9,20 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class BlockchainThread extends Thread{
-    private  DiemJsonRpcClient client;
-    private  Connection con;
+public class BlockchainThread extends Thread {
+    private DiemJsonRpcClient client;
+    private Connection con;
     private int version = 0;
 
 
-    public BlockchainThread () throws SQLException {
-        client =  new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
+    public BlockchainThread() throws SQLException {
+        client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
     }
 
     @Override
-    public void run(){
+    public void run() {
         while (!interrupted()) {
 
             try {
@@ -38,9 +38,9 @@ public class BlockchainThread extends Thread{
 
         }
     }
-    
 
-    public int getLatestDBVersion () throws SQLException {
+
+    public int getLatestDBVersion() throws SQLException {
         PreparedStatement statement;
         String query = "SELECT MAX(version) FROM transactions";
         statement = con.prepareStatement(query);
@@ -56,69 +56,66 @@ public class BlockchainThread extends Thread{
         interrupt();
     }
 
-    public  void getTransactions()throws SQLException, DiemException, InterruptedException{
-      //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+    public void getTransactions() throws SQLException, DiemException, InterruptedException {
+        //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         List<JsonRpc.Transaction> transactions;
         PreparedStatement statement;
-        this.version = getLatestDBVersion() +1;
+        this.version = getLatestDBVersion() + 1;
 
-            transactions = client.getTransactions(version, 1, false);
+        transactions = client.getTransactions(version, 1, false);
 
-            for (JsonRpc.Transaction transaction : transactions ) {
-                if(!transaction.getTransaction().getSender().equals("")||transaction.getTransaction().getType().equals("user")) {
-                    String receiver = transaction.getTransaction().getScript().getReceiver();
-                    getAccountAndSaveInDB(transaction, receiver);
-                    
-                }
-                if (!versionInDB(transaction.getVersion())) {
+        for (JsonRpc.Transaction transaction : transactions) {
+            if (!transaction.getTransaction().getSender().equals("") || transaction.getTransaction().getType().equals("user")) {
+                String receiver = transaction.getTransaction().getScript().getReceiver();
+                getAccountAndSaveInDB(transaction, receiver);
 
-                    // For some reason when the transaction is an actual transaction / smart contract, the timestamp is set to 0.
-                    // Therefore we estimated that this transaction has to happen a couple miliseconds after the lalst blockmetadata. therefore we need to take its timestamp.
-                    long timestamp = transaction.getTransaction().getTimestampUsecs();
-                    if(transaction.getTransaction().getTimestampUsecs() ==0 && transaction.getVersion() > 0){
-
-                        PreparedStatement statementfortimestamp;
-                        String timestampbefore = "SELECT timestamp FROM transactions WHERE version<" + transaction.getVersion() + " AND type='blockmetadata' ORDER BY version DESC LIMIT 1";
-                        statementfortimestamp = con.prepareStatement(timestampbefore);
-                        ResultSet resultset = statementfortimestamp.executeQuery();
-                        resultset.next();
-                        timestamp = resultset.getLong("timestamp");
-                    }
-
-                    String date  = getDateFromTimeStamp(transaction);
-                    if(transaction.getTransaction().getType().equals("blockmetadata")){
-                        timestamp = timestamp/1000;
-
-                    }
-
-                    String query = "INSERT INTO  transactions (version, amount, currency, gas_used, gas_currency, public_key, sender_id, receiver_id, date, type, timestamp) "
-                            + "VALUES (" + transaction.getVersion() + ","  + transaction.getTransaction().getScript().getAmount() + ","
-                            + "'" + transaction.getTransaction().getScript().getCurrency() + "'" + "," + transaction.getGasUsed() + ","
-                            + "'" + transaction.getTransaction().getGasCurrency() + "'" + ", '" + transaction.getTransaction().getPublicKey() + "','"
-                            + transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "', '" + transaction.getTransaction().getType() + "'," +  timestamp +  ")";
-
-                    statement = con.prepareStatement(query);
-                    statement.executeUpdate();
-
-                    getTransactiondetails(transaction);
-
-
-
-                }
-
-                version = version + 1;
             }
+            if (!versionInDB(transaction.getVersion())) {
+
+                // For some reason when the transaction is an actual transaction / smart contract, the timestamp is set to 0.
+                // Therefore we estimated that this transaction has to happen a couple miliseconds after the lalst blockmetadata. therefore we need to take its timestamp.
+                long timestamp = transaction.getTransaction().getTimestampUsecs();
+                if (transaction.getTransaction().getTimestampUsecs() == 0 && transaction.getVersion() > 0) {
+
+                    PreparedStatement statementfortimestamp;
+                    String timestampbefore = "SELECT timestamp FROM transactions WHERE version<" + transaction.getVersion() + " AND type='blockmetadata' ORDER BY version DESC LIMIT 1";
+                    statementfortimestamp = con.prepareStatement(timestampbefore);
+                    ResultSet resultset = statementfortimestamp.executeQuery();
+                    resultset.next();
+                    timestamp = resultset.getLong("timestamp");
+                }
+
+                String date = getDateFromTimeStamp(transaction);
+                if (transaction.getTransaction().getType().equals("blockmetadata")) {
+                    timestamp = timestamp / 1000;
+
+                }
+
+                String query = "INSERT INTO  transactions (version, amount, currency, gas_used, gas_currency, public_key, sender_id, receiver_id, date, type, timestamp) "
+                        + "VALUES (" + transaction.getVersion() + "," + transaction.getTransaction().getScript().getAmount() + ","
+                        + "'" + transaction.getTransaction().getScript().getCurrency() + "'" + "," + transaction.getGasUsed() + ","
+                        + "'" + transaction.getTransaction().getGasCurrency() + "'" + ", '" + transaction.getTransaction().getPublicKey() + "','"
+                        + transaction.getTransaction().getSender() + "','" + transaction.getTransaction().getScript().getReceiver() + "','" + date + "', '" + transaction.getTransaction().getType() + "'," + timestamp + ")";
+
+                statement = con.prepareStatement(query);
+                statement.executeUpdate();
+
+                getTransactiondetails(transaction);
+
+
+            }
+
+            version = version + 1;
+        }
 
 
     }
 
 
-
-
-    public  boolean versionInDB(long version) throws SQLException{
+    public boolean versionInDB(long version) throws SQLException {
 
         /* checks whether the version number is in the database or not */
-         //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+        //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
         String query = "SELECT version FROM transactiondetails WHERE version=" + version;
         PreparedStatement statement = con.prepareStatement(query);
@@ -128,75 +125,73 @@ public class BlockchainThread extends Thread{
 
     }
 
-    public  void getAccountAndSaveInDB(JsonRpc.Transaction transaction, String receiver) throws SQLException, DiemException, InterruptedException {
+    public void getAccountAndSaveInDB(JsonRpc.Transaction transaction, String receiver) throws SQLException, DiemException, InterruptedException {
 
         /*For each transaction, this method checks whether the account executing the transacion is within our database. If the account is already
          *in database its sequence number gets updated. If the account is not in the database its current values are being inserted in the database */
         String senderaddress = transaction.getTransaction().getSender();
-        
+
         PreparedStatement statement;
 //        receiver = transaction.getTransaction().getScript().getReceiver();
 
         JsonRpc.Account receiveraccount;
-        if(receiver.equals("" )){
+        if (receiver.equals("")) {
             receiveraccount = client.getAccount("000000000000000000000000000000dd");
-        }
-        else{
+        } else {
             receiveraccount = client.getAccount(receiver);
         }
-        if(receiveraccount==null){
-          System.out.println("Null Acc receiver");
+        if (receiveraccount == null) {
+            System.out.println("Null Acc receiver");
         }
         JsonRpc.Account senderaccount = client.getAccount(senderaddress);
-        
-         //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
-        if(accountInDB(senderaddress)){
-            String increaseSequenceNumber = "UPDATE accounts SET sequence_number=" + senderaccount.getSequenceNumber()+ " WHERE address='" + senderaccount.getAddress() + "'";
+
+        //con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+        if (accountInDB(senderaddress)) {
+            String increaseSequenceNumber = "UPDATE accounts SET sequence_number=" + senderaccount.getSequenceNumber() + " WHERE address='" + senderaccount.getAddress() + "'";
             statement = con.prepareStatement(increaseSequenceNumber);
             statement.executeUpdate();
-        }
-        else {
+        } else {
             String insertstmnt = "INSERT INTO accounts (address, authentication_key,  is_frozen, sequence_number) "
-                    +" VALUES ('" + senderaccount.getAddress() + "'," + "'" + senderaccount.getAuthenticationKey() + "',"+ senderaccount.getIsFrozen() + "," + senderaccount.getSequenceNumber() +")";
+                    + " VALUES ('" + senderaccount.getAddress() + "'," + "'" + senderaccount.getAuthenticationKey() + "'," + senderaccount.getIsFrozen() + "," + senderaccount.getSequenceNumber() + ")";
             statement = con.prepareStatement(insertstmnt);
             statement.executeUpdate();
         }
-        
-        if (receiveraccount != null ){
-                if(accountInDB(receiver)){
-            String increaseSequenceNumber = "UPDATE accounts SET sequence_number=" + receiveraccount.getSequenceNumber()+ " WHERE address='" + receiveraccount.getAddress() + "'";
-            statement = con.prepareStatement(increaseSequenceNumber);
-            statement.executeUpdate();
+
+        if (receiveraccount != null) {
+            if (accountInDB(receiver)) {
+                String increaseSequenceNumber = "UPDATE accounts SET sequence_number=" + receiveraccount.getSequenceNumber() + " WHERE address='" + receiveraccount.getAddress() + "'";
+                statement = con.prepareStatement(increaseSequenceNumber);
+                statement.executeUpdate();
+            } else if (receiver != "") {
+                String insertstmnt = "INSERT INTO accounts (address, authentication_key,  is_frozen, sequence_number) "
+                        + " VALUES ('" + receiveraccount.getAddress() + "'," + "'" + receiveraccount.getAuthenticationKey() + "'," + receiveraccount.getIsFrozen() + "," + receiveraccount.getSequenceNumber() + ")";
+                statement = con.prepareStatement(insertstmnt);
+                statement.executeUpdate();
+            }
+            setAccountdetails(receiveraccount);
         }
-                else if (receiver!="") {
-            String insertstmnt = "INSERT INTO accounts (address, authentication_key,  is_frozen, sequence_number) "
-                    +" VALUES ('" + receiveraccount.getAddress() + "'," + "'" + receiveraccount.getAuthenticationKey() + "',"+ receiveraccount.getIsFrozen() + "," + receiveraccount.getSequenceNumber() +")";
-            statement = con.prepareStatement(insertstmnt);
-            statement.executeUpdate();
-        }
-                 setAccountdetails(receiveraccount);
-        }
-        
+
         setAccountdetails(senderaccount);
-       
+
         setAccountBalances(transaction, receiver);
 
     }
-    public  boolean accountInDB(String address)throws SQLException{
+
+    public boolean accountInDB(String address) throws SQLException {
 
         /* Checks whether an account is in the database or not */
 
-       // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
         String query = "SELECT address FROM accounts WHERE address='" + address + "'";
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery();
-        return  resultSet.next();
+        return resultSet.next();
     }
 
-    public  void getTransactiondetails(JsonRpc.Transaction transaction) throws SQLException{
+    public void getTransactiondetails(JsonRpc.Transaction transaction) throws SQLException {
 
-       // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
         String insertStatement = "INSERT INTO transactiondetails (version, chain_id, hash, metadata, metadata_signature, script_hash, abort_code, category, category_description, reason, reason_description, location, type, gas_unit_price, expiration_date, max_gas_amount)" +
                 " VALUES ( " + transaction.getVersion() + ","
@@ -211,7 +206,7 @@ public class BlockchainThread extends Thread{
                 + transaction.getVmStatus().getExplanation().getReason() + "','" + transaction.getVmStatus().getExplanation().getReasonDescription() + "','"
                 + transaction.getVmStatus().getLocation() + "','"
                 + transaction.getVmStatus().getType() + "', "
-                + transaction.getTransaction().getGasUnitPrice() +  ",'"
+                + transaction.getTransaction().getGasUnitPrice() + ",'"
                 + getDateFromExpirationTimestamp(transaction) + "',"
                 + transaction.getTransaction().getMaxGasAmount() + ")";
 
@@ -220,27 +215,23 @@ public class BlockchainThread extends Thread{
     }
 
 
-
-    public  String getDateFromTimeStamp(JsonRpc.Transaction transaction) throws SQLException{
+    public String getDateFromTimeStamp(JsonRpc.Transaction transaction) throws SQLException {
 
         /*Timestamp is stored on the blockchain in microseconds. In order to safe it as a date, it is necessary to cut off the last 3 digits and format
          * it in european date wit a SimpleDateFormat Object. Format: DD/MM/YYYY HH:MM:SS
          */
-       // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
         PreparedStatement preparedStatement;
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss.SSS");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss.SSS");
 
-        if ((transaction.getTransaction().getTimestampUsecs() == 0) && transaction.getVersion()>1) {
+        if ((transaction.getTransaction().getTimestampUsecs() == 0) && transaction.getVersion() > 1) {
 
             String query = "SELECT date FROM transactions WHERE version<" + transaction.getVersion() + " AND type='blockmetadata' ORDER BY version DESC LIMIT 1";
             preparedStatement = con.prepareStatement(query);
             ResultSet resultset = preparedStatement.executeQuery();
             resultset.next();
             String date = resultset.getString("date");
-
-
-
 
 
             return date;
@@ -250,32 +241,31 @@ public class BlockchainThread extends Thread{
 
         long time = Long.parseLong(timestamp);
 
-        Date date = new Date(time/1000);
+        Date date = new Date(time / 1000);
 
         String dateString = simpleDateFormat.format(date);
-
 
 
         return dateString;
 
     }
 
-    public  String getDateFromExpirationTimestamp(JsonRpc.Transaction transaction) throws SQLException{
+    public String getDateFromExpirationTimestamp(JsonRpc.Transaction transaction) throws SQLException {
         /*Expirartiontimestamp is stored on the blockchain in seconds. In order to safe it as a date, it is necessary to add 3 digits and format
          * it in european date wit a SimpleDateFormat Object. Format: DD/MM/YYYY HH:MM:SS
          */
 
         // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
-        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss");
 
         String exptimestamp = String.valueOf(transaction.getTransaction().getExpirationTimestampSecs()) + "000";
         PreparedStatement statement;
-        if(transaction.getTransaction().getType().equals("blockmetadata")){
+        if (transaction.getTransaction().getType().equals("blockmetadata")) {
 
             String timestamp = String.valueOf(transaction.getTransaction().getTimestampUsecs());
 
-            long date = Long.parseLong(timestamp)/1000;
+            long date = Long.parseLong(timestamp) / 1000;
 
             Date datum = new Date(date);
 
@@ -289,34 +279,33 @@ public class BlockchainThread extends Thread{
         return simpleDateFormat.format(date);
     }
 
-    public   void setAccountBalances(JsonRpc.Transaction transaction, String receiver) throws SQLException, DiemException, InterruptedException {
-        // final String receiveraddress;
+    public void setAccountBalances(JsonRpc.Transaction transaction, String receiver) throws SQLException, DiemException, InterruptedException {
 
 
-        //Thread.sleep(10000);
         receiver = transaction.getTransaction().getScript().getReceiver();
-        System.out.println(receiver);
+
         JsonRpc.Account receiveraccount;
-        if(receiver.equals("" )){
+
+        if (receiver.equals("")) {
             receiveraccount = client.getAccount("000000000000000000000000000000dd");
 
-        }
-        else{
+        } else {
             receiveraccount = client.getAccount(receiver);
         }
-        if(receiveraccount==null){
-          System.out.println("Null Acc receiver");
+        if (receiveraccount == null) {
+            System.out.println("Null Acc receiver");
         }
         JsonRpc.Account sender = client.getAccount(transaction.getTransaction().getSender());
         String addressSender = sender.getAddress();
 
-       if(sender==null){
-          System.out.println("Null Acc receiver");
+
+
+        if (sender == null) {
+            System.out.println("Null Acc receiver");
         }
 
 
-
-      //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+        //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
         // String address = receiver.getAddress();
 //         List<JsonRpc.Amount> amounts = client.getAccount(receiver).getBalancesList();
@@ -324,77 +313,70 @@ public class BlockchainThread extends Thread{
 
 // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
 
-       //First we have to figure out which currency is used in the transaction
-       //if the currency is XUS
-        if(receiveraccount!=null && sender!=null){
-            
-             if(receiver.equals("")||receiver.equals("000000000000000000000000000000dd" )|| addressSender.equals("") || addressSender.equals("000000000000000000000000000000dd") ){setAccountBalanceFaucet(transaction,sender,receiveraccount);}
-             
-             else{
-	if(transaction.getTransaction().getScript().getCurrency().equals("XUS")){
-                                  
-           
-            
-            
-           
+        //First we have to figure out which currency is used in the transaction
+        //if the currency is XUS
+
+        int[] balancelistplacing = getBalanceListOfTransaction(transaction, sender, receiveraccount);
+
+        if (receiveraccount != null && sender != null) {
+
+            if (receiver.equals("") || receiver.equals("000000000000000000000000000000dd") || addressSender.equals("") || addressSender.equals("000000000000000000000000000000dd")) {
+                setAccountBalanceFaucet(transaction, sender, receiveraccount);
+            } else {
+                if (transaction.getTransaction().getScript().getCurrency().equals("XUS")) {
+
+
 // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver                                      
-                                        if(!amountInXUSDB(receiveraccount)){
+                    if (!amountInXUSDB(receiveraccount)) {
 
-						String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
-						PreparedStatement statement = con.prepareStatement(insertStatement);
-						statement.executeUpdate();
+                        String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + ")";
+                        PreparedStatement statement = con.prepareStatement(insertStatement);
+                        statement.executeUpdate();
 
-					}
+                    } else if (amountInXUSDB(receiveraccount)) {
+                        String updateStatement = "UPDATE accountbalancexus SET amount=" + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + " WHERE address='" + receiver + "'";
+                        PreparedStatement statement = con.prepareStatement(updateStatement);
+                        statement.executeUpdate();
+                    }
+                    //This Section inserts / updates the sender in the database
+                    if (!amountInXUSDB(sender)) {
+                        String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(balancelistplacing[0]).getAmount() + ")";
+                        PreparedStatement statement = con.prepareStatement(insert);
+                        statement.executeUpdate();
+                    } else if (amountInXUSDB(sender)) {
+                        String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(balancelistplacing[0]).getAmount() + " WHERE address='" + addressSender + "'";
+                        PreparedStatement statement = con.prepareStatement(update);
+                        statement.executeUpdate();
+                    }
+                }
+                //if the currency is XDX
+                else if (transaction.getTransaction().getScript().getCurrency().equals("XDX")) {
+                    // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
+                    if (!amountInXDXDB(receiveraccount)) {
 
-					else if(amountInXUSDB(receiveraccount)){
-						String updateStatement ="UPDATE accountbalancexus SET amount=" +  receiveraccount.getBalances(0).getAmount() + " WHERE address='"  + receiver + "'";
-						PreparedStatement statement = con.prepareStatement(updateStatement);
-						statement.executeUpdate();
-					}
-                                         //This Section inserts / updates the sender in the database
-                                        if(!amountInXUSDB(sender) ){
-				String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('"+addressSender+ "'," + sender.getBalances(0).getAmount() + ")";
-				PreparedStatement statement = con.prepareStatement(insert);
-				statement.executeUpdate();
-			}
-                                        
-			else if(amountInXUSDB(sender)){
-				String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(0).getAmount() + " WHERE address='" + addressSender + "'";
-				PreparedStatement statement = con.prepareStatement(update);
-				statement.executeUpdate();
-                                        }
-    }
-        //if the currency ist XDX                
-        else if(transaction.getTransaction().getScript().getCurrency().equals("XDX")){
-                                // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
-				if(!amountInXDXDB(receiveraccount)){
-
-					String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(1).getAmount() + ")";
-					PreparedStatement statement = con.prepareStatement(updateStatement);
-					statement.executeUpdate();
-				}
-
-				else if(amountInXDXDB(receiveraccount)){
-					String updateStatement = "UPDATE accountbalancexdx SET amount=" +  receiveraccount.getBalances(1).getAmount() + " WHERE address='"  + receiver + "'";
-					PreparedStatement statement = con.prepareStatement(updateStatement);
-					statement.executeUpdate();
-				}
-                                 //This Section inserts / updates the sender in the database
-                                if(!amountInXDXDB(sender)){
-				String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(1).getAmount() + ")";
-				PreparedStatement statement = con.prepareStatement(insert);
-				statement.executeUpdate();
-			}
-			else if(amountInXDXDB(sender)){
-				String update = "UPDATE accountbalancexdx SET amount="+ sender.getBalances(1).getAmount() + " WHERE address='"+addressSender + "'";
-				PreparedStatement statement = con.prepareStatement(update);
-				statement.executeUpdate();
-			}}
-        }   
+                        String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + ")";
+                        PreparedStatement statement = con.prepareStatement(updateStatement);
+                        statement.executeUpdate();
+                    } else if (amountInXDXDB(receiveraccount)) {
+                        String updateStatement = "UPDATE accountbalancexdx SET amount=" + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + " WHERE address='" + receiver + "'";
+                        PreparedStatement statement = con.prepareStatement(updateStatement);
+                        statement.executeUpdate();
+                    }
+                    //This Section inserts / updates the sender in the database
+                    if (!amountInXDXDB(sender)) {
+                        String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(balancelistplacing[0]).getAmount() + ")";
+                        PreparedStatement statement = con.prepareStatement(insert);
+                        statement.executeUpdate();
+                    } else if (amountInXDXDB(sender)) {
+                        String update = "UPDATE accountbalancexdx SET amount=" + sender.getBalances(balancelistplacing[0]).getAmount() + " WHERE address='" + addressSender + "'";
+                        PreparedStatement statement = con.prepareStatement(update);
+                        statement.executeUpdate();
+                    }
+                }
+            }
         }
-        
-        
-        
+
+
         //This Section inserts / updates  the sender in the database
 //        String addressSender = sender.getAddress();
 
@@ -425,146 +407,124 @@ public class BlockchainThread extends Thread{
     }
 
 
-   public void setAccountBalanceFaucet(JsonRpc.Transaction transaction, JsonRpc.Account sender, JsonRpc.Account receiveraccount) throws SQLException, DiemException, InterruptedException{
-       String receiver=receiveraccount.getAddress();
-       String addressSender= sender.getAddress();
-       
-       
-       if(receiver.equals("")||receiver.equals("000000000000000000000000000000dd" )){
-       if(transaction.getTransaction().getScript().getCurrency().equals("XUS")){
-                                  
-           
-            
-            
-           
+    public void setAccountBalanceFaucet(JsonRpc.Transaction transaction, JsonRpc.Account sender, JsonRpc.Account receiveraccount) throws SQLException, DiemException, InterruptedException {
+        String receiver = receiveraccount.getAddress();
+        String addressSender = sender.getAddress();
+
+        int[] balancelistplacing = getBalanceListOfTransaction(transaction, sender,receiveraccount);
+        if (receiver.equals("") || receiver.equals("000000000000000000000000000000dd")) {
+            if (transaction.getTransaction().getScript().getCurrency().equals("XUS")) {
+
+
 // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver                                      
-                                        if(!amountInXUSDB(receiveraccount)){
+                if (!amountInXUSDB(receiveraccount)) {
 
-						String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(1).getAmount() + ")";
-						PreparedStatement statement = con.prepareStatement(insertStatement);
-						statement.executeUpdate();
+                    String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + ")";
+                    PreparedStatement statement = con.prepareStatement(insertStatement);
+                    statement.executeUpdate();
 
-					}
+                } else if (amountInXUSDB(receiveraccount)) {
+                    String updateStatement = "UPDATE accountbalancexus SET amount=" + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + " WHERE address='" + receiver + "'";
+                    PreparedStatement statement = con.prepareStatement(updateStatement);
+                    statement.executeUpdate();
+                }
+                //This Section inserts / updates the sender in the database
+                if (!amountInXUSDB(sender)) {
+                    String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(balancelistplacing[0]).getAmount() + ")";
+                    PreparedStatement statement = con.prepareStatement(insert);
+                    statement.executeUpdate();
+                } else if (amountInXUSDB(sender)) {
+                    String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(balancelistplacing[0]).getAmount() + " WHERE address='" + addressSender + "'";
+                    PreparedStatement statement = con.prepareStatement(update);
+                    statement.executeUpdate();
+                }
+            }
+            //if the currency ist XDX
+            else if (transaction.getTransaction().getScript().getCurrency().equals("XDX")) {
+                // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
+                if (!amountInXDXDB(receiveraccount)) {
 
-					else if(amountInXUSDB(receiveraccount)){
-						String updateStatement ="UPDATE accountbalancexus SET amount=" +  receiveraccount.getBalances(1).getAmount() + " WHERE address='"  + receiver + "'";
-						PreparedStatement statement = con.prepareStatement(updateStatement);
-						statement.executeUpdate();
-					}
-                                         //This Section inserts / updates the sender in the database
-                                        if(!amountInXUSDB(sender) ){
-				String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('"+addressSender+ "'," + sender.getBalances(0).getAmount() + ")";
-				PreparedStatement statement = con.prepareStatement(insert);
-				statement.executeUpdate();
-			}
-                                        
-			else if(amountInXUSDB(sender)){
-				String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(0).getAmount() + " WHERE address='" + addressSender + "'";
-				PreparedStatement statement = con.prepareStatement(update);
-				statement.executeUpdate();
-                                        }
-    }
-        //if the currency ist XDX                
-        else if(transaction.getTransaction().getScript().getCurrency().equals("XDX")){
-                                // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
-				if(!amountInXDXDB(receiveraccount)){
+                    String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + ")";
+                    PreparedStatement statement = con.prepareStatement(updateStatement);
+                    statement.executeUpdate();
+                } else if (amountInXDXDB(receiveraccount)) {
+                    String updateStatement = "UPDATE accountbalancexdx SET amount=" + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + " WHERE address='" + receiver + "'";
+                    PreparedStatement statement = con.prepareStatement(updateStatement);
+                    statement.executeUpdate();
+                }
+                //This Section inserts / updates the sender in the database
+                if (!amountInXDXDB(sender)) {
+                    String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(balancelistplacing[0]).getAmount() + ")";
+                    PreparedStatement statement = con.prepareStatement(insert);
+                    statement.executeUpdate();
+                } else if (amountInXDXDB(sender)) {
+                    String update = "UPDATE accountbalancexdx SET amount=" + sender.getBalances(balancelistplacing[0]).getAmount() + " WHERE address='" + addressSender + "'";
+                    PreparedStatement statement = con.prepareStatement(update);
+                    statement.executeUpdate();
+                }
+            }
+        } else if (addressSender.equals("") || addressSender.equals("000000000000000000000000000000dd")) {
 
-					String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
-					PreparedStatement statement = con.prepareStatement(updateStatement);
-					statement.executeUpdate();
-				}
 
-				else if(amountInXDXDB(receiveraccount)){
-					String updateStatement = "UPDATE accountbalancexdx SET amount=" +  receiveraccount.getBalances(0).getAmount() + " WHERE address='"  + receiver + "'";
-					PreparedStatement statement = con.prepareStatement(updateStatement);
-					statement.executeUpdate();
-				}
-                                 //This Section inserts / updates the sender in the database
-                                if(!amountInXDXDB(sender)){
-				String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(1).getAmount() + ")";
-				PreparedStatement statement = con.prepareStatement(insert);
-				statement.executeUpdate();
-			}
-			else if(amountInXDXDB(sender)){
-				String update = "UPDATE accountbalancexdx SET amount="+ sender.getBalances(1).getAmount() + " WHERE address='"+addressSender + "'";
-				PreparedStatement statement = con.prepareStatement(update);
-				statement.executeUpdate();
-			}}}
-       
-       
-       else if(addressSender.equals("") || addressSender.equals("000000000000000000000000000000dd")){
-           
-           
-       if(transaction.getTransaction().getScript().getCurrency().equals("XUS")){
-                                  
-           
-            
-            
-           
+            if (transaction.getTransaction().getScript().getCurrency().equals("XUS")) {
+
+
 // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver                                      
-                                        if(!amountInXUSDB(receiveraccount)){
+                if (!amountInXUSDB(receiveraccount)) {
 
-						String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
-						PreparedStatement statement = con.prepareStatement(insertStatement);
-						statement.executeUpdate();
+                    String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
+                    PreparedStatement statement = con.prepareStatement(insertStatement);
+                    statement.executeUpdate();
 
-					}
+                } else if (amountInXUSDB(receiveraccount)) {
+                    String updateStatement = "UPDATE accountbalancexus SET amount=" + receiveraccount.getBalances(0).getAmount() + " WHERE address='" + receiver + "'";
+                    PreparedStatement statement = con.prepareStatement(updateStatement);
+                    statement.executeUpdate();
+                }
+                //This Section inserts / updates the sender in the database
+                if (!amountInXUSDB(sender)) {
+                    String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(1).getAmount() + ")";
+                    PreparedStatement statement = con.prepareStatement(insert);
+                    statement.executeUpdate();
+                } else if (amountInXUSDB(sender)) {
+                    String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(1).getAmount() + " WHERE address='" + addressSender + "'";
+                    PreparedStatement statement = con.prepareStatement(update);
+                    statement.executeUpdate();
+                }
+            }
+            //if the currency ist XDX
+            else if (transaction.getTransaction().getScript().getCurrency().equals("XDX")) {
+                // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
+                if (!amountInXDXDB(receiveraccount)) {
 
-					else if(amountInXUSDB(receiveraccount)){
-						String updateStatement ="UPDATE accountbalancexus SET amount=" +  receiveraccount.getBalances(0).getAmount() + " WHERE address='"  + receiver + "'";
-						PreparedStatement statement = con.prepareStatement(updateStatement);
-						statement.executeUpdate();
-					}
-                                         //This Section inserts / updates the sender in the database
-                                        if(!amountInXUSDB(sender) ){
-				String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('"+addressSender+ "'," + sender.getBalances(1).getAmount() + ")";
-				PreparedStatement statement = con.prepareStatement(insert);
-				statement.executeUpdate();
-			}
-                                        
-			else if(amountInXUSDB(sender)){
-				String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(1).getAmount() + " WHERE address='" + addressSender + "'";
-				PreparedStatement statement = con.prepareStatement(update);
-				statement.executeUpdate();
-                                        }
+                    String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
+                    PreparedStatement statement = con.prepareStatement(updateStatement);
+                    statement.executeUpdate();
+                } else if (amountInXDXDB(receiveraccount)) {
+                    String updateStatement = "UPDATE accountbalancexdx SET amount=" + receiveraccount.getBalances(0).getAmount() + " WHERE address='" + receiver + "'";
+                    PreparedStatement statement = con.prepareStatement(updateStatement);
+                    statement.executeUpdate();
+                }
+                //This Section inserts / updates the sender in the database
+                if (!amountInXDXDB(sender)) {
+                    String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(0).getAmount() + ")";
+                    PreparedStatement statement = con.prepareStatement(insert);
+                    statement.executeUpdate();
+                } else if (amountInXDXDB(sender)) {
+                    String update = "UPDATE accountbalancexdx SET amount=" + sender.getBalances(0).getAmount() + " WHERE address='" + addressSender + "'";
+                    PreparedStatement statement = con.prepareStatement(update);
+                    statement.executeUpdate();
+                }
+            }
+
+
+        }
+
     }
-        //if the currency ist XDX                
-        else if(transaction.getTransaction().getScript().getCurrency().equals("XDX")){
-                                // Accountbalances needs to get updated / inserted per transaction from the receiver and sender. This section is shows the receiver
-				if(!amountInXDXDB(receiveraccount)){
-
-					String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
-					PreparedStatement statement = con.prepareStatement(updateStatement);
-					statement.executeUpdate();
-				}
-
-				else if(amountInXDXDB(receiveraccount)){
-					String updateStatement = "UPDATE accountbalancexdx SET amount=" +  receiveraccount.getBalances(0).getAmount() + " WHERE address='"  + receiver + "'";
-					PreparedStatement statement = con.prepareStatement(updateStatement);
-					statement.executeUpdate();
-				}
-                                 //This Section inserts / updates the sender in the database
-                                if(!amountInXDXDB(sender)){
-				String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(0).getAmount() + ")";
-				PreparedStatement statement = con.prepareStatement(insert);
-				statement.executeUpdate();
-			}
-			else if(amountInXDXDB(sender)){
-				String update = "UPDATE accountbalancexdx SET amount="+ sender.getBalances(0).getAmount() + " WHERE address='"+addressSender + "'";
-				PreparedStatement statement = con.prepareStatement(update);
-				statement.executeUpdate();
-			}}
-           
-           
-       }
-       
-   }
 
 
-
-
-    public  boolean amountInXUSDB(JsonRpc.Account account) throws SQLException{
-       // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+    public boolean amountInXUSDB(JsonRpc.Account account) throws SQLException {
+        // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         String sender_id = account.getAddress();
 
         String query = "SELECT * FROM accountbalancexus where address= '" + sender_id + "'";
@@ -574,12 +534,12 @@ public class BlockchainThread extends Thread{
         return resultSet.next();
     }
 
-    public  boolean amountInXDXDB(JsonRpc.Account account) throws SQLException{
-      //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+    public boolean amountInXDXDB(JsonRpc.Account account) throws SQLException {
+        //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
-        String sender_id= account.getAddress();
+        String sender_id = account.getAddress();
 
-        String query ="SELECT * FROM accountbalancexdx WHERE address = '" +  sender_id + "'";
+        String query = "SELECT * FROM accountbalancexdx WHERE address = '" + sender_id + "'";
 
         PreparedStatement statement = con.prepareStatement(query);
 
@@ -587,8 +547,8 @@ public class BlockchainThread extends Thread{
         return resultSet.next();
     }
 
-    public  void setAccountdetails(JsonRpc.Account account) throws SQLException, DiemException {
-      //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
+    public void setAccountdetails(JsonRpc.Account account) throws SQLException, DiemException {
+        //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         String expirationtime = String.valueOf(account.getRole().getExpirationTime());
 
         PreparedStatement statement;
@@ -627,13 +587,56 @@ public class BlockchainThread extends Thread{
         }
     }
 
-    public  boolean accountdetailsInDB(JsonRpc.Account account) throws SQLException{
+    public boolean accountdetailsInDB(JsonRpc.Account account) throws SQLException {
         // con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
-        String query = "SELECT * FROM accountdetails WHERE address= '"  + account.getAddress() + "'";
+        String query = "SELECT * FROM accountdetails WHERE address= '" + account.getAddress() + "'";
 
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery();
 
         return resultSet.next();
+    }
+
+    public int[] getBalanceListOfTransaction(JsonRpc.Transaction transaction, JsonRpc.Account sender, JsonRpc.Account receiver) throws DiemException {
+
+        List<JsonRpc.Amount> senderamount = sender.getBalancesList();
+        List<JsonRpc.Amount> receiveramount = receiver.getBalancesList();
+
+        int senderreturnvalue =0;
+        int receiverreturnvalue  =0;
+        String transactioncurrency = transaction.getTransaction().getScript().getCurrency();
+
+        if (transactioncurrency.equals("XDX")) {
+            if (senderamount.get(0).getCurrency().equals("XDX")) {
+                senderreturnvalue = 0;
+            } else {
+                senderreturnvalue = 1;
+            }
+
+
+            if (receiveramount.get(0).getCurrency().equals("XDX")) {
+                receiverreturnvalue = 0;
+            } else {
+                receiverreturnvalue = 1;
+            }
+        }
+        else if (transactioncurrency.equals("XUS")) {
+            if (senderamount.get(0).getCurrency().equals("XUS")) {
+                senderreturnvalue = 0;
+            } else {
+                senderreturnvalue = 1;
+            }
+
+
+            if (receiveramount.get(0).getCurrency().equals("XUS")) {
+                receiverreturnvalue = 0;
+            } else {
+                receiverreturnvalue = 1;
+            }
+        }
+
+        int[] result = new int[]{senderreturnvalue, receiverreturnvalue};
+
+        return result;
     }
 }
