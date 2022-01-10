@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 export default function Transactiondetails(props) {
 
     useEffect(async () => {
-        let data = await fetch("http://localhost:8888/rest/transaction?version=" + props.match.params.version).then(result => result.json());
+        let data = await fetch("http://diemexplorer.internet-sicherheit.de:8888/rest/transaction?version=" + props.match.params.version).then(result => result.json());
         let table = createTable(data);
         document.getElementById("transaction").innerHTML = table;
     }, []);

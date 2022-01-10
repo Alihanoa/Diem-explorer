@@ -6,7 +6,7 @@ import Chart from "../Chart";
 
 export default function Mainpage(props) {
 
-    const [serverAdress, setServerAdress] = useState("localhost:8888");
+    const [serverAdress, setServerAdress] = useState("diemexplorer.internet-sicherheit.de:8888");
     // serverAdress : "diemexplorer.internet-sicherheit.de:8888"
 
     const [transactionData, setTransactionData] = useState([]);

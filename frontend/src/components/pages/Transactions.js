@@ -48,10 +48,6 @@ useEffect(() => {
   
 },[]) 
 
-console.log(rows);
-console.log(lastRowVersion);
-console.log(counter);
-
     return (
         <>
         <div>
