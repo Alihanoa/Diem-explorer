@@ -14,18 +14,18 @@ export default function Mainpage(props) {
 
     useEffect(async () => {
 
-        let transactions_last_minute = await fetch("http://" + serverAdress + "/rest/transactionstodate?date=28/04/2021").then(result => result.json());
-        let tradingvolume = await fetch("http://" + serverAdress + "/rest/tradingvolume?date=28/04/2021").then(result => result.json());
-        let market_capacity = await fetch("http://" + serverAdress + "/rest/sumbalances").then(result => result.json());
+        let transactions_last_minute = await fetch("https://" + serverAdress + "/rest/transactionstodate?date=28/04/2021").then(result => result.json());
+        let tradingvolume = await fetch("https://" + serverAdress + "/rest/tradingvolume?date=28/04/2021").then(result => result.json());
+        let market_capacity = await fetch("https://" + serverAdress + "/rest/sumbalances").then(result => result.json());
 
-        // let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
-        // let lasttenanything = await fetch("http://localhost:8888/rest/lastten").then(result  => result.json());
+        // let data = await fetch('https://localhost:8888/rest/transactions').then(result => result.json());
+        // let lasttenanything = await fetch("https://localhost:8888/rest/lastten").then(result  => result.json());
 
-        // let data = await fetch('http://localhost:8888/rest/transactions').then(result => result.json());
-        let data = await fetch("http://" + serverAdress + "/rest/lastten").then(result => result.json());
+        // let data = await fetch('https://localhost:8888/rest/transactions').then(result => result.json());
+        let data = await fetch("https://" + serverAdress + "/rest/lastten").then(result => result.json());
         setTransactionData(data);
-        // let lasttensmartcontracts = await fetch("http://localhost:8888/rest/lasttensmartcontracts").then(result => result.json());
-        // let data = await fetch("http://localhost:8888/rest/lasttenreal").then(result => result.json());
+        // let lasttensmartcontracts = await fetch("https://localhost:8888/rest/lasttensmartcontracts").then(result => result.json());
+        // let data = await fetch("https://localhost:8888/rest/lasttenreal").then(result => result.json());
 
         // let table = createTable(lasttentransactions);
         // let table = createTable(data);

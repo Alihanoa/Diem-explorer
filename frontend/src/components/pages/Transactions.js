@@ -20,7 +20,7 @@ export default function Transactions(props) {
         if(observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(async (entries) => {
             if(entries[0].isIntersecting){
-                let newData = await axios.get("http://localhost:8888/rest/getnextten?lastVersionNumber=" + lastRowVersion);
+                let newData = await axios.get("https://diemexplorer.internet-sicherheit.de:8888/rest/getnextten?lastVersionNumber=" + lastRowVersion);
                 newData.data = newData.data.reverse()
 
                 let combinedData = [].concat(rows).concat(newData.data);
@@ -35,7 +35,7 @@ export default function Transactions(props) {
 
 useEffect(() => {
     const loadRows = (async () => {
-        let data = await fetch("http://localhost:8888/rest/getlast50").then(res =>res.json());
+        let data = await fetch("https://diemexplorer.internet-sicherheit.de:8888/rest/getlast50").then(res =>res.json());
         setRows(data);
         
         setLastRowVersion(data[data.length -1].version);
