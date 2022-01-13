@@ -6,26 +6,27 @@ import Chart from "../Chart";
 
 export default function Mainpage(props) {
 
-    const [serverAdress, setServerAdress] = useState("diemexplorer.internet-sicherheit.de:8888");
-    // serverAdress : "diemexplorer.internet-sicherheit.de:8888"
+    // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
+    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
+    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
 
     const [transactionData, setTransactionData] = useState([]);
     
 
     useEffect(async () => {
 
-        let transactions_last_minute = await fetch("https://" + serverAdress + "/rest/transactionstodate?date=28/04/2021").then(result => result.json());
-        let tradingvolume = await fetch("https://" + serverAdress + "/rest/tradingvolume?date=28/04/2021").then(result => result.json());
-        let market_capacity = await fetch("https://" + serverAdress + "/rest/sumbalances").then(result => result.json());
+        let transactions_last_minute = await fetch(serverAddress + "/rest/transactionstodate?date=28/04/2021").then(result => result.json());
+        let tradingvolume = await fetch(serverAddress + "/rest/tradingvolume?date=28/04/2021").then(result => result.json());
+        let market_capacity = await fetch(serverAddress + "/rest/sumbalances").then(result => result.json());
 
-        // let data = await fetch('https://localhost:8888/rest/transactions').then(result => result.json());
-        // let lasttenanything = await fetch("https://localhost:8888/rest/lastten").then(result  => result.json());
+        // let data = await fetch(serverAddress + "/rest/transactions").then(result => result.json());
+        // let lasttenanything = await fetch(serverAddress + "/rest/lastten").then(result  => result.json());
 
-        // let data = await fetch('https://localhost:8888/rest/transactions').then(result => result.json());
-        let data = await fetch("https://" + serverAdress + "/rest/lastten").then(result => result.json());
+        // let data = await fetch(serverAddress + "/rest/transactions").then(result => result.json());
+        let data = await fetch(serverAddress + "/rest/lastten").then(result => result.json());
         setTransactionData(data);
-        // let lasttensmartcontracts = await fetch("https://localhost:8888/rest/lasttensmartcontracts").then(result => result.json());
-        // let data = await fetch("https://localhost:8888/rest/lasttenreal").then(result => result.json());
+        // let lasttensmartcontracts = await fetch(serverAddress + "/rest/lasttensmartcontracts").then(result => result.json());
+        // let data = await fetch(serverAddress + "/rest/lasttenreal").then(result => result.json());
 
         // let table = createTable(lasttentransactions);
         // let table = createTable(data);

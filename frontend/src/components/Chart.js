@@ -3,11 +3,15 @@ import { Line } from 'react-chartjs-2'
 
 export default function Chart() {
 
+    // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
+    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
+    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+
     const [interval, setInterval] = useState("365days");
     const [dataChart, setDataChart] = useState([]);
     const [labelsChart, setLabelsChart] = useState([]);
-    
-    useEffect(async () => {updateChart()}, [interval]);
+
+    useEffect(async () => { updateChart() }, [interval]);
 
     async function updateChart() {
 
@@ -17,7 +21,7 @@ export default function Chart() {
         switch (interval) {
             case "365days":
                 console.log("case 365days wird ausgeführt");
-                // let chartdataTransactions365d = await fetch("http://localhost:8888/rest/datalast365days").then(result => result.json());
+                // let chartdataTransactions365d = await fetch(serverAddress  + "/rest/datalast365days").then(result => result.json());
                 let chartdataTransactions365d = [
                     ["04/01/2021 12:00", "1746"], ["05/01/2021 12:00", "36829"],
                     ["06/01/2021 12:00", "17362"], ["07/01/2021 12:00", "67362"],
@@ -27,12 +31,27 @@ export default function Chart() {
                 break;
             case "30days":
                 console.log("case 30days wird ausgeführt");
-                // let chartdataTransactions30d = await fetch("http://localhost:8888/rest/datalastMonth").then(result => result.json());
+                // let chartdataTransactions30d = await fetch(serverAddress  + "/rest/datalastMonth").then(result => result.json());
                 let chartdataTransactions30d = [
                     ["04/01/2021 12:00", "1746"], ["05/01/2021 12:00", "36829"],
                     ["06/01/2021 12:00", "17362"]
                 ];
                 computeRawChartdata(chartdataTransactions30d);
+                break;
+            case "7days":
+                console.log("case 7days wird ausgeführt");
+                let chartdataTransactions7d = await fetch(serverAddress  + "/rest/datalastWeek").then(result => result.json());
+                computeRawChartdata(chartdataTransactions7d);
+                break;
+            case "24hours":
+                console.log("case 24hours wird ausgeführt");
+                let chartdataTransactions24h = await fetch(serverAddress  + "/rest/datalastDay").then(result => result.json());
+                computeRawChartdata(chartdataTransactions24h);
+                break;
+            case "60minutes":
+                console.log("case 60minutes wird ausgeführt");
+                let chartdataTransactions60m = await fetch(serverAddress  + "/rest/datalastHour").then(result => result.json());
+                computeRawChartdata(chartdataTransactions60m);
                 break;
         }
         console.log("Labels (asynchron): " + labelsChart);
@@ -50,7 +69,7 @@ export default function Chart() {
             computedLabelsChart[i] = rawChartdata[i][0];
             computedDataChart[i] = rawChartdata[i][1];
         }
-        
+
         setLabelsChart(computedLabelsChart);
         setDataChart(computedDataChart);
 

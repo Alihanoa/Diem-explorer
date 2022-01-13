@@ -159,7 +159,7 @@ public class TransactionController {
         int counter = 0;
         while(timestampnow> maxtimestamp && counter < 732){
             date.setTime(mintimestamp);
-            // alldates[counter][0] = date.toString();
+//            alldates[counter][0] = date.toString();
             alldates[counter][0] = dateformat.format(date);
 
 
@@ -170,7 +170,7 @@ public class TransactionController {
 
             long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
 
-            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+//            alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
             alldates[counter][1] = String.valueOf(numberoftransactions);
             mintimestamp = mintimestamp + 43200000;
             maxtimestamp = maxtimestamp + 43200000;
@@ -198,7 +198,7 @@ public class TransactionController {
         int counter = 0;
         while(timestampnow> maxtimestamp && counter < 722){
             date.setTime(mintimestamp);
-            // alldates[counter][0] = date.toString();
+//            alldates[counter][0] = date.toString();
             alldates[counter][0] = dateformat.format(date);
 
 
@@ -210,7 +210,7 @@ public class TransactionController {
 
             long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
 
-            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+//            alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
             alldates[counter][1] = String.valueOf(numberoftransactions);
             mintimestamp = mintimestamp + 3600000;
             maxtimestamp = maxtimestamp + 3600000;
@@ -240,7 +240,7 @@ public class TransactionController {
             date.setTime(mintimestamp);
 //            alldates[counter][0] = date.toString();
             alldates[counter][0] = dateformat.format(date);
-
+            
 
 
             date.setTime(timestampOneYearBack);
@@ -249,7 +249,7 @@ public class TransactionController {
 
             long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
 
-            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+//            alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
             alldates[counter][1] = String.valueOf(numberoftransactions);
             mintimestamp = mintimestamp + 900000;
             maxtimestamp = maxtimestamp + 900000;
@@ -277,9 +277,9 @@ public class TransactionController {
         int counter = 0;
         while(timestampnow> maxtimestamp && counter < 674){
             date.setTime(mintimestamp);
-            alldates[counter][0] = date.toString();
-
-
+//            alldates[counter][0] = date.toString();
+            alldates[counter][0] = dateformat.format(date);
+ 
 
 
             date.setTime(timestampOneYearBack);
@@ -288,7 +288,7 @@ public class TransactionController {
 
             long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
 
-            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+//            alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
             alldates[counter][1] = String.valueOf(numberoftransactions);
             mintimestamp = mintimestamp + 120000;
             maxtimestamp = maxtimestamp + 120000;
@@ -316,8 +316,8 @@ public class TransactionController {
         int counter = 0;
         while(timestampnow> maxtimestamp && counter < 674){
             date.setTime(mintimestamp);
-            alldates[counter][0] = date.toString();
-
+//            alldates[counter][0] = date.toString();
+            alldates[counter][0] = dateformat.format(date);
 
 
 
@@ -327,7 +327,7 @@ public class TransactionController {
 
             long numberoftransactions = this.transactionsRepository.getNumberOfTransactionsBetweenTwoVersions(mintimestamp, maxtimestamp);
 
-            // alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
+//            alldates[counter][1] = String.valueOf(numberoftransactions) +  " " + String.valueOf(mintimestamp) + " " + String.valueOf(maxtimestamp);
             alldates[counter][1] = String.valueOf(numberoftransactions);
             mintimestamp = mintimestamp + 5000;
             maxtimestamp = maxtimestamp + 5000;

@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 
 export default function Accounts(props) {
 
+    // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
+    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
+    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+
     useEffect(async () => {
-        let data = await fetch('http://localhost:8888/rest/accounts').then(result => result.json());
+        let data = await fetch(serverAddress + "/rest/accounts").then(result => result.json());
         let table = createTable(data);
         document.getElementById("accounts").innerHTML = table;
         console.log(table)

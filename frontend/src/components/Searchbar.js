@@ -2,6 +2,10 @@ import React, { useState } from "react";
 
 export default function Searchbar(props) {
 
+    // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
+    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
+    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+    
     const[searchfieldvalue, setSearchfieldvalue] = useState('');
     const[choiceboxvalue, setChoiceboxvalue] = useState('Address');
 
@@ -15,19 +19,20 @@ export default function Searchbar(props) {
                 e.nativeEvent.stopPropagation();
                 e.nativeEvent.stopImmediatePropagation();
                 if (choiceboxvalue === "Address" && searchfieldvalue != "") {
-                    window.location.href = "http://localhost:3000/Accountdetails/" + searchfieldvalue;
+                    window.location.href = "http://" + serverAddress + "/Accountdetails/" + searchfieldvalue;
                 }
                 else if (choiceboxvalue === "Transactionnumber" && searchfieldvalue != "") {
                     window.location.href = ("/Transactiondetails/" + searchfieldvalue);
                 }
                 else if (choiceboxvalue === "Date" && searchfieldvalue != "") {
-                    window.location.href = "http://localhost:3000/Transactions/" + searchfieldvalue + "/" + choiceboxvalue;
+                    window.location.href = "http://" + serverAddress + "/Transactions/" + searchfieldvalue + "/" + choiceboxvalue;
                 }
                 else if (choiceboxvalue === "Amount greater than" && searchfieldvalue != "") {
-                    window.location.href = "http://localhost:3000/Transactions/" + searchfieldvalue;
+                    window.location.href = "http://" + serverAddress + "/Transactions/" + searchfieldvalue;
                 }
                 else if (choiceboxvalue === "Amount less than" && searchfieldvalue != "") {
-                    window.location.href = "http://localhost:3099/Transactions/" + searchfieldvalue;
+                    // window.location.href = "http://localhost:3099/Transactions/" + searchfieldvalue;
+                    window.location.href = serverAddress + "/Transactions/" + searchfieldvalue;
                 }
             }
             }></button>

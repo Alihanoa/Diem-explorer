@@ -3,13 +3,17 @@ import { Bar, Doughnut } from 'react-chartjs-2'
 
 export default function Statistics(props) {
 
+    // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
+    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
+    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+
     const [dataForChart, setDataForChart] = useState([]);
     const [dataDougnutChart, setDataDougnutChart] = useState([]);
 
     useEffect( async () => {
-        let rawdata = await fetch('http://localhost:8888/rest/balances').then(result => result.json());
+        let rawdata = await fetch(serverAddress + "/rest/balances").then(result => result.json());
         let data = computeData(rawdata);
-        let dataForDoughnut = await fetch('http://localhost:8888/rest/doughnutchart').then(res => res.json());
+        let dataForDoughnut = await fetch(serverAddress + "/rest/doughnutchart").then(res => res.json());
         setDataForChart(data);
         // document.getElementById("chart").innerhtml = (<div>{chart}</div>);
         console.log(dataForDoughnut, rawdata);

@@ -3,6 +3,11 @@ import TransactionsTable from "../TransactionsTable";
 import axios from "axios";
 
 export default function Accountdetails(props) {
+
+    // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
+    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
+    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+
     const[data, setData]= useState([]);
     const[lastRowVersion, setLastRowVersion] = useState(0);
     const[counter, setCounter] = useState(0);
@@ -20,7 +25,7 @@ export default function Accountdetails(props) {
         observer.current = new IntersectionObserver(async (entries) => {
             
             if(entries[0].isIntersecting && counter > 0){
-                let newData = await axios.get("https://diemexplorer.internet-sicherheit.de:8888/rest/nexttentransactionsofaccount?address=" + props.match.params.address + "&version=" +lastRowVersion)
+                let newData = await axios.get(serverAddress + "/rest/nexttentransactionsofaccount?address=" + props.match.params.address + "&version=" +lastRowVersion)
                 console.log(newData.data);
                 // console.log(lastRowVersion)
                 // console.log(data);
@@ -35,9 +40,9 @@ export default function Accountdetails(props) {
 
     useEffect(async () => {
 
-        let data = await fetch("https://diemexplorer.internet-sicherheit.de:8888/rest/account?address=" + props.match.params.address).then(result => result.json());
+        let data = await fetch(serverAddress + "/rest/account?address=" + props.match.params.address).then(result => result.json());
         if(counter === 0){
-        let data_transactions = await fetch('https://diemexplorer.internet-sicherheit.de:8888/rest/lasttentransactionsofaccount?address=' + props.match.params.address).then(result => result.json());
+        let data_transactions = await fetch(serverAddress + "/rest/lasttentransactionsofaccount?address=" + props.match.params.address).then(result => result.json());
         setData(data_transactions);
         setCounter(prevCounter => prevCounter +1 );
         setLastRowVersion(data_transactions[data_transactions.length -1].version)

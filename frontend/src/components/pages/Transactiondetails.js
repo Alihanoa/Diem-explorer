@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 
 export default function Transactiondetails(props) {
 
+    // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
+    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
+    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+
     useEffect(async () => {
-        let data = await fetch("https://diemexplorer.internet-sicherheit.de:8888/rest/transaction?version=" + props.match.params.version).then(result => result.json());
+        let data = await fetch(serverAddress + "/rest/transaction?version=" + props.match.params.version).then(result => result.json());
         let table = createTable(data);
         document.getElementById("transaction").innerHTML = table;
     }, []);
