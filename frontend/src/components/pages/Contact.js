@@ -32,15 +32,15 @@ export default function Contact(props) {
 
         return (
             <form>
-                <label>If you have any question or feedback, feel free to contact us!</label>
-                <br />
-                <input type="text" name="name" id="name" placeholder="Name" value={name} onChange={handleChange} />
-                <br />
-                <input type="email" placeholder="E-Mail Address" name="email" id="email" value={email} onChange={handleChange} />
-                <br />
-                <textarea name="message" id="message" placeholder="Message" rows="10" value={message} onChange={handleChange} />
-                <br />
-                <input type="submit" name="send" id="submit-button" value="Submit" onClick={handleSubmit} />
+                <label id="contact_form_label" class="contact_form">If you have any question or feedback, feel free to contact us!</label>
+
+                <input type="text" name="name" id="name" placeholder="Name" value={name} onChange={handleChange} class="contact_form" />
+                
+                <input type="email" placeholder="E-Mail Address" name="email" id="email" value={email} onChange={handleChange} class="contact_form"/>
+                
+                <textarea name="message" id="message" placeholder="Message" rows="10" value={message} onChange={handleChange} class="contact_form" />
+                
+                <input type="submit" name="send" id="submit-button" value="Submit" onClick={handleSubmit} class="contact_form" />
             </form>
         )
     }

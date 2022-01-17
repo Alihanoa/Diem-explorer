@@ -16,7 +16,7 @@ code {
 
 /* Ab hier eigene Styles. */
 
-header, footer, #general_information, table th, #submit-button{
+header, footer, #general_information, table th, #submit-button, #search_button, #searchbox{
   background-color: #42318C;
   color: #FFFFFF;
 }
@@ -124,6 +124,17 @@ footer{
   align-items:center; 
 }
 
+.contact_form{
+  padding: 8px;
+  margin: 1vh;
+}
+
+#contact_form_label{
+  font-size: 20px;
+  margin: 1vh;
+  display:inline-block;
+}
+
 .person{
   /* display: flexbox;
   flex-flow: row wrap; */
@@ -131,13 +142,14 @@ footer{
   width: 50%;
   height: 50%;
 }
-img{
-  /* width: 15vh;
-  height: 10vh; */
-}
 
 #submit-button, #name, #email, #message{
   border-radius:8px;
+  border: none;
+}
+
+#message{
+  resize: none;
 }
 
 #name, #email, #message{
@@ -148,39 +160,57 @@ img{
   border: none;
 }
 
-/* Ab hier Daniels Code. */
-
 caption{
   text-align: left;
   font-size: 26px;
   font-weight: bold;
 }
 
+.search{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 form.search input {
   width: 40%;
+  height: 4vh;
   max-width: 50%;
-  padding: 10px;
-  margin: auto;
+  padding: 8px;
+  /* margin: auto; */
   font-size: 18px;
   border: none;
   background: #F0F3F2;
-  border-radius: 8px 8px 8px 8px;
+  border-radius: 8px 0px 0px 8px;
 }
 
-/*form.search button {
+input:focus {
+  outline: none !important;
+  /* border:1px solid red; */
+  box-shadow: 0 0 3px #42318C;
+}
+
+form.search button {
   width: 40px;
-  padding: 21px;
-  margin: auto;
+  height: 4vh;
+  padding: 8px;
+  /* margin: auto; */
   border: none;
-  color: #FFFFFF;
-  background: #42318C;
   border-radius: 0px 8px 8px 0px;
   cursor: pointer;
-}*/
+}
 
-/*form.search button:hover {
-background: #43217D;
-}*/
+form.search select {
+  height: 4vh;
+  padding: 8px;
+}
+
+#search_icon{
+  height: 20px;
+  width: 20px;
+}
+
+/* Ab hier Daniels Code. */
 
 #general_information{
   width: 80%;
