@@ -1,3 +1,13 @@
+/* @font-face {
+  font-family: 'Roboto';
+  src: local('Roboto'), url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+}
+
+html * {
+  font-family: 'Roboto' !important;
+  font-weight: 400 !important;
+} */
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -16,38 +26,38 @@ code {
 
 /* Ab hier eigene Styles. */
 
-header, footer, #general_information, table th, #submit-button, #search_button, #searchbox{
+header, footer, #general_information, #chart-bar, #select-chartdata, #select-chartinterval, table th, #submit-button, #search_button, #searchbox {
   background-color: #42318C;
   color: #FFFFFF;
 }
 
-#main_title, caption{
-  color:#42318C;
+#main_title, caption {
+  color: #42318C;
 }
 
-a, Link{
+a, Link {
   text-decoration: none;
   color: #42318C;
 }
-a:hover, Link:hover{
+a:hover, Link:hover {
   /* font-size:18px; */
   text-decoration: underline;
 }
 
-header, footer{
-  font-family: roboto;
+header, footer {
+  font-family: Roboto;
   width: 100%;
   height: 56px;
   font-size: 16px;
   display: flex;
-  justify-content:center;
-  align-items:center;
+  justify-content: center;
+  align-items: center;
 }
-header a, footer a, header Link, footer Link{
+header a, footer a, header Link, footer Link {
   width: 15vh;
   color: #FFFFFF;
 }
-.header_wrapper{
+.header_wrapper {
   width: 80%;
   max-width: 80%;
   display: flex;
@@ -55,7 +65,7 @@ header a, footer a, header Link, footer Link{
   align-items: center;
   /* justify-content:center; */
 }
-.header_left{
+.header_left {
   display: flex;
   text-align: left;
   align-items: center;
@@ -63,38 +73,28 @@ header a, footer a, header Link, footer Link{
   /* width:20vh; */
   /* padding: 20%; */
 }
-.header_left a{
+.header_left a {
   /* width: 10vh; */
 }
-.header_right{
+.header_right {
   display: flex;
   justify-content: right;
   text-align: right;
 }
-footer{
+footer {
   bottom: 0;
   position: absolute;
 }
 
-#wrapper{
+#wrapper {
   padding-bottom: 10vh;
 }
-#site{
+#site {
   position: relative;
   min-height: 100vh;
 }
-#chart-wrapper{
-  width: 80%;
-  height: 25vh;
-  margin: auto;
-  max-width: 80%;
-}
-#transactions{
-  max-width: 80%;
-  width: 80%;
-}
 
-.contact-wrapper{
+.contact-wrapper {
   max-width: 80%;
   width: 80%;
   margin: auto;
@@ -106,13 +106,13 @@ footer{
   justify-content: space-between;
   align-items: center;
 }
-.contact-left{
+.contact-left {
   padding: 5%;
   width: 40%;
   max-width: 40%;
   text-align: left;
 }
-.contact-right{
+.contact-right {
   width: 40%;
   height: 80%;
   max-width: 40%;
@@ -120,8 +120,8 @@ footer{
   background-color: #FFFFFF;
   display:flex;
   flex-flow: row wrap;
-  justify-content:center;
-  align-items:center; 
+  justify-content: center;
+  align-items: center; 
 }
 
 .contact_form{
@@ -156,7 +156,7 @@ footer{
   width: 100%;
   box-sizing: border-box;
   margin-top: 1%;
-  /* border-radius: 8px; */
+  /* border-radius: 10px; */
   border: none;
 }
 
@@ -219,48 +219,131 @@ form.search select {
   max-width: 80%;
 }
 
-table{
+#chart-caption-wrapper {
+  width: 80%;
+  height: 40px;
+  max-width: 80%;
+  margin: auto;
+}
+
+#chart-caption {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+#chart-bar {
+  width: 80%;
+  height: 40px;
+  margin: auto;
+  max-width: 80%;
+  border: 0px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+#select-chartdata {
+  width: 12vh;
+  height: 40px;
+  max-width: 40%;
+  /* float: left; */
+  padding: 10px;
+  border: 0px;
+  border-radius: 10px 0px 0px 0px;
+}
+
+#select-chartinterval {
+  width: 14vh;
+  height: 40px;
+  max-width: 40%;
+  /* float: left; */
+  padding: 10px;
+  border: 0px;
+  border-radius: 0px 0px 0px 0px;
+}
+
+select option {
+  background: #42318C;
+  color: #FFFFFF;
+}
+
+/* select option:hover {
+  background-color: #42318C;
+  box-shadow: #42318C;
+} */
+
+#chart-wrapper {
+  width: 80%;
+  height: 25vh;
+  margin: auto;
+  max-width: 80%;
+}
+
+#table-caption-wrapper {
+  width: 80%;
+  height: 40px;
+  max-width: 80%;
+  margin: auto;
+}
+
+#table-caption {
+  text-align: left;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+#table-checkboxes-wrapper {
+  height: 28px;
+}
+
+#table-checkboxes-wrapper label {
+  margin-right: 10px;
+}
+
+table {
   width: 80%;
   max-width: 80%;
-  height: 40px;
   left: 0;
   right: 0;
-  margin:auto;
-  border-radius: 8px;
+  margin: auto;
   border-spacing: 0;
-  border-collapse: separate;
-  font-family: Roboto;
+}
+
+table caption {
+  text-align: left;
+  font-size: 26px;
+  font-weight: bold;
 }
 
 table th {
-  text-align: left;
+  text-align: center;
+  font-weight: 400;
 }
 
 table td, table th {
-  padding: 8px; 
+  padding: 8px;
+  font-family: Roboto; 
 }
 
 table tr:first-child th:first-child,
 table tr:first-child td:first-child {
-  border-top-left-radius: 10px
+  border-top-left-radius: 10px;
 }
 table tr:first-child th:last-child,
 table tr:first-child td:last-child {
-  border-top-right-radius: 10px
+  border-top-right-radius: 10px;
 }
 
 table tr:last-child td:first-child {
-  border-bottom-left-radius: 8px;
+  border-bottom-left-radius: 10px;
 }
 
 table tr:last-child td:last-child {
-  border-bottom-right-radius: 8px;
+  border-bottom-right-radius: 10px;
 }
 
 table tr:nth-child(even){
   background-color: #f0f2f3;
 }
 
-#main_title{
+#main_title {
   font-size: 60px;
 }

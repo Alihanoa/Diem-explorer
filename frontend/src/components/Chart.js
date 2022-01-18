@@ -77,14 +77,16 @@ export default function Chart() {
 
     return (
         <>
-            <div id="chart-wrapper">
-                <caption>Developments</caption>
-                <select id="chartdata">
+            <div id="chart-caption-wrapper">
+                <caption id="chart-caption">Developments</caption>
+            </div>
+            <div id="chart-bar">
+                <select id="select-chartdata">
                     <option value="transactions" selected>Transactions</option>
                     <option value="accounts">Accounts</option>
                     <option value="gasPrice">Gas Price</option>
                 </select>
-                <select id="chartinterval" onChange={(e) => { setInterval(e.target.value) }}>
+                <select id="select-chartinterval" onChange={(e) => { setInterval(e.target.value) }}>
                     <option value="totalTime">Total time</option>
                     <option value="365days" selected>Last 365 days</option>
                     <option value="30days">Last 30 days</option>
@@ -93,6 +95,8 @@ export default function Chart() {
                     <option value="60minutes">Last 60 minutes</option>
                     <option value="60seconds">Last 60 seconds</option>
                 </select>
+            </div>
+            <div id="chart-wrapper">
                 <Line
                     data={{
                         labels: labelsChart,
@@ -105,7 +109,7 @@ export default function Chart() {
                                 borderColor: '#42318C',
                                 borderWidth: 2,
                                 pointRadius: 0,
-                                hitRadius: 2,
+                                hitRadius: 15,
                                 hoverRadius: 5
                             }
                         ]

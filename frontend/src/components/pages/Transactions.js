@@ -24,6 +24,7 @@ export default function Transactions(props) {
         if (observer.current) observer.current.disconnect();
         observer.current = new IntersectionObserver(async (entries) => {
             if (entries[0].isIntersecting) {
+                // console.log('Last version: ' + lastRowVersion)
                 let newData = await axios.get(serverAddress + "/rest/getnextten?lastVersionNumber=" + lastRowVersion);
                 newData.data = newData.data.reverse()
 

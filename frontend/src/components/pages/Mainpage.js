@@ -11,7 +11,7 @@ export default function Mainpage(props) {
     const [serverAddress, setServerAddress] = useState("http://localhost:8888");
 
     const [transactionData, setTransactionData] = useState([]);
-    
+
 
     useEffect(async () => {
 
@@ -43,49 +43,47 @@ export default function Mainpage(props) {
     return (
         <div>
             <h1 id="main_title">Diem Explorer</h1>
-
-            <Searchbar />
+            <Searchbar/>
             <br></br>
             <br></br>
-            <table id="general_information">
+            {/* <table id="general_information">
                 <caption>General Information</caption>
                 <thead>
                     <tr>
                         <td>Average gas unit price: 0</td>
                         <td>Transactions in the last minute: <div id="transactions_last_minute"></div></td>
-                        <td>Trading volume today: <div id="tradingvolume" /></td>
-                        <td>Market capacity:  <div id="market_capacity" /></td>
+                        <td>Trading volume today: <div id="tradingvolume"/></td>
+                        <td>Market capacity:  <div id="market_capacity"/></td>
                     </tr>
                 </thead>
-            </table>
-            <br></br>
-
-            <Chart />        
-
-            <br></br>
-            <br></br>
-            <br></br>
-            <TransactionsTable data={transactionData}/>
-            {/* <input type="checkbox" id="smartContract" name="Include Smart Contracts" defaultChecked />
-            <label for="smartContract"> Include Smart Contracts </label>
-            <input type="checkbox" id="blockMetadata" name="Include Blockmetadata" />
-            <label for="blockMetadata"  > Include Blockmetadata </label>
+            </table> */}
             <table>
-                <caption>Latest Transactions</caption>
+            <caption>General Information</caption>
                 <thead>
                     <tr>
-                        <th>Version</th>
-                        <th>From</th>
-                        <th>Public Key Sender</th>
-                        <th>To</th>
-                        <th>Amount</th>
-                        <th>Gas Amount</th>
-                        <th>Date</th>
-                        <th>Type</th>
+                        <th>Average Gas Unit Price</th>
+                        <th>Transactions in the last Minute</th>
+                        <th>Trading Volume today</th>
+                        <th>Market Capacity</th>
                     </tr>
                 </thead>
-                <tbody id="transactions"></tbody>
-            </table> */}
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td><div id="transactions_last_minute"></div></td>
+                        <td><div id="tradingvolume"/></td>
+                        <td><div id="market_capacity"/></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br></br>
+            <br></br>
+            <Chart/>        
+            <br></br>
+            <br></br>
+            <TransactionsTable data={transactionData} />
+            <br></br>
+            <br></br>
         </div>
     );
 }
