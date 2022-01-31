@@ -23,9 +23,19 @@ export default function Chart() {
                 console.log("case 365days wird ausgeführt");
                 // let chartdataTransactions365d = await fetch(serverAddress  + "/rest/datalast365days").then(result => result.json());
                 let chartdataTransactions365d = [
-                    ["04/01/2021 12:00", "1746"], ["05/01/2021 12:00", "36829"],
-                    ["06/01/2021 12:00", "17362"], ["07/01/2021 12:00", "67362"],
-                    ["08/01/2021 12:00", "97362"], ["09/01/2021 12:00", "27362"]
+                    ["20/01/2021 12:00", "13746"], ["04/02/2021 12:00", "15829"],
+                    ["20/02/2021 12:00", "26062"], ["04/03/2021 12:00", "36262"],
+                    ["20/03/2021 12:00", "47462"], ["04/04/2021 12:00", "39463"],
+                    ["20/04/2021 12:00", "18446"], ["04/05/2021 12:00", "16529"],
+                    ["20/05/2021 12:00", "16462"], ["04/06/2021 12:00", "14562"],
+                    ["20/06/2021 12:00", "11332"], ["04/07/2021 12:00", "19382"],
+                    ["20/07/2021 12:00", "15446"], ["04/08/2021 12:00", "16521"],
+                    ["20/08/2021 12:00", "17462"], ["04/09/2021 12:00", "16362"],
+                    ["20/09/2021 12:00", "20762"], ["04/10/2021 12:00", "23652"],
+                    ["20/10/2021 12:00", "27346"], ["04/11/2021 12:00", "33629"],
+                    ["20/11/2021 12:00", "53762"], ["04/12/2021 12:00", "63462"],
+                    ["20/12/2021 12:00", "56762"], ["04/01/2022 12:00", "52362"],
+                    ["20/01/2022 12:00", "61362"]
                 ];
                 computeRawChartdata(chartdataTransactions365d);
                 break;
@@ -33,8 +43,22 @@ export default function Chart() {
                 console.log("case 30days wird ausgeführt");
                 // let chartdataTransactions30d = await fetch(serverAddress  + "/rest/datalastMonth").then(result => result.json());
                 let chartdataTransactions30d = [
-                    ["04/01/2021 12:00", "1746"], ["05/01/2021 12:00", "36829"],
-                    ["06/01/2021 12:00", "17362"]
+                    ["20/12/2021 12:00", "56762"], ["21/12/2021 12:00", "55332"],
+                    ["22/12/2021 12:00", "55117"], ["23/12/2021 12:00", "55131"],
+                    ["24/12/2021 12:00", "55222"], ["25/12/2021 12:00", "55245"],
+                    ["26/12/2021 12:00", "54903"], ["27/12/2021 12:00", "53762"],
+                    ["28/12/2021 12:00", "53285"], ["29/12/2021 12:00", "53614"],
+                    ["30/12/2021 12:00", "53234"], ["31/12/2021 12:00", "52400"],
+                    ["01/01/2022 12:00", "52527"], ["02/01/2022 12:00", "52591"],
+                    ["03/01/2022 12:00", "52411"], ["04/01/2022 12:00", "52362"],
+                    ["05/01/2022 12:00", "52370"], ["06/01/2022 12:00", "53054"],
+                    ["07/01/2022 12:00", "53482"], ["08/01/2022 12:00", "53289"],
+                    ["09/01/2022 12:00", "53835"], ["10/01/2022 12:00", "54129"],
+                    ["11/01/2022 12:00", "55423"], ["12/01/2022 12:00", "56503"],
+                    ["13/01/2022 12:00", "58841"], ["14/01/2022 12:00", "59921"],
+                    ["15/01/2022 12:00", "59743"], ["16/01/2022 12:00", "60031"],
+                    ["17/01/2022 12:00", "61528"], ["18/01/2022 12:00", "60937"],
+                    ["19/01/2022 12:00", "61119"], ["20/01/2022 12:00", "61362"]
                 ];
                 computeRawChartdata(chartdataTransactions30d);
                 break;
@@ -72,7 +96,6 @@ export default function Chart() {
 
         setLabelsChart(computedLabelsChart);
         setDataChart(computedDataChart);
-
     }
 
     return (
@@ -88,12 +111,12 @@ export default function Chart() {
                 </select>
                 <select id="select-chartinterval" onChange={(e) => { setInterval(e.target.value) }}>
                     <option value="totalTime">Total time</option>
-                    <option value="365days" selected>Last 365 days</option>
-                    <option value="30days">Last 30 days</option>
-                    <option value="7days">Last 7 days</option>
-                    <option value="24hours">Last 24 hours</option>
-                    <option value="60minutes">Last 60 minutes</option>
-                    <option value="60seconds">Last 60 seconds</option>
+                    <option value="365days" selected>Last 365 Days</option>
+                    <option value="30days">Last 30 Days</option>
+                    <option value="7days">Last 7 Days</option>
+                    <option value="24hours">Last 24 Hours</option>
+                    <option value="60minutes">Last 60 Minutes</option>
+                    <option value="60seconds">Last 60 Seconds</option>
                 </select>
             </div>
             <div id="chart-wrapper">

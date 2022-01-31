@@ -10,7 +10,6 @@ export default function Header(props) {
                     <Link to="/">Home</Link>
                     <p id="status"></p>
                 </div>
-
                 <div class="header_right">
                     <Link to="/Transactions">Transactions</Link>
                     <Link to="/Accounts">Accounts</Link>
