@@ -10,10 +10,9 @@ export default function Accounts(props) {
         let data = await fetch(serverAddress + "/rest/accounts").then(result => result.json());
         let table = createTable(data);
         document.getElementById("accounts").innerHTML = table;
-        console.log(table)
     }, []);
 
-    // create table row for each object within the data array
+    // Create table row for each object within the data array
     function createTable(data) {
 
         let table = [];
@@ -23,7 +22,6 @@ export default function Accounts(props) {
                 + data[i].authentication_key + "</td>  <td>"
                 + data[i].sequence_number + "</td>  <td>" + data[i].is_frozen + "</td> </tr>";
         }
-        console.log(data);
         return table;
     }
 
@@ -41,9 +39,7 @@ export default function Accounts(props) {
                         <th>Frozen</th>
                     </tr>
                 </thead>
-                <tbody id="accounts">
-
-                </tbody>
+                <tbody id="accounts"></tbody>
             </table>
         </div>
     );

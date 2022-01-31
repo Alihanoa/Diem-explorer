@@ -10,7 +10,7 @@ export default function Statistics(props) {
     const [dataForChart, setDataForChart] = useState([]);
     const [dataDougnutChart, setDataDougnutChart] = useState([]);
 
-    useEffect( async () => {
+    useEffect(async () => {
         let rawdata = await fetch(serverAddress + "/rest/balances").then(result => result.json());
         let data = computeData(rawdata);
         let dataForDoughnut = await fetch(serverAddress + "/rest/doughnutchart").then(res => res.json());
@@ -48,38 +48,35 @@ export default function Statistics(props) {
     }
 
     return (
-
         <>
-            <div id="chart">
+            <h1 id="main_title">Statistics</h1>
+            <div id="barchart-wrapper">
+                <caption id="chart-caption">Amount&nbsp;of&nbsp;Accounts</caption>
+                <br />
                 <Bar id="barChart"
                     data={{
-                        labels: ['weniger', 'gleich', 'mehr'],
+                        labels: ['Accounts with Amount smaller than 1 XUS Coin',
+                                 'Accounts with Amount equal to 1 XUS Coin',
+                                 'Accounts with Amount bigger than 1 XUS Coin'],
                         datasets: [{
-                            label: 'Wieviele Accounts haben mindestens 1 XUS Token',
                             data: dataForChart,
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 0.2)',
-                                'rgba(54, 162, 235, 0.2)',
-                                'rgba(255, 206, 86, 0.2)'
-                                /*                       'rgba(75, 192, 192, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)' */
-                            ],
-                            borderColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)' /*
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)' */
-                            ],
-                            borderWidth: 1
+                                fill: true,
+                                lineTension: 0.1,
+                                backgroundColor: '#F0F3F2',
+                                borderColor: '#42318C',
+                                borderWidth: 2,
+                                pointRadius: 0,
+                                hitRadius: 15,
+                                hoverRadius: 5
                         }]
                     }}
-                    height={400}
-                    width={600}
                     options={{
                         maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
                     }}
                 />
             </div>

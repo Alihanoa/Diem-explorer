@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import TransactionsTable from "../TransactionsTable";
-import axios from "axios";
+import TableTransactionsAccount from "../TableTransactionsAccount";
 
 export default function Accountdetails(props) {
 
@@ -8,52 +7,15 @@ export default function Accountdetails(props) {
     // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
     const [serverAddress, setServerAddress] = useState("http://localhost:8888");
 
-    const[data, setData]= useState([]);
-    const[lastRowVersion, setLastRowVersion] = useState(0);
-    const[counter, setCounter] = useState(0);
-    const observer = useRef();
-
-
-    const options = {
-        threshhold : 1
-    }
-
-    const lastElement = useCallback(() => {
-
-        if(observer.current) observer.current.disconnect();
-        
-        observer.current = new IntersectionObserver(async (entries) => {
-            
-            if(entries[0].isIntersecting && counter > 0){
-                let newData = await axios.get(serverAddress + "/rest/nexttentransactionsofaccount?address=" + props.match.params.address + "&version=" +lastRowVersion)
-                console.log(newData.data);
-                // console.log(lastRowVersion)
-                // console.log(data);
-
-                let concateddata = [].concat(data).concat(newData.data);
-                setLastRowVersion(newData.data[newData.data.length -1].version);
-                setData(concateddata);
-            }
-        },options)
-        observer.current.observe(document.getElementById("last"));
-    });
-
     useEffect(async () => {
 
         let data = await fetch(serverAddress + "/rest/account?address=" + props.match.params.address).then(result => result.json());
-        if(counter === 0){
-        let data_transactions = await fetch(serverAddress + "/rest/lasttentransactionsofaccount?address=" + props.match.params.address).then(result => result.json());
-        setData(data_transactions);
-        setCounter(prevCounter => prevCounter +1 );
-        setLastRowVersion(data_transactions[data_transactions.length -1].version)
-        }
-
         let table = createTable(data);
         
         document.getElementById("account").innerHTML = table;
     },[]);
 
-    //create table row for each object within the data array
+    // Create table row for each object within the data array
     function createTable(data) {
 
         let table = [];
@@ -84,20 +46,13 @@ export default function Accountdetails(props) {
         <div>
             <h1>Account Details</h1>
             <h2>Account Address {props.match.params.address}</h2>
+            <br></br>
             <table>
-                <thead>
-
-                </thead>
-
-                <tbody id="account">
-
-                </tbody>
+                <tbody id="account"/>
             </table>
-
-            
-
-           <TransactionsTable data={data} />
-           <p ref ={lastElement} id="last"></p>
+            <br/>
+            <br/>
+            <TableTransactionsAccount address={props.match.params.address}/>
         </div>
     )
 }
