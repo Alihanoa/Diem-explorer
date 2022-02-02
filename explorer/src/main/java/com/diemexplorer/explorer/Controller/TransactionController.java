@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -584,6 +581,38 @@ public class TransactionController {
 
         }
         return Ergebnis;
+    }
+
+    @GetMapping("/rest/combinedtransactionslatestten")
+    public List<Transactions> getcombinedtransactionslatestten(@RequestParam boolean realtransactions, @RequestParam boolean smartcontracts, @RequestParam boolean blockmetadata){
+
+        List<Transactions> real = getLastTenRealTransactions();
+        List<Transactions> smartc= getLastTenSmartContracts();
+        List<Transactions> blockm= getLastTenBlockMetaData();
+        List<Transactions> result= new ArrayList<>();
+
+        if (realtransactions) {
+            result.addAll(real);
+        }
+
+        if(smartcontracts){
+            result.addAll(smartc);
+        }
+
+        if(blockmetadata){
+            result.addAll(blockm);
+        }
+
+        Collections.sort(result, new Comparator<Transactions>() {
+            @Override
+            public int compare(Transactions o1, Transactions o2) {
+                return o1.getVersion().compareTo(o2.getVersion());
+            }
+        });
+        if(result.isEmpty()||result.size()<=10){
+            return result;
+        }
+        return result.subList(result.size()-11, result.size()-1);
     }
 
 }
