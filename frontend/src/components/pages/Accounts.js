@@ -7,10 +7,18 @@ export default function Accounts(props) {
     const [serverAddress, setServerAddress] = useState("http://localhost:8888");
 
     useEffect(async () => {
+        let table = createLoadingTable();
+        document.getElementById("accounts").innerHTML = table;
+
         let data = await fetch(serverAddress + "/rest/accounts").then(result => result.json());
-        let table = createTable(data);
+        table = createTable(data);
         document.getElementById("accounts").innerHTML = table;
     }, []);
+
+    function createLoadingTable() {
+
+        return ("<tr><td>Loading...</td><td>Loading...</td><td>Loading...</td><td>Loading...</td></tr>");
+    }
 
     // Create table row for each object within the data array
     function createTable(data) {
@@ -29,8 +37,10 @@ export default function Accounts(props) {
         <div>
             <h1 id="main_title">Accounts</h1>
 
+            <div id="accounts-caption-wrapper">
+                <caption id="accounts-caption">Accounts</caption>
+            </div>
             <table>
-                <caption>Accounts</caption>
                 <thead>
                     <tr>
                         <th>Address</th>

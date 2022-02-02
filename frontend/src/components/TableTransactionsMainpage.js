@@ -17,38 +17,49 @@ export default function TableTransactionsMainpage(props) {
 
         console.log("updateTable wird ausgeführt");
 
-        if (showTransactions && !showSmartContracts && !showBlockmetadata) {
-            console.log("Case T1S0B0 wird ausgeführt");
-            document.getElementById("transactions").checked = true;
-            setDataTable(await fetch(serverAddress + "/rest/lasttenreal").then(result => result.json()));
-        } else if (showTransactions && showSmartContracts && !showBlockmetadata) {
-            // Has to be changed after backend-method is implemented!
-            console.log("Case T1S1B0 wird ausgeführt");
-            setDataTable(await fetch(serverAddress + "/rest/lastten").then(result => result.json()));
-        } else if (showTransactions && showSmartContracts && showBlockmetadata) {
-            console.log("Case T1S1B1 wird ausgeführt");
-            setDataTable(await fetch(serverAddress + "/rest/lastten").then(result => result.json()));
-        } else if (showTransactions && !showSmartContracts && showBlockmetadata) {
-            // Has to be changed after backend-method is implemented!
-            console.log("Case T1S0B1 wird ausgeführt");
-            setDataTable(await fetch(serverAddress + "/rest/lastten").then(result => result.json()));
-        } else if (!showTransactions && showSmartContracts && !showBlockmetadata) {
-            console.log("Case T0S1B0 wird ausgeführt");
-            setDataTable(await fetch(serverAddress + "/rest/lasttensmartcontracts").then(result => result.json()));
-        } else if (!showTransactions && showSmartContracts && showBlockmetadata) {
-            // Has to be changed after backend-method is implemented!
-            console.log("Case T0S1B1 wird ausgeführt");
-            setDataTable(await fetch(serverAddress + "/rest/lastten").then(result => result.json()));
-        } else if (!showTransactions && !showSmartContracts && showBlockmetadata) {
-            console.log("Case T0S0B1 wird ausgeführt");
-            setDataTable(await fetch(serverAddress + "/rest/lasttenBlock").then(result => result.json()));
-        } else if (!showTransactions && !showSmartContracts && !showBlockmetadata) {
-            console.log("Case T0S0B0 wird ausgeführt");
-            // document.getElementById("transactions").checked = true;
-            // document.getElementById("transactions").disabled = "disabled";
-            // setDataTable(await fetch(serverAddress + "/rest/lasttenreal").then(result => result.json()));
+        if (showTransactions || showSmartContracts || showBlockmetadata) {
+            console.log("Show Transactions: " + showTransactions
+                        + ", Show Smart Contracts: " + showSmartContracts 
+                        + ", Show Blockmetadata: " + showBlockmetadata);
+            setDataTable(await fetch(serverAddress + "/rest/combinedtransactionslatestten?"
+                                    + "realtransactions=" + showTransactions
+                                    + "&" + "smartcontracts=" + showSmartContracts
+                                    + "&" + "blockmetadata=" + showBlockmetadata).then(result => result.json()));
+        } else {
             setDataTable([]);
-        };
+        }
+
+        // if (showTransactions && !showSmartContracts && !showBlockmetadata) {
+        //     console.log("Case T1S0B0 wird ausgeführt");
+        //     setDataTable(await fetch(serverAddress + "/rest/lasttenreal").then(result => result.json()));
+        // } else if (showTransactions && showSmartContracts && !showBlockmetadata) {
+        //     // Has to be changed after backend-method is implemented!
+        //     console.log("Case T1S1B0 wird ausgeführt");
+        //     setDataTable(await fetch(serverAddress + "/rest/lastten").then(result => result.json()));
+        // } else if (showTransactions && showSmartContracts && showBlockmetadata) {
+        //     console.log("Case T1S1B1 wird ausgeführt");
+        //     setDataTable(await fetch(serverAddress + "/rest/lastten").then(result => result.json()));
+        // } else if (showTransactions && !showSmartContracts && showBlockmetadata) {
+        //     // Has to be changed after backend-method is implemented!
+        //     console.log("Case T1S0B1 wird ausgeführt");
+        //     setDataTable(await fetch(serverAddress + "/rest/lastten").then(result => result.json()));
+        // } else if (!showTransactions && showSmartContracts && !showBlockmetadata) {
+        //     console.log("Case T0S1B0 wird ausgeführt");
+        //     setDataTable(await fetch(serverAddress + "/rest/lasttensmartcontracts").then(result => result.json()));
+        // } else if (!showTransactions && showSmartContracts && showBlockmetadata) {
+        //     // Has to be changed after backend-method is implemented!
+        //     console.log("Case T0S1B1 wird ausgeführt");
+        //     setDataTable(await fetch(serverAddress + "/rest/lastten").then(result => result.json()));
+        // } else if (!showTransactions && !showSmartContracts && showBlockmetadata) {
+        //     console.log("Case T0S0B1 wird ausgeführt");
+        //     setDataTable(await fetch(serverAddress + "/rest/lasttenBlock").then(result => result.json()));
+        // } else if (!showTransactions && !showSmartContracts && !showBlockmetadata) {
+        //     console.log("Case T0S0B0 wird ausgeführt");
+        //     // document.getElementById("transactions").checked = true;
+        //     // document.getElementById("transactions").disabled = "disabled";
+        //     // setDataTable(await fetch(serverAddress + "/rest/lasttenreal").then(result => result.json()));
+        //     setDataTable([]);
+        // };
     }
 
     return (
@@ -83,7 +94,7 @@ export default function TableTransactionsMainpage(props) {
                             <tr>
                                 <td><a href={"/Transactiondetails/" + entry.version}> {entry.version} </a></td>
                                 <td><a href={"/Accountdetails/" + entry.sender_id}>{entry.sender_id} </a></td>
-                                <td>{entry.public_key}</td>
+                                <td>{entry.addressshort}</td>
                                 <td><a href={"/Accountdetails/" + entry.receiver_id}>{entry.receiver_id} </a></td>
                                 <td>{entry.amount + ' '}{entry.currency}</td>
                                 <td>{entry.gas_used + ' '}{entry.gas_currency}</td>

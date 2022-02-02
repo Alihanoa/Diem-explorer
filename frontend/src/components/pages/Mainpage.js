@@ -11,11 +11,15 @@ export default function Mainpage(props) {
 
     useEffect(async () => {
 
-        let transactions_last_minute = await fetch(serverAddress + "/rest/transactionstodate?date=28/04/2021").then(result => result.json());
+        document.getElementById("transactions_today").innerHTML = "Loading...";
+        document.getElementById("tradingvolume").innerHTML = "Loading...";
+        document.getElementById("market_capacity").innerHTML = "Loading...";
+
+        let transactions_today = await fetch(serverAddress + "/rest/transactionstodate?date=28/04/2021").then(result => result.json());
         let tradingvolume = await fetch(serverAddress + "/rest/tradingvolume?date=28/04/2021").then(result => result.json());
         let market_capacity = await fetch(serverAddress + "/rest/sumbalances").then(result => result.json());
 
-        document.getElementById("transactions_last_minute").innerHTML = transactions_last_minute.toLocaleString();
+        document.getElementById("transactions_today").innerHTML = transactions_today.toLocaleString();
         document.getElementById("tradingvolume").innerHTML = tradingvolume.toLocaleString() + " XUS";
         document.getElementById("market_capacity").innerHTML = market_capacity.toLocaleString() + " XUS";
 
@@ -27,12 +31,14 @@ export default function Mainpage(props) {
             <Searchbar/>
             <br></br>
             <br></br>
+            <div id="general_information-caption-wrapper">
+                <caption id="general_information-caption">General&nbsp;Information</caption>
+            </div>
             <table>
-            <caption>General Information</caption>
                 <thead>
                     <tr>
                         <th>Average Gas Unit Price</th>
-                        <th>Transactions in the last Minute</th>
+                        <th>Transactions today</th>
                         <th>Trading Volume today</th>
                         <th>Market Capacity</th>
                     </tr>
@@ -40,7 +46,7 @@ export default function Mainpage(props) {
                 <tbody>
                     <tr>
                         <td>0</td>
-                        <td><div id="transactions_last_minute"></div></td>
+                        <td><div id="transactions_today"></div></td>
                         <td><div id="tradingvolume"/></td>
                         <td><div id="market_capacity"/></td>
                     </tr>

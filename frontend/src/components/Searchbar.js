@@ -8,7 +8,7 @@ export default function Searchbar(props) {
     const [serverAddress, setServerAddress] = useState("http://localhost:8888");
 
     const [searchfieldvalue, setSearchfieldvalue] = useState('');
-    const [choiceboxvalue, setChoiceboxvalue] = useState('Address');
+    const [choiceboxvalue, setChoiceboxvalue] = useState('Account Address');
 
     function handleChange(e){
         setSearchfieldvalue(e.target.value); console.log(searchfieldvalue)
@@ -22,21 +22,21 @@ export default function Searchbar(props) {
         e.preventDefault();
         e.nativeEvent.stopPropagation();
         e.nativeEvent.stopImmediatePropagation();
-        if (choiceboxvalue === "Address" && searchfieldvalue != "") {
-            window.location.href = serverAddress + "/Accountdetails/" + searchfieldvalue;
+        if (choiceboxvalue === "Account Address" && searchfieldvalue != "") {
+            window.location.href = "/Accountdetails/" + searchfieldvalue;
         }
-        else if (choiceboxvalue === "Transactionnumber" && searchfieldvalue != "") {
-            window.location.href = ("/Transactiondetails/" + searchfieldvalue);
+        else if (choiceboxvalue === "Transaction Version" && searchfieldvalue != "") {
+            window.location.href = "/Transactiondetails/" + searchfieldvalue;
         }
         // else if (choiceboxvalue === "Date" && searchfieldvalue != "") {
-        //     window.location.href = serverAddress + "/Transactions/" + searchfieldvalue + "/" + choiceboxvalue;
+        //     window.location.href = "/Transactions/" + searchfieldvalue + "/" + choiceboxvalue;
         // }
         // else if (choiceboxvalue === "Amount greater than" && searchfieldvalue != "") {
-        //     window.location.href = serverAddress + "/Transactions/" + searchfieldvalue;
+        //     window.location.href = "/Transactions/" + searchfieldvalue;
         // }
         // else if (choiceboxvalue === "Amount less than" && searchfieldvalue != "") {
         //     // window.location.href = "http://localhost:3099/Transactions/" + searchfieldvalue;
-        //     window.location.href = serverAddress + "/Transactions/" + searchfieldvalue;
+        //     window.location.href = "/Transactions/" + searchfieldvalue;
         // }
     }
 
@@ -44,8 +44,8 @@ export default function Searchbar(props) {
         <form class="search">
             <input type="search" placeholder="Search..." name="search_bar" id="search_bar" onChange={(e) => {handleChange(e)}}/>
             <select id="searchbox" onChange={(e) => { handleSelect(e) }}>
-                <option>Address</option>
-                <option>Transactionnumber</option>
+                <option>Account Address</option>
+                <option>Transaction Version</option>
                 {/* <option>Amount greater than</option>
                 <option>Amount less than</option>
                 <option>Date</option> */}

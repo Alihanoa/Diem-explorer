@@ -90,7 +90,7 @@ public class BlockchainThread extends Thread {
         PreparedStatement statement;
         
 
-        transactions = client.getTransactions(version, 1000, false);
+        transactions = client.getTransactions(version, 100, false);
 
         for (JsonRpc.Transaction transaction : transactions) {
             if (!transaction.getTransaction().getSender().equals("") || transaction.getTransaction().getType().equals("user")) {

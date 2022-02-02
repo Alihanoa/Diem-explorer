@@ -214,7 +214,17 @@ form.search button {
   width: 20px;
 }
 
-/* Ab hier Daniels Code. */
+#general_information-caption-wrapper {
+  width: 80%;
+  height: 40px;
+  max-width: 80%;
+  margin: auto;
+}
+
+#general_information-caption {
+  font-size: 26px;
+  font-weight: bold;
+}
 
 #general_information{
   width: 80%;
@@ -348,6 +358,18 @@ table tr:last-child td:last-child {
 
 table tr:nth-child(odd){
   background-color: #f0f2f3;
+}
+
+#accounts-caption-wrapper {
+  width: 80%;
+  height: 40px;
+  max-width: 80%;
+  margin: auto;
+}
+
+#accounts-caption {
+  font-size: 26px;
+  font-weight: bold;
 }
 
 #main_title {

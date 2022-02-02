@@ -32,7 +32,7 @@ export default function Contact(props) {
 
         return (
             <form>
-                <label id="contact_form_label" class="contact_form">If you have any question or feedback, feel free to contact us!</label>
+                <label id="contact_form_label" class="contact_form">If you have any questions or feedback, feel free to contact us!</label>
 
                 <input type="text" name="name" id="name" placeholder="Name" value={name} onChange={handleChange} class="contact_form" />
                 

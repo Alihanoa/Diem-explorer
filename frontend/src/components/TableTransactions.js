@@ -67,7 +67,7 @@ export default function TableTransactions(props) {
                             <tr>
                                 <td><a href={"/Transactiondetails/" + entry.version}> {entry.version} </a></td>
                                 <td><a href={"/Accountdetails/" + entry.sender_id}>{entry.sender_id} </a></td>
-                                <td>{entry.public_key}</td>
+                                <td>{entry.addressshort}</td>
                                 <td><a href={"/Accountdetails/" + entry.receiver_id}>{entry.receiver_id} </a></td>
                                 <td>{entry.amount + ' '}{entry.currency}</td>
                                 <td>{entry.gas_used + ' '}{entry.gas_currency}</td>
