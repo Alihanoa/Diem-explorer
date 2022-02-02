@@ -8,12 +8,14 @@ import com.diem.types.ChainId;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BlockchainThread extends Thread {
     private DiemJsonRpcClient client;
     private Connection con;
-    private int version = 237950;
-
+    private int version = -1;
+    final static Logger logger = LoggerFactory.getLogger(BlockchainThread.class);
 
     public BlockchainThread() throws SQLException {
         client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
@@ -26,19 +28,45 @@ public class BlockchainThread extends Thread {
         while (!interrupted()) {
 
             try {
+                
+                this.version = getLatestDBVersion() + 1;
                 this.getTransactions();
-            } catch (SQLException e) {
+                
+            } catch (Exception e) {
+               
+                logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e , e.getCause().toString()+'\n' );
                 e.printStackTrace();
-            } catch (DiemException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                Continue();
+            } 
+//            catch (DiemException e) {
+//                
+//                e.printStackTrace();
+//                
+//            } catch (InterruptedException e) {
+//                
+//                e.printStackTrace();
+//                
+//            }
 
 
         }
     }
-
+    
+    public void Continue() {
+     
+        while(!interrupted()){
+        try{
+        this.version ++ ;
+        this.getTransactions();
+        }
+        catch(Exception e){
+        
+            logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e , e.getCause().toString()+'\n' );
+            e.printStackTrace();
+            Continue();
+        }
+        }
+}
 
     public int getLatestDBVersion() throws SQLException {
         PreparedStatement statement;
@@ -49,7 +77,7 @@ public class BlockchainThread extends Thread {
         int maxvalue = rs.getInt("MAX(version)");
         System.out.println(maxvalue);
         return maxvalue;
-
+    
     }
 
     public void cancel() {
@@ -60,9 +88,9 @@ public class BlockchainThread extends Thread {
         //  con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
         List<JsonRpc.Transaction> transactions;
         PreparedStatement statement;
-        this.version = getLatestDBVersion() + 1;
+        
 
-        transactions = client.getTransactions(version, 1, false);
+        transactions = client.getTransactions(version, 1000, false);
 
         for (JsonRpc.Transaction transaction : transactions) {
             if (!transaction.getTransaction().getSender().equals("") || transaction.getTransaction().getType().equals("user")) {

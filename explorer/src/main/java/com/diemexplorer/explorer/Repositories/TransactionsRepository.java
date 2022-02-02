@@ -99,6 +99,13 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
 
     @Query(value ="SELECT * FROM Transactions WHERE receiver_id=:address AND version<:version ORDER BY version Desc LIMIT 10", nativeQuery = true)
     List<Transactions> getNextTenTransactionsAsReceiver(String address, long version);
+
+    @Query("SELECT SUM(t.amount) FROM Transactions t WHERE t.timestamp >= :mintimestamp AND t.timestamp <= :maxtimestamp AND t.type='user' AND t.currency='XUS'")
+    Long getHandelsVolBetweenTwoTimeStampsXUS(long mintimestamp, long maxtimestamp);
+
+    @Query("SELECT SUM(t.amount) FROM Transactions t WHERE t.timestamp >= :mintimestamp AND t.timestamp <= :maxtimestamp AND t.type='user' AND t.currency='XDX'")
+    long getHandelsVolBetweenTwoTimeStampsXDX(long mintimestamp, long maxtimestamp);
+
 }
 
 //@Query (value="SELECT * FROM Transactions WHERE t.version in (SELECT version from transactiondetails td where td.type='blockmetadata' ORDER BY td.version DESC LIMIT 10)", nativeQuery= true)

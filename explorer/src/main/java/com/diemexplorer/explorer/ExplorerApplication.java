@@ -5,6 +5,9 @@ import com.diem.jsonrpc.DiemJsonRpcClient;
 import com.diem.jsonrpc.JsonRpc;
 import com.diem.jsonrpc.JsonRpc.Account;
 import com.diem.types.ChainId;
+import com.diemexplorer.explorer.Controller.TransactionController;
+import com.diemexplorer.explorer.Repositories.TransactiondetailsRepository;
+import com.diemexplorer.explorer.Repositories.TransactionsRepository;
 import net.bytebuddy.dynamic.scaffold.MethodRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,18 +28,15 @@ public class ExplorerApplication {
 	// private static List<JsonRpc.Transaction> transactions;
 	// private static Connection con;
 	// private static List<JsonRpc.Account> accounts;
-
+        
+        
+        
 	public static void main(String[] args) throws SQLException, DiemException, InterruptedException {
 
 		SpringApplication.run(ExplorerApplication.class, args);
 
 		BlockchainThread blockchainThread = new BlockchainThread();
 		blockchainThread.start();
-               
-
-//                System.out.println(client.getAccount("b2c98e0c53ebbc7bc59bec69c1cbad03").getBalances(0).getAmount());
-
-//		getTransactions();
 
 
 

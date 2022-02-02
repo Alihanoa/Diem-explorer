@@ -44,6 +44,8 @@ public class Transactions implements Serializable {
 
     private long timestamp;
 
+    private String addressshort;
+
     public Transactions() {
 
     }
@@ -61,8 +63,16 @@ public class Transactions implements Serializable {
         this.receiver_id = receiver_id;
         this.type = type;
         this.timestamp = timestamp;
+
+}
+    public String getaddressshort(){
+    return this.addressshort;
     }
 
+    public void setAddressshort(){
+        this.addressshort = this.public_key.substring(0,4)+"..."+this.public_key.substring(public_key.length()-5,this.public_key.length()-1);
+        ;
+    }
 
     public Long getVersion() {
         return version;

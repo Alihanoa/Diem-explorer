@@ -71,12 +71,30 @@ public class TransactionController {
 
     @GetMapping("/rest/lastten")
     public List<Transactions> getLastTenTransactions(){
-        return this.transactionsRepository.findTransactionsLimitByTen();
+        List <Transactions> lt = this.transactionsRepository.findTransactionsLimitByTen();
+        List<Transactions>res = new ArrayList<>();
+        for(Transactions t: lt){
+
+            if(!t.getPublic_key().equals("")){
+                t.setAddressshort();
+            }
+            res.add(t);
+        }
+        return res;
     }
 
     @GetMapping("/rest/lasttenreal")
     public List<Transactions> getLastTenRealTransactions(){
-        return this.transactionsRepository.findRealTransactionsLimitByTen();
+        List<Transactions>lt= this.transactionsRepository.findRealTransactionsLimitByTen();
+        List<Transactions>res = new ArrayList<>();
+        for(Transactions t: lt){
+
+            if(!t.getPublic_key().equals("")){
+            t.setAddressshort();
+            }
+            res.add(t);
+        }
+        return res;
     }
 
     @GetMapping("/rest/lasttensmartcontracts")
@@ -89,7 +107,16 @@ public class TransactionController {
             lastTenSmartContracts.add(this.transactionsRepository.findTransactionsByVersion(td.getVersion()));
         }
 
-        return lastTenSmartContracts;
+        List<Transactions>res = new ArrayList<>();
+        for(Transactions t: lastTenSmartContracts){
+
+            if(!t.getPublic_key().equals("")){
+                t.setAddressshort();
+            }
+            res.add(t);
+        }
+        return res;
+
     }
     
     @GetMapping("/rest/lasttenBlock")
@@ -141,7 +168,7 @@ public class TransactionController {
         return this.transactionsRepository.findAllTransactionsBetweenTwoDates(minversion, maxversion);
     }
 
- @GetMapping("/rest/datalast365days")
+    @GetMapping("/rest/datalast365days")
     public String[][] statisticForLast365Days(){
 
         Date date = new Date();
@@ -339,12 +366,31 @@ public class TransactionController {
 
     @GetMapping("/rest/getnextten")
     public List<Transactions> getNextTenTransactions(@RequestParam String lastVersionNumber){
-        return this.transactionsRepository.getNextTen(Long.parseLong(lastVersionNumber));
+
+        List<Transactions> lt = this.transactionsRepository.getNextTen(Long.parseLong(lastVersionNumber));
+
+        ArrayList<Transactions> result = new ArrayList<>();
+
+        for (Transactions t : lt){
+            if(!t.getPublic_key().equals("")){
+                t.setAddressshort(); }
+            result.add(t);
+        }
+        return  result;
     }
 
     @GetMapping("/rest/getlast50")
     public List<Transactions> getLast50Transactions(){
-        return this.transactionsRepository.getLastFiftyTransactions();
+        List<Transactions> lt = this.transactionsRepository.getLastFiftyTransactions();
+        ArrayList<Transactions> result = new ArrayList<>();
+
+        for (Transactions t : lt){
+            if(!t.getPublic_key().equals("")){
+            t.setAddressshort(); }
+            result.add(t);
+        }
+        return  result;
+
     }
 
 
@@ -378,8 +424,17 @@ public class TransactionController {
             }
 
         }
-        return result;
+
+        List <Transactions> r2 = new ArrayList<>();
+        for(Transactions t: result){
+
+            t.setAddressshort();
+            r2.add(t);
+        }
+
+        return r2;
     }
+
     @GetMapping("/rest/nexttentransactionsofaccount")
     public List<Transactions> getNextTenTransactionsOfAccount(@RequestParam String address, @RequestParam long version){
         List<Transactions> result = new ArrayList<>();
@@ -402,5 +457,134 @@ public class TransactionController {
 
         return result;
     }
+
+    @GetMapping("/rest/handelsvol30")
+    public String[][] getHandelsVolLast30Days(){
+
+        String[][] Ergebnis = new String[32][2];
+        Date date = new Date();
+
+        long timestampnow =
+                //1619646122863L + 2629800000L;
+                date.getTime();
+        long timestampperiodago = timestampnow - 2629800000L;
+
+        long maxtimestamp =  timestampperiodago + 86400000;
+        int counter = 0;
+        long HandelsVolumen =0 ;
+        while (timestampperiodago < timestampnow && counter < 32){
+
+            date.setTime(timestampperiodago);
+            Ergebnis[counter][0] = date.toString();
+
+            if(this.transactionsRepository.getHandelsVolBetweenTwoTimeStampsXUS(timestampperiodago, maxtimestamp) != null){
+
+                HandelsVolumen = this.transactionsRepository.getHandelsVolBetweenTwoTimeStampsXUS(timestampperiodago, maxtimestamp);}
+
+            else{
+                return Ergebnis;
+            }
+
+            Ergebnis[counter][1] = String.valueOf(HandelsVolumen);
+
+            timestampperiodago = timestampperiodago + 86400000;
+            maxtimestamp = maxtimestamp + 86400000;
+            counter ++;
+
+        }
+     return Ergebnis;
+    }
+
+    @GetMapping("/rest/handelsvol30xdx")
+    public String[][] getHandelsVolLast30DaysXDX(){
+
+        String[][] Ergebnis = new String[32][2];
+        Date date = new Date();
+
+        long timestampnow = date.getTime();
+        long timestampperiodago = timestampnow - 2629800000L;
+
+        long maxtimestamp =  timestampperiodago + 86400000;
+        int counter = 0;
+        long HandelsVolumen =0 ;
+        while (timestampperiodago < timestampnow && counter < 32){
+
+            date.setTime(timestampperiodago);
+            Ergebnis[counter][0] = date.toString();
+
+            if(this.transactionsRepository.getHandelsVolBetweenTwoTimeStampsXUS(timestampperiodago, maxtimestamp) != null){
+
+                HandelsVolumen = this.transactionsRepository.getHandelsVolBetweenTwoTimeStampsXDX(timestampperiodago, maxtimestamp);}
+
+            else{
+                return Ergebnis;
+            }
+
+            Ergebnis[counter][1] = String.valueOf(HandelsVolumen);
+
+            timestampperiodago = timestampperiodago + 86400000;
+            maxtimestamp = maxtimestamp + 86400000;
+            counter ++;
+
+        }
+        return Ergebnis;
+    }
+
+
+    @GetMapping("/rest/HV2Dates")
+    public long getHV2Dates(){
+
+        long data;
+
+        long timestampnow = 1619646122863L + 86400000;
+        long time = timestampnow + 86400000;
+
+        data= this.transactionsRepository.getHandelsVolBetweenTwoTimeStampsXUS(timestampnow,time);
+
+        return data;
+    }
+
+    @GetMapping("/rest/handelsvol365weekly")
+    public String[][] getHandelsVolLastYear(){
+
+        String[][] Ergebnis = new String[32][2];
+        Date date = new Date();
+
+
+        long timestampnow = date.getTime();
+        long timestampperiodago = timestampnow - 31557600000L;
+
+        if( timestampperiodago < 1619646121887L ){
+
+            timestampperiodago = 1619646121887L;}
+
+
+        long maxtimestamp =  timestampperiodago + 604800016;
+        int counter = 0;
+        long HandelsVolumen =0 ;
+        while (timestampperiodago < timestampnow && counter < 32){
+
+
+
+            if(this.transactionsRepository.getHandelsVolBetweenTwoTimeStampsXUS(timestampperiodago, maxtimestamp) != null){
+
+                HandelsVolumen = this.transactionsRepository.getHandelsVolBetweenTwoTimeStampsXUS(timestampperiodago, maxtimestamp);}
+
+            else{
+                return Ergebnis;
+            }
+
+            date.setTime(timestampperiodago);
+            Ergebnis[counter][0] = date.toString();
+            Ergebnis[counter][1] = String.valueOf(HandelsVolumen);
+
+            timestampperiodago = timestampperiodago + 604800016;
+            maxtimestamp = maxtimestamp + 604800016;
+            counter ++;
+
+        }
+        return Ergebnis;
+    }
+
 }
 
