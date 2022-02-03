@@ -89,6 +89,8 @@ public class TransactionController {
             if(!t.getPublic_key().equals("")){
             t.setAddressshort();
             }
+            t.setDateshort();
+//            t.setRealgasprice();
             res.add(t);
         }
         return res;
@@ -110,6 +112,8 @@ public class TransactionController {
             if(!t.getPublic_key().equals("")){
                 t.setAddressshort();
             }
+            t.setDateshort();
+//            t.setRealgasprice();
             res.add(t);
         }
         return res;
@@ -118,7 +122,16 @@ public class TransactionController {
     
     @GetMapping("/rest/lasttenBlock")
     public List<Transactions> getLastTenBlockMetaData(){
-        return this.transactionsRepository.findBlockMetaDataLimitTen();
+
+        List<Transactions>lt=this.transactionsRepository.findBlockMetaDataLimitTen();
+        List<Transactions>res=new ArrayList<>();
+        for (Transactions t: lt){
+            t.setDateshort();
+            t.setGas_used(0);
+
+            res.add(t);
+        }
+        return res;
     }
     
         @GetMapping("/rest/AverageGasUnitPriceFromTo")

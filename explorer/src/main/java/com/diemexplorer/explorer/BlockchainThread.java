@@ -34,7 +34,7 @@ public class BlockchainThread extends Thread {
                 
             } catch (Exception e) {
                
-                logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e , e.getCause().toString()+'\n' );
+                logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e ,e.getCause().toString()+'\n'  );
                 e.printStackTrace();
                 Continue();
             } 
@@ -61,7 +61,7 @@ public class BlockchainThread extends Thread {
         }
         catch(Exception e){
         
-            logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e , e.getCause().toString()+'\n' );
+            logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e ,e.getCause().toString()+'\n'  );
             e.printStackTrace();
             Continue();
         }
