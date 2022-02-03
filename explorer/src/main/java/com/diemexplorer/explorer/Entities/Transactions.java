@@ -46,6 +46,10 @@ public class Transactions implements Serializable {
 
     private String addressshort;
 
+    private String dateshort;
+
+//    private Float realgasprice;
+
     public Transactions() {
 
     }
@@ -65,6 +69,23 @@ public class Transactions implements Serializable {
         this.timestamp = timestamp;
 
 }
+//    public void setRealgasprice(){
+//        this.realgasprice=   ( (float) this.gas_used)/1000000;
+//    }
+//
+//    public float getRealgasprice(){
+//        return this.realgasprice;
+//    }
+
+    public String getDateshort(){
+        return this.dateshort;
+    }
+
+    public void setDateshort(){
+
+        this.dateshort = this.date.substring(0,this.date.length()-4);
+    }
+
     public String getaddressshort(){
     return this.addressshort;
     }
