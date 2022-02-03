@@ -56,8 +56,6 @@ class App extends React.Component {
     //     })
     }
 
-
-
     render() {
         
         return (
@@ -74,15 +72,12 @@ class App extends React.Component {
                             <Route path="/Accountdetails/:address" exact component={Accountdetails} />
                             <Route path="/Contact" exact component={Contact} />
                         </Switch>
-
-
-
                     </div>
-
                     <Footer/>
                 </div>
             </Router>
         );
     }
 }
+
 export default App;

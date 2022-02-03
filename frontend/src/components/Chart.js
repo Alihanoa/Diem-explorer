@@ -166,8 +166,9 @@ export default function Chart() {
             <div id="chart-bar">
                 <select id="select-chartdata">
                     <option value="transactions" selected>Transactions</option>
-                    <option value="accounts">Accounts</option>
+                    {/* <option value="accounts">Accounts</option> */}
                     <option value="gasPrice">Gas Price</option>
+                    <option value="exchangeRate">Exchange Rate</option>
                 </select>
                 <select id="select-chartinterval" onChange={(e) => { setInterval(e.target.value) }}>
                     <option value="totalTime">Total time</option>
