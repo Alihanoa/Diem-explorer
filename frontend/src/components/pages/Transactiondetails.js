@@ -49,8 +49,8 @@ export default function Transactiondetails(props) {
     }
 
     return (
-        <div>
-            <h1 id="main_title">Transaction Details</h1>
+        <div class="main-wrapper">
+            <h1>Transaction Details</h1>
             <h2>Transaction Version {props.match.params.version}</h2>
             <table>
                 <thead></thead>

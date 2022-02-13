@@ -42,13 +42,13 @@ export default function Mainpage(props) {
     // }, []);
 
     return (
-        <div>
-            <h1 id="main_title">Diem Explorer</h1>
+        <div class="main-wrapper">
+            <h1>Diem Explorer</h1>
             <Searchbar/>
             <br></br>
             <br></br>
-            <div id="general_information-caption-wrapper">
-                <caption id="general_information-caption">General&nbsp;Information</caption>
+            <div class="caption-wrapper">
+                <caption>General&nbsp;Information</caption>
             </div>
             <table>
                 <thead>

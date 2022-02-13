@@ -160,17 +160,17 @@ export default function Chart() {
 
     return (
         <>
-            <div id="chart-caption-wrapper">
-                <caption id="chart-caption">Developments</caption>
+            <div class="caption-wrapper">
+                <caption>Developments</caption>
             </div>
-            <div id="chart-bar">
-                <select id="select-chartdata">
+            <div id="chartbar">
+                <select>
                     <option value="transactions" selected>Transactions</option>
                     {/* <option value="accounts">Accounts</option> */}
                     <option value="gasPrice">Gas Price</option>
                     <option value="exchangeRate">Exchange Rate</option>
                 </select>
-                <select id="select-chartinterval" onChange={(e) => { setInterval(e.target.value) }}>
+                <select onChange={(e) => { setInterval(e.target.value) }}>
                     <option value="totalTime">Total time</option>
                     <option value="365days" selected>Last 365 Days</option>
                     <option value="30days">Last 30 Days</option>
@@ -180,7 +180,7 @@ export default function Chart() {
                     <option value="60seconds">Last 60 Seconds</option>
                 </select>
             </div>
-            <div id="chart-wrapper">
+            <div class="chart-wrapper">
                 <Line
                     data={{
                         labels: labelsChart,

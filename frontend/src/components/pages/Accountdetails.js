@@ -43,7 +43,7 @@ export default function Accountdetails(props) {
     }
 
     return (
-        <div>
+        <div class="main-wrapper">
             <h1>Account Details</h1>
             <h2>Account Address {props.match.params.address}</h2>
             <br></br>

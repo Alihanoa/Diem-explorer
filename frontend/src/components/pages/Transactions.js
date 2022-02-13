@@ -4,13 +4,9 @@ import TableTransactions from "../TableTransactions";
 export default function Transactions(props) {
 
     return (
-        <>
-            <div>
-                <h1 id="main_title">Transactions</h1>
-                {/* <TableTransactions id="unique" data={rows}/> */}
-                <TableTransactions id="unique"/>
-                {/* <p ref={lastElement} id="last"></p> */}
-            </div>
-        </>
+        <div class="main-wrapper">
+                <h1>Transactions</h1>
+                <TableTransactions/>
+        </div>
     );
 }

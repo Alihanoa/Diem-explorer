@@ -91,8 +91,8 @@ export default function TableTransactionsAccount(props) {
 
     return (
         <>
-            <div id="table-caption-wrapper">
-                <caption id="table-caption">Latest&nbsp;Transactions</caption>
+            <div class="caption-wrapper">
+                <caption>Latest&nbsp;Transactions</caption>
             </div>
             {/* <div id="table-checkboxes-wrapper">
                 <input type="checkbox" id="transactions" name="Show Transactions" onClick={(e) => { setShowTransactions(e.target.checked) }} defaultChecked />

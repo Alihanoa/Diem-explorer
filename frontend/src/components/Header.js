@@ -5,12 +5,12 @@ export default function Header(props) {
 
     return (
         <header>
-            <div class="header_wrapper">
-                <div class="header_left">
+            <div id="header-wrapper">
+                <div id="header-left-side">
                     <Link to="/">Home</Link>
                     <p id="status"></p>
                 </div>
-                <div class="header_right">
+                <div id="header-right-side">
                     <Link to="/Transactions">Transactions</Link>
                     <Link to="/Accounts">Accounts</Link>
                     <Link to="/Statistics">Statistics</Link>

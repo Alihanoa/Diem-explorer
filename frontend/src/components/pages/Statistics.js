@@ -48,9 +48,9 @@ export default function Statistics(props) {
     }
 
     return (
-        <>
-            <h1 id="main_title">Statistics</h1>
-            <div id="barchart-wrapper">
+        <div class="main-wrapper">
+            <h1>Statistics</h1>
+            <div class="chart-wrapper">
                 <caption id="chart-caption">Amount&nbsp;of&nbsp;Accounts</caption>
                 <br />
                 <Bar id="barChart"
@@ -109,6 +109,6 @@ export default function Statistics(props) {
                     }}
                 />
             </div>
-        </>
+        </div>
     );
 }
