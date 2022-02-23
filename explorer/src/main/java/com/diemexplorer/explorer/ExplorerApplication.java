@@ -37,6 +37,8 @@ public class ExplorerApplication {
 
 		BlockchainThread blockchainThread = new BlockchainThread();
 		blockchainThread.start();
+//		PerformanceOptimizer optimizer = new PerformanceOptimizer();
+//		optimizer.start();
 
 
 

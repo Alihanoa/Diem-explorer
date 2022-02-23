@@ -18,7 +18,7 @@ public class BlockchainThread extends Thread {
     final static Logger logger = LoggerFactory.getLogger(BlockchainThread.class);
 
     public BlockchainThread() throws SQLException {
-        client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 2));
+        client = new DiemJsonRpcClient("http://testnet.diem.com/v1", new ChainId((byte) 3));
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/diemexplorer?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "password");
 
     }
@@ -33,11 +33,11 @@ public class BlockchainThread extends Thread {
                 this.getTransactions();
                 
             } catch (Exception e) {
-               
-                logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e ,e.getCause().toString()+'\n'  );
-                e.printStackTrace();
+                System.out.println(e);
+//                logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e ,e.getCause().toString()+'\n'  );
+//                e.printStackTrace();
                 Continue();
-            } 
+            }
 //            catch (DiemException e) {
 //                
 //                e.printStackTrace();
@@ -60,7 +60,7 @@ public class BlockchainThread extends Thread {
         this.getTransactions();
         }
         catch(Exception e){
-        
+            System.out.println(e);
             logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e ,e.getCause().toString()+'\n'  );
             e.printStackTrace();
             Continue();
@@ -76,6 +76,8 @@ public class BlockchainThread extends Thread {
         rs.next();
         int maxvalue = rs.getInt("MAX(version)");
         System.out.println(maxvalue);
+        rs.close();
+        statement.close();
         return maxvalue;
     
     }
@@ -111,6 +113,7 @@ public class BlockchainThread extends Thread {
                     ResultSet resultset = statementfortimestamp.executeQuery();
                     resultset.next();
                     timestamp = resultset.getLong("timestamp");
+                    resultset.close();
                 }
 
                 String date = getDateFromTimeStamp(transaction);
@@ -129,11 +132,14 @@ public class BlockchainThread extends Thread {
                 statement.executeUpdate();
 
                 getTransactiondetails(transaction);
+                statement.close();
 
 
             }
 
             version = version + 1;
+
+
         }
 
 
@@ -149,7 +155,11 @@ public class BlockchainThread extends Thread {
         PreparedStatement statement = con.prepareStatement(query);
 
         ResultSet resultSet = statement.executeQuery();
-        return resultSet.next();
+
+        boolean result = resultSet.next();
+        resultSet.close();
+        statement.close();
+        return result;
 
     }
 
@@ -202,6 +212,8 @@ public class BlockchainThread extends Thread {
         setAccountdetails(senderaccount);
 
         setAccountBalances(transaction, receiver);
+        statement.close();
+
 
     }
 
@@ -214,7 +226,11 @@ public class BlockchainThread extends Thread {
         String query = "SELECT address FROM accounts WHERE address='" + address + "'";
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery();
-        return resultSet.next();
+        boolean ergebnis= resultSet.next();
+
+        resultSet.close();
+        statement.close();
+        return ergebnis;
     }
 
     public void getTransactiondetails(JsonRpc.Transaction transaction) throws SQLException {
@@ -240,6 +256,7 @@ public class BlockchainThread extends Thread {
 
         PreparedStatement statement = con.prepareStatement(insertStatement);
         statement.executeUpdate();
+        statement.close();
     }
 
 
@@ -262,10 +279,13 @@ public class BlockchainThread extends Thread {
             String date = resultset.getString("date");
 
 
+            resultset.close();
+            preparedStatement.close();
             return date;
         }
 
         String timestamp = String.valueOf(transaction.getTransaction().getTimestampUsecs());
+
 
         long time = Long.parseLong(timestamp);
 
@@ -288,7 +308,6 @@ public class BlockchainThread extends Thread {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy' 'HH:mm:ss");
 
         String exptimestamp = String.valueOf(transaction.getTransaction().getExpirationTimestampSecs()) + "000";
-        PreparedStatement statement;
         if (transaction.getTransaction().getType().equals("blockmetadata")) {
 
             String timestamp = String.valueOf(transaction.getTransaction().getTimestampUsecs());
@@ -296,6 +315,7 @@ public class BlockchainThread extends Thread {
             long date = Long.parseLong(timestamp) / 1000;
 
             Date datum = new Date(date);
+
 
             return simpleDateFormat.format(datum);
         }
@@ -361,21 +381,25 @@ public class BlockchainThread extends Thread {
                         String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + ")";
                         PreparedStatement statement = con.prepareStatement(insertStatement);
                         statement.executeUpdate();
+                        statement.close();
 
                     } else if (amountInXUSDB(receiveraccount)) {
                         String updateStatement = "UPDATE accountbalancexus SET amount=" + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + " WHERE address='" + receiver + "'";
                         PreparedStatement statement = con.prepareStatement(updateStatement);
                         statement.executeUpdate();
+                        statement.close();
                     }
                     //This Section inserts / updates the sender in the database
                     if (!amountInXUSDB(sender)) {
                         String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(balancelistplacing[0]).getAmount() + ")";
                         PreparedStatement statement = con.prepareStatement(insert);
                         statement.executeUpdate();
+                        statement.close();
                     } else if (amountInXUSDB(sender)) {
                         String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(balancelistplacing[0]).getAmount() + " WHERE address='" + addressSender + "'";
                         PreparedStatement statement = con.prepareStatement(update);
                         statement.executeUpdate();
+                        statement.close();
                     }
                 }
                 //if the currency is XDX
@@ -386,20 +410,24 @@ public class BlockchainThread extends Thread {
                         String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + ")";
                         PreparedStatement statement = con.prepareStatement(updateStatement);
                         statement.executeUpdate();
+                        statement.close();
                     } else if (amountInXDXDB(receiveraccount)) {
                         String updateStatement = "UPDATE accountbalancexdx SET amount=" + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + " WHERE address='" + receiver + "'";
                         PreparedStatement statement = con.prepareStatement(updateStatement);
                         statement.executeUpdate();
+                        statement.close();
                     }
                     //This Section inserts / updates the sender in the database
                     if (!amountInXDXDB(sender)) {
                         String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(balancelistplacing[0]).getAmount() + ")";
                         PreparedStatement statement = con.prepareStatement(insert);
                         statement.executeUpdate();
+                        statement.close();
                     } else if (amountInXDXDB(sender)) {
                         String update = "UPDATE accountbalancexdx SET amount=" + sender.getBalances(balancelistplacing[0]).getAmount() + " WHERE address='" + addressSender + "'";
                         PreparedStatement statement = con.prepareStatement(update);
                         statement.executeUpdate();
+                        statement.close();
                     }
                 }
             }
@@ -451,21 +479,25 @@ public class BlockchainThread extends Thread {
                     String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + ")";
                     PreparedStatement statement = con.prepareStatement(insertStatement);
                     statement.executeUpdate();
+                    statement.close();
 
                 } else if (amountInXUSDB(receiveraccount)) {
                     String updateStatement = "UPDATE accountbalancexus SET amount=" + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + " WHERE address='" + receiver + "'";
                     PreparedStatement statement = con.prepareStatement(updateStatement);
                     statement.executeUpdate();
+                    statement.close();
                 }
                 //This Section inserts / updates the sender in the database
                 if (!amountInXUSDB(sender)) {
                     String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(balancelistplacing[0]).getAmount() + ")";
                     PreparedStatement statement = con.prepareStatement(insert);
                     statement.executeUpdate();
+                    statement.close();
                 } else if (amountInXUSDB(sender)) {
                     String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(balancelistplacing[0]).getAmount() + " WHERE address='" + addressSender + "'";
                     PreparedStatement statement = con.prepareStatement(update);
                     statement.executeUpdate();
+                    statement.close();
                 }
             }
             //if the currency ist XDX
@@ -476,20 +508,24 @@ public class BlockchainThread extends Thread {
                     String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + ")";
                     PreparedStatement statement = con.prepareStatement(updateStatement);
                     statement.executeUpdate();
+                    statement.close();
                 } else if (amountInXDXDB(receiveraccount)) {
                     String updateStatement = "UPDATE accountbalancexdx SET amount=" + receiveraccount.getBalances(balancelistplacing[1]).getAmount() + " WHERE address='" + receiver + "'";
                     PreparedStatement statement = con.prepareStatement(updateStatement);
                     statement.executeUpdate();
+                    statement.close();
                 }
                 //This Section inserts / updates the sender in the database
                 if (!amountInXDXDB(sender)) {
                     String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(balancelistplacing[0]).getAmount() + ")";
                     PreparedStatement statement = con.prepareStatement(insert);
                     statement.executeUpdate();
+                    statement.close();
                 } else if (amountInXDXDB(sender)) {
                     String update = "UPDATE accountbalancexdx SET amount=" + sender.getBalances(balancelistplacing[0]).getAmount() + " WHERE address='" + addressSender + "'";
                     PreparedStatement statement = con.prepareStatement(update);
                     statement.executeUpdate();
+                    statement.close();
                 }
             }
         } else if (addressSender.equals("") || addressSender.equals("000000000000000000000000000000dd")) {
@@ -504,21 +540,25 @@ public class BlockchainThread extends Thread {
                     String insertStatement = "INSERT INTO accountbalancexus (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
                     PreparedStatement statement = con.prepareStatement(insertStatement);
                     statement.executeUpdate();
+                    statement.close();
 
                 } else if (amountInXUSDB(receiveraccount)) {
                     String updateStatement = "UPDATE accountbalancexus SET amount=" + receiveraccount.getBalances(0).getAmount() + " WHERE address='" + receiver + "'";
                     PreparedStatement statement = con.prepareStatement(updateStatement);
                     statement.executeUpdate();
+                    statement.close();
                 }
                 //This Section inserts / updates the sender in the database
                 if (!amountInXUSDB(sender)) {
                     String insert = "INSERT INTO accountbalancexus ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(1).getAmount() + ")";
                     PreparedStatement statement = con.prepareStatement(insert);
                     statement.executeUpdate();
+                    statement.close();
                 } else if (amountInXUSDB(sender)) {
                     String update = "UPDATE accountbalancexus SET amount=" + sender.getBalances(1).getAmount() + " WHERE address='" + addressSender + "'";
                     PreparedStatement statement = con.prepareStatement(update);
                     statement.executeUpdate();
+                    statement.close();
                 }
             }
             //if the currency ist XDX
@@ -529,20 +569,24 @@ public class BlockchainThread extends Thread {
                     String updateStatement = "INSERT INTO accountbalancexdx (address, amount) VALUES ('" + receiver + "'," + receiveraccount.getBalances(0).getAmount() + ")";
                     PreparedStatement statement = con.prepareStatement(updateStatement);
                     statement.executeUpdate();
+                    statement.close();
                 } else if (amountInXDXDB(receiveraccount)) {
                     String updateStatement = "UPDATE accountbalancexdx SET amount=" + receiveraccount.getBalances(0).getAmount() + " WHERE address='" + receiver + "'";
                     PreparedStatement statement = con.prepareStatement(updateStatement);
                     statement.executeUpdate();
+                    statement.close();
                 }
                 //This Section inserts / updates the sender in the database
                 if (!amountInXDXDB(sender)) {
                     String insert = "INSERT INTO accountbalancexdx ( address, amount) VALUES ('" + addressSender + "'," + sender.getBalances(0).getAmount() + ")";
                     PreparedStatement statement = con.prepareStatement(insert);
                     statement.executeUpdate();
+                    statement.close();
                 } else if (amountInXDXDB(sender)) {
                     String update = "UPDATE accountbalancexdx SET amount=" + sender.getBalances(0).getAmount() + " WHERE address='" + addressSender + "'";
                     PreparedStatement statement = con.prepareStatement(update);
                     statement.executeUpdate();
+                    statement.close();
                 }
             }
 
@@ -560,7 +604,11 @@ public class BlockchainThread extends Thread {
 
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery();
-        return resultSet.next();
+
+        boolean result = resultSet.next();
+        resultSet.close();
+        statement.close();
+        return result;
     }
 
     public boolean amountInXDXDB(JsonRpc.Account account) throws SQLException {
@@ -573,7 +621,11 @@ public class BlockchainThread extends Thread {
         PreparedStatement statement = con.prepareStatement(query);
 
         ResultSet resultSet = statement.executeQuery();
-        return resultSet.next();
+
+        boolean result =  resultSet.next();
+        resultSet.close();
+        statement.close();
+        return result;
     }
 
     public void setAccountdetails(JsonRpc.Account account) throws SQLException, DiemException {
@@ -608,10 +660,12 @@ public class BlockchainThread extends Thread {
 
             statement = con.prepareStatement(insert);
             statement.executeUpdate();
+            statement.close();
         } else {
             String update = "UPDATE  accountdetails SET rtype = '" + account.getRole().getType() + "', expiration_time= '" + expirationtime + "' WHERE address='" + account.getAddress() + "'";
             statement = con.prepareStatement(update);
             statement.executeUpdate();
+            statement.close();
 
         }
     }
@@ -623,7 +677,10 @@ public class BlockchainThread extends Thread {
         PreparedStatement statement = con.prepareStatement(query);
         ResultSet resultSet = statement.executeQuery();
 
-        return resultSet.next();
+        boolean ergebnis =  resultSet.next();
+        resultSet.close();
+        statement.close();
+        return ergebnis;
     }
 
     public int[] getBalanceListOfTransaction(JsonRpc.Transaction transaction, JsonRpc.Account sender, JsonRpc.Account receiver) throws DiemException {

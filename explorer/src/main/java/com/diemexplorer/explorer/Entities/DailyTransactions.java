@@ -15,9 +15,9 @@ public class DailyTransactions {
 
     private int year;
 
-    private int amountTransactions;
+    private long amountTransactions;
 
-    private int amountSmartContracts;
+    private long amountSmartContracts;
 
     private long firsTransactionVersion;
 
@@ -29,10 +29,12 @@ public class DailyTransactions {
 
     private long transactionVolume;
 
-
-
     public DailyTransactions(){
 
+    }
+
+    public DailyTransactions(Long date){
+        this.date = date;
     }
 
     public DailyTransactions(Long date, int day, int month, int year, int amountTransactions, int amountSmartContracts, long firsTransactionVersion, long lastTransactionVersion, long firstTimestamp, long lastTimestamp, long transactionVolume) {
@@ -48,6 +50,8 @@ public class DailyTransactions {
         this.lastTimestamp = lastTimestamp;
         this.transactionVolume = transactionVolume;
     }
+
+
 
     public Long getDate() {
         return date;
@@ -81,19 +85,19 @@ public class DailyTransactions {
         this.year = year;
     }
 
-    public int getAmountTransactions() {
+    public long getAmountTransactions() {
         return amountTransactions;
     }
 
-    public void setAmountTransactions(int amountTransactions) {
+    public void setAmountTransactions(long amountTransactions) {
         this.amountTransactions = amountTransactions;
     }
 
-    public int getAmountSmartContracts() {
+    public long getAmountSmartContracts() {
         return amountSmartContracts;
     }
 
-    public void setAmountSmartContracts(int amountSmartContracts) {
+    public void setAmountSmartContracts(long amountSmartContracts) {
         this.amountSmartContracts = amountSmartContracts;
     }
 
