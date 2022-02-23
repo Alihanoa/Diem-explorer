@@ -41,17 +41,17 @@ export default function Searchbar(props) {
     }
 
     return (
-        <form class="search">
-            <input type="search" placeholder="Search..." name="search_bar" id="search_bar" onChange={(e) => {handleChange(e)}}/>
-            <select id="searchbox" onChange={(e) => { handleSelect(e) }}>
+        <form id="searchbar">
+            <input type="search" placeholder="Search..." onChange={(e) => {handleChange(e)}}/>
+            <select onChange={(e) => { handleSelect(e) }}>
                 <option>Account Address</option>
                 <option>Transaction Version</option>
                 {/* <option>Amount greater than</option>
                 <option>Amount less than</option>
                 <option>Date</option> */}
             </select>
-            <button name="search_button" id="search_button" onClick={(e) => {handleClick(e)}}>
-                <img id="search_icon" srcSet={searchIcon} />
+            <button name="searchbar-button" onClick={(e) => {handleClick(e)}}>
+                <img srcSet={searchIcon} />
             </button>
         </form>
     );

@@ -10,7 +10,25 @@ export default function TableTransactions(props) {
     const [dataTable, setDataTable] = useState([]);
     const [lastRowVersion, setLastRowVersion] = useState(0);
     const [counter, setCounter] = useState(0);
+    const [order, setOrder] = useState("ASC");
     const observer = useRef();
+
+    const sorting = (col) =>{
+        if(order === 'ASC'){
+            const sorted = [...dataTable].sort((a,b)=>
+                a[col].toLowerCase > b[col].toLowerCase ? 1 : -1
+            );
+            setDataTable(sorted);
+            setOrder("DSC");
+        }
+        if(order === 'DSC'){
+            const sorted = [...dataTable].sort((a,b)=>
+                a[col].toLowerCase < b[col].toLowerCase ? 1 : -1
+            );
+            setDataTable(sorted);
+            setOrder("ASC");
+        }
+    }
 
     const options = {
         threshhold: 0
@@ -45,20 +63,20 @@ export default function TableTransactions(props) {
 
     return (
         <>
-            <div id="table-caption-wrapper">
-                <caption id="table-caption">Latest&nbsp;Transactions</caption>
+            <div class="caption-wrapper">
+                <caption>Latest&nbsp;Transactions</caption>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th>Version</th>
-                        <th>From</th>
-                        <th>Public Key Sender</th>
-                        <th>To</th>
-                        <th>Amount</th>
-                        <th>Gas Amount</th>
-                        <th>Date</th>
-                        <th>Type</th>
+                        <th onClick={() => sorting("version")}>Version</th>
+                        <th onClick={() => sorting("sender_id")}>From</th>
+                        <th onClick={() => sorting("addressshort")}>Public Key Sender</th>
+                        <th onClick={() => sorting("receiver_id")}>To</th>
+                        <th onClick={() => sorting("amount")}>Amount</th>
+                        <th onClick={() => sorting("gas_used")}>Gas Amount</th>
+                        <th onClick={() => sorting("date")}>Date</th>
+                        <th onClick={() => sorting("type")}>Type</th>
                     </tr>
                 </thead>
                 <tbody id="transactions">{

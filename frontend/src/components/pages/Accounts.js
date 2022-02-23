@@ -34,10 +34,10 @@ export default function Accounts(props) {
     }
 
     return (
-        <div>
-            <h1 id="main_title">Accounts</h1>
+        <div class="main-wrapper">
+            <h1>Accounts</h1>
 
-            <div id="accounts-caption-wrapper">
+            <div class="caption-wrapper">
                 <caption id="accounts-caption">Accounts</caption>
             </div>
             <table>

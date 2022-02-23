@@ -39,42 +39,38 @@ class App extends React.Component {
                 })
         };
 
-        return await fetch(this.state.address, options, { mode: "no-cors" }).then(response => response.status).catch(function(error){return  404;})
+        return await fetch(this.state.address, options, { mode: "no-cors" }).then(response => response.status).catch(function (error) { return 404; })
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
-    //    this.checkNetworkAvailability(this.state.address).then(function(status){
-    //         if(status ===200){
-    //             document.getElementById("status").style.color= "green"
-    //             document.getElementById("status").innerHTML = "Testnet"
-    //         }
-    //         else if(status === 404){
-    //             document.getElementById("status").style.color= "red"
-    //             document.getElementById("status").innerHTML = "Testnet"
-    //         }
-    //     })
+        //    this.checkNetworkAvailability(this.state.address).then(function(status){
+        //         if(status ===200){
+        //             document.getElementById("status").style.color= "green"
+        //             document.getElementById("status").innerHTML = "Testnet"
+        //         }
+        //         else if(status === 404){
+        //             document.getElementById("status").style.color= "red"
+        //             document.getElementById("status").innerHTML = "Testnet"
+        //         }
+        //     })
     }
 
     render() {
-        
+
         return (
             <Router>
-                <div id="site">
-                    <div id="wrapper">
-                        <Header/>
-                        <Switch>
-                            <Route path="/" exact component={Mainpage} />
-                            <Route path={["/Transactions/:input/:method", "/Transactions/"]} exact component={Transactions} />
-                            <Route path="/Accounts" exact component={Accounts} />
-                            <Route path="/Statistics" exact component={Statistics} />
-                            <Route path="/Transactiondetails/:version" exact component={Transactiondetails} />
-                            <Route path="/Accountdetails/:address" exact component={Accountdetails} />
-                            <Route path="/Contact" exact component={Contact} />
-                        </Switch>
-                    </div>
-                    <Footer/>
-                </div>
+                <Header />
+                <Switch>
+                    <Route path="/" exact component={Mainpage} />
+                    <Route path={["/Transactions/:input/:method", "/Transactions/"]} exact component={Transactions} />
+                    <Route path="/Accounts" exact component={Accounts} />
+                    <Route path="/Statistics" exact component={Statistics} />
+                    <Route path="/Transactiondetails/:version" exact component={Transactiondetails} />
+                    <Route path="/Accountdetails/:address" exact component={Accountdetails} />
+                    <Route path="/Contact" exact component={Contact} />
+                </Switch>
+                <Footer />
             </Router>
         );
     }

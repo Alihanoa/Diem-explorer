@@ -32,15 +32,15 @@ export default function Contact(props) {
 
         return (
             <form>
-                <label id="contact_form_label" class="contact_form">If you have any questions or feedback, feel free to contact us!</label>
+                <label>If you have any questions or feedback, feel free to contact us!</label>
 
-                <input type="text" name="name" id="name" placeholder="Name" value={name} onChange={handleChange} class="contact_form" />
+                <input type="text" name="name" class="element contact-input" placeholder="Name" value={name} onChange={handleChange}/>
                 
-                <input type="email" placeholder="E-Mail Address" name="email" id="email" value={email} onChange={handleChange} class="contact_form"/>
+                <input type="email" placeholder="E-Mail Address" name="email" class="element contact-input" value={email} onChange={handleChange}/>
                 
-                <textarea name="message" id="message" placeholder="Message" rows="10" value={message} onChange={handleChange} class="contact_form" />
+                <textarea name="message" placeholder="Message" rows="10" class="element contact-input" value={message} onChange={handleChange}/>
                 
-                <input type="submit" name="send" id="submit-button" value="Submit" onClick={handleSubmit} class="contact_form" />
+                <input type="submit" name="send" id="submit-button" value="Submit" class="element" onClick={handleSubmit}/>
             </form>
         )
     }
@@ -57,18 +57,18 @@ export default function Contact(props) {
     }
 
     return (
-        <body>
-            <h1 id="main_title">Contact</h1>
+        <div class="main-wrapper">
+            <h1>Contact</h1>
 
-            <div class="contact-wrapper">
-                <div class="contact-left">
+            <div id="contact-wrapper">
+                <div id="contact-left-side">
                     {Formular()}
                 </div>
-                <div class="contact-right">
+                <div id="contact-right-side">
                     {Person("Alihan Türk")}{Person("Daniel Mextorf")}{Person("Tevfik Kantar")}{Person("Tim Niestrath")}
                 </div>
             </div>
-        </body>
+        </div>
     );
 
 }
