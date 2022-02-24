@@ -106,6 +106,13 @@ public interface TransactionsRepository extends CrudRepository<Transactions, Lon
     @Query("SELECT SUM(t.amount) FROM Transactions t WHERE t.timestamp >= :mintimestamp AND t.timestamp <= :maxtimestamp AND t.type='user' AND t.currency='XDX'")
     long getHandelsVolBetweenTwoTimeStampsXDX(long mintimestamp, long maxtimestamp);
 
+    @Query("SELECT t FROM Transactions t WHERE t.type='user' AND t.version > :eingabe AND t.version <= :eingabe+30")
+    List<Transactions> getNext30(long eingabe);
+
+    @Query(value = "SELECT t FROM Transactions t WHERE t.type='blockmetadata' AND t.version > :eingabe AND t.version <= :eingabe+30")
+    List<Transactions> findBlockMetaDataLimit30(long eingabe);
+
+
 }
 
 //@Query (value="SELECT * FROM Transactions WHERE t.version in (SELECT version from transactiondetails td where td.type='blockmetadata' ORDER BY td.version DESC LIMIT 10)", nativeQuery= true)

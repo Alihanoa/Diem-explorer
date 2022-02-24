@@ -55,6 +55,7 @@ public class Transactions implements Serializable {
     }
 
     public Transactions(Long version, String receiver_id, String sender_id, String public_key, double amount, String currency, String gas_currency, double gas_used, String date, String type, long timestamp) {
+
         this.version = version;
         this.sender_id = sender_id;
         this.public_key = public_key;

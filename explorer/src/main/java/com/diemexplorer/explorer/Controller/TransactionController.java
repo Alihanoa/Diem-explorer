@@ -628,5 +628,94 @@ public class TransactionController {
         return result.subList(result.size()-11, result.size()-1);
     }
 
+
+    public List<Transactions> getNext30RealTransactions(long version){
+        List<Transactions>lt= this.transactionsRepository.getNext30(version);
+        List<Transactions>res = new ArrayList<>();
+        for(Transactions t: lt){
+
+            if(!t.getPublic_key().equals("")){
+                t.setAddressshort();
+            }
+            t.setDateshort();
+//            t.setRealgasprice();
+            res.add(t);
+        }
+        return res;
+    }
+
+    public List<Transactions> getNext30SmartContracts(long version){
+        List<Transactions> lastTenSmartContracts =new ArrayList<>();
+
+        List<Transactiondetails> contracts = this.transactiondetailsRepository.next30SmartContracts(version);
+
+        for( Transactiondetails td : contracts){
+            lastTenSmartContracts.add(this.transactionsRepository.findTransactionsByVersion(td.getVersion()));
+        }
+
+        List<Transactions>res = new ArrayList<>();
+        for(Transactions t: lastTenSmartContracts){
+
+            if(!t.getPublic_key().equals("")){
+                t.setAddressshort();
+            }
+            t.setDateshort();
+//            t.setRealgasprice();
+            res.add(t);
+        }
+        return res;
+
+    }
+
+
+    public List<Transactions> getNext30BlockMetaData(long version){
+
+        List<Transactions>lt=this.transactionsRepository.findBlockMetaDataLimit30(version);
+        List<Transactions>res=new ArrayList<>();
+        for (Transactions t: lt){
+            t.setDateshort();
+            t.setGas_used(0);
+
+            res.add(t);
+        }
+        return res;
+    }
+
+
+
+    @GetMapping("/rest/combinedtransactionsnext30")
+    public List<Transactions> getcombinedtransactionsnext30(@RequestParam boolean realtransactions, @RequestParam boolean smartcontracts, @RequestParam boolean blockmetadata, @RequestParam long version){
+
+        List<Transactions> real = getNext30RealTransactions(version);
+        List<Transactions> smartc= getNext30SmartContracts(version);
+        List<Transactions> blockm= getNext30BlockMetaData(version);
+        List<Transactions> result= new ArrayList<>();
+
+        if (realtransactions) {
+            result.addAll(real);
+        }
+
+        if(smartcontracts){
+            result.addAll(smartc);
+        }
+
+        if(blockmetadata){
+            result.addAll(blockm);
+        }
+
+        Collections.sort(result, new Comparator<Transactions>() {
+            @Override
+            public int compare(Transactions o1, Transactions o2) {
+                return o1.getVersion().compareTo(o2.getVersion());
+            }
+        });
+        if(result.isEmpty()||result.size()<=30){
+            return result;
+        }
+        return result.subList(result.size()-31, result.size()-1);
+    }
+
+
+
 }
 
