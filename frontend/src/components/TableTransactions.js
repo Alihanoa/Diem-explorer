@@ -12,6 +12,7 @@ export default function TableTransactions(props) {
     const [counter, setCounter] = useState(0);
     const [order, setOrder] = useState("ASC");
     const observer = useRef();
+    const page = props.page;
 
     const sorting = (col) =>{
         if(order === 'ASC'){
@@ -41,7 +42,14 @@ export default function TableTransactions(props) {
         observer.current = new IntersectionObserver(async (entries) => {
 
             if (entries[0].isIntersecting && counter > 0) {
-                let newDataTransactions = await axios.get(serverAddress + "/rest/getnextten?lastVersionNumber=" + lastRowVersion);
+                let newDataTransactions;
+                if (page === "transactions") {
+                    // Case page = transactions
+                    newDataTransactions = await axios.get(serverAddress + "/rest/getnextten?lastVersionNumber=" + lastRowVersion);
+                } else {
+                    // Case page = accountdetails
+                    newDataTransactions = await axios.get(serverAddress + "/rest/nexttentransactionsofaccount?address=" + props.address + "&version=" + lastRowVersion);
+                }                
                 newDataTransactions.data = newDataTransactions.data.reverse();
                 let combinedData = [].concat(dataTable).concat(newDataTransactions.data);
                 setLastRowVersion(newDataTransactions.data[newDataTransactions.data.length - 1].version);
@@ -54,7 +62,14 @@ export default function TableTransactions(props) {
     useEffect(async () => {
 
         if (counter === 0) {
-            let dataTransactions = await fetch(serverAddress + "/rest/getlast50").then(result => result.json());
+            let dataTransactions;
+            if (page === "transactions") {
+                // Case page = transactions
+                dataTransactions = await fetch(serverAddress + "/rest/getlast50").then(result => result.json());
+            } else {
+                // Case page = accountdetails
+                dataTransactions = await fetch(serverAddress + "/rest/lasttentransactionsofaccount?address=" + props.address).then(result => result.json());
+            };       
             setDataTable(dataTransactions);
             setLastRowVersion(dataTransactions[dataTransactions.length - 1].version);
             setCounter(prevCounter => prevCounter + 1);
@@ -75,7 +90,7 @@ export default function TableTransactions(props) {
                         <th onClick={() => sorting("receiver_id")}>To</th>
                         <th onClick={() => sorting("amount")}>Amount</th>
                         <th onClick={() => sorting("gas_used")}>Gas Amount</th>
-                        <th onClick={() => sorting("date")}>Date</th>
+                        <th onClick={() => sorting("dateshort")}>Date</th>
                         <th onClick={() => sorting("type")}>Type</th>
                     </tr>
                 </thead>
@@ -89,7 +104,7 @@ export default function TableTransactions(props) {
                                 <td><a href={"/Accountdetails/" + entry.receiver_id}>{entry.receiver_id} </a></td>
                                 <td>{entry.amount + ' '}{entry.currency}</td>
                                 <td>{entry.gas_used + ' '}{entry.gas_currency}</td>
-                                <td>{entry.date}</td> <td>{entry.type}</td>
+                                <td>{entry.dateshort}</td> <td>{entry.type}</td>
                             </tr>
                         )
                     })

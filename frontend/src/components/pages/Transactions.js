@@ -6,7 +6,7 @@ export default function Transactions(props) {
     return (
         <div class="main-wrapper">
                 <h1>Transactions</h1>
-                <TableTransactions/>
+                <TableTransactions page="transactions"/>
         </div>
     );
 }

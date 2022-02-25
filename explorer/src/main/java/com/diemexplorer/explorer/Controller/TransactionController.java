@@ -384,6 +384,7 @@ public class TransactionController {
         for (Transactions t : lt){
             if(!t.getPublic_key().equals("")){
                 t.setAddressshort(); }
+                t.setDateshort();
             result.add(t);
         }
         return  result;
@@ -397,6 +398,7 @@ public class TransactionController {
         for (Transactions t : lt){
             if(!t.getPublic_key().equals("")){
             t.setAddressshort(); }
+            t.setDateshort();
             result.add(t);
         }
         return  result;
@@ -439,6 +441,7 @@ public class TransactionController {
         for(Transactions t: result){
 
             t.setAddressshort();
+            t.setDateshort();
             r2.add(t);
         }
 
@@ -464,8 +467,16 @@ public class TransactionController {
                 receiverCounter ++;
             }
         }
+        
+        List <Transactions> r2 = new ArrayList<>();
+        for(Transactions t: result){
 
-        return result;
+            t.setAddressshort();
+            t.setDateshort();
+            r2.add(t);
+        }
+
+        return r2;
     }
 
     @GetMapping("/rest/handelsvol30")

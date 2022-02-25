@@ -29,7 +29,21 @@ h1, caption, a, Link, .contact-wrapper {
   color: #42318C;
 }
 
-/* Header and Footer */
+h1 {
+  font-size: 60px;
+}
+
+.caption-wrapper {
+  margin: 0 0 5px 0;
+}
+
+caption{
+  text-align: left;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+/* Header and footer */
 
 header a, footer a, header Link, footer Link {
   width: 15vh;
@@ -70,10 +84,6 @@ footer {
   position: absolute;
 }
 
-h1 {
-  font-size: 60px;
-}
-
 /* Links */
 
 a, Link {
@@ -85,6 +95,7 @@ a:hover, Link:hover {
 }
 
 /* Scrollbar */
+
 html::-webkit-scrollbar{
   width: 1vw;
 }
@@ -94,16 +105,6 @@ html::-webkit-scrollbar-thumb{
 }
 html::-webkit-scrollbar-thumb:hover{
   background-color: #777;
-}
-
-.caption-wrapper {
-  margin: 0 0 5px 0;
-}
-
-caption{
-  text-align: left;
-  font-size: 26px;
-  font-weight: bold;
 }
 
 /* Tables */
@@ -156,10 +157,14 @@ table tr:nth-child(odd){
   background-color: #f0f2f3;
 }
 
+/* Charts */
+
 .chart-wrapper {
   height: 35vh;
   margin: auto;
 }
+
+/* Inputs */
 
 input:focus {
   outline: none;
@@ -251,7 +256,7 @@ input:focus {
   align-items: center; 
 }
 
-/* Left side */
+/* Contact-Subpage left side */
 
 form .element{
   padding: 8px;
@@ -285,7 +290,7 @@ textarea::placeholder{
   border: none;
 }
 
-/* Right side */
+/* Contact-Subpage right side */
 
 .person{
   width: 50%;

@@ -17,7 +17,7 @@ export default function Transactiondetails(props) {
 
         let table = [];
         table += "<tr><td>From</td><td>" + data[0].sender_id +
-            "</td></tr><tr><td>Public Key</td><td>" + data[0].public_key +
+            "</td></tr><tr><td>Public Key Sender</td><td>" + data[0].public_key +
             "</td></tr><tr><td>To</td><td>" + data[0].receiver_id +
             "</td></tr><tr><td>Amount</td><td>" + data[0].amount + " " + data[0].currency +
             "</td></tr><tr><td>Gas Amount</td><td>" + data[0].gas_used + " "  + data[0].gas_currency +

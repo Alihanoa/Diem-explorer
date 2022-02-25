@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import TableTransactionsAccount from "../TableTransactionsAccount";
+import TableTransactions from "../TableTransactions";
 
 export default function Accountdetails(props) {
 
@@ -52,7 +52,7 @@ export default function Accountdetails(props) {
             </table>
             <br/>
             <br/>
-            <TableTransactionsAccount address={props.match.params.address}/>
+            <TableTransactions page={"accountdetails"} address={props.match.params.address}/>
         </div>
     )
 }
