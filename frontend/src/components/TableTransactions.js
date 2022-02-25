@@ -17,14 +17,13 @@ export default function TableTransactions(props) {
     const sorting = (col) =>{
         if(order === 'ASC'){
             const sorted = [...dataTable].sort((a,b)=>
-                a[col].toLowerCase > b[col].toLowerCase ? 1 : -1
+                a[col] > b[col] ? 1 : -1
             );
             setDataTable(sorted);
             setOrder("DSC");
-        }
-        if(order === 'DSC'){
+        }else if(order === 'DSC'){
             const sorted = [...dataTable].sort((a,b)=>
-                a[col].toLowerCase < b[col].toLowerCase ? 1 : -1
+                a[col] < b[col] ? 1 : -1
             );
             setDataTable(sorted);
             setOrder("ASC");
@@ -85,9 +84,9 @@ export default function TableTransactions(props) {
                 <thead>
                     <tr>
                         <th onClick={() => sorting("version")}>Version</th>
-                        <th onClick={() => sorting("sender_id")}>From</th>
-                        <th onClick={() => sorting("addressshort")}>Public Key Sender</th>
-                        <th onClick={() => sorting("receiver_id")}>To</th>
+                        <th>From</th>{/* onClick={() => sorting("sender_id")} */}
+                        <th>Public Key Sender</th>{/* onClick={() => sorting("addressshort")} */}
+                        <th>To</th>{/* onClick={() => sorting("receiver_id")} */}
                         <th onClick={() => sorting("amount")}>Amount</th>
                         <th onClick={() => sorting("gas_used")}>Gas Amount</th>
                         <th onClick={() => sorting("dateshort")}>Date</th>

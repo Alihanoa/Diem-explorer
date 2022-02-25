@@ -33,9 +33,9 @@ public class BlockchainThread extends Thread {
                 this.getTransactions();
                 
             } catch (Exception e) {
-                System.out.println(e);
-//                logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e ,e.getCause().toString()+'\n'  );
-//                e.printStackTrace();
+                
+                logger.error("Version: "+version+'\n',e.fillInStackTrace().toString()+'\n', e.getMessage() +'\n', e ,e.getCause().toString()+'\n'  );
+                e.printStackTrace();
                 Continue();
             }
 //            catch (DiemException e) {

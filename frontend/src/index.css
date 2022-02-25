@@ -8,6 +8,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  overflow: overlay;
   height: 100%;
   position: relative;
   padding-bottom: 10vh;
@@ -99,13 +100,13 @@ a:hover, Link:hover {
 html::-webkit-scrollbar{
   width: 1vw;
 }
-html::-webkit-scrollbar-thumb{
-  background-color: #7775;
-  border-radius:8px;
-}
 html::-webkit-scrollbar-thumb:hover{
   background-color: #777;
+  border-radius:8px;
 }
+/* ::-webkit-scrollbar-track{
+  margin-block: 56px;
+} */
 
 /* Tables */
 

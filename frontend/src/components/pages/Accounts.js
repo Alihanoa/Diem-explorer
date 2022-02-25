@@ -5,18 +5,35 @@ export default function Accounts(props) {
     // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
     // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
     const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+    const [dataTable, setDataTable] = useState([]);
+    const [order, setOrder] = useState("ASC");
+
+    const sorting = (col) =>{
+        if(order === 'ASC'){
+            const sorted = [...dataTable].sort((a,b)=>
+                a[col] > b[col] ? 1 : -1
+            );
+            setDataTable(sorted);
+            setOrder("DSC");
+        }else if(order === 'DSC'){
+            const sorted = [...dataTable].sort((a,b)=>
+                a[col] < b[col] ? 1 : -1
+            );
+            setDataTable(sorted);
+            setOrder("ASC");
+        }
+    }
 
     useEffect(async () => {
-        let table = createLoadingTable();
-        document.getElementById("accounts").innerHTML = table;
-
+        // let table = createLoadingTable();
+        // document.getElementById("accounts").innerHTML = table;
         let data = await fetch(serverAddress + "/rest/accounts").then(result => result.json());
-        table = createTable(data);
-        document.getElementById("accounts").innerHTML = table;
+        setDataTable(data);
+        // table = createTable(data);
+        // document.getElementById("accounts").innerHTML = table;
     }, []);
 
     function createLoadingTable() {
-
         return ("<tr><td>Loading...</td><td>Loading...</td><td>Loading...</td><td>Loading...</td></tr>");
     }
 
@@ -45,11 +62,22 @@ export default function Accounts(props) {
                     <tr>
                         <th>Address</th>
                         <th>Authentication Key</th>
-                        <th>Sequence Number</th>
+                        <th onClick={() => sorting("sequence_number")}>Sequence Number</th>
                         <th>Frozen</th>
                     </tr>
                 </thead>
-                <tbody id="accounts"></tbody>
+                <tbody id="accounts">{
+                    dataTable.map(entry => {
+                        return (
+                            <tr>
+                                <td><a href={"/Accountdetails/" + entry.address}>{entry.address}</a></td>
+                                <td>{entry.authentication_key}</td>
+                                <td>{entry.sequence_number}</td>
+                                <td>{entry.is_frozen}</td>
+                            </tr>
+                        )
+                    })
+                }</tbody>
             </table>
         </div>
     );
