@@ -4,8 +4,8 @@ import TableTransactions from "../TableTransactions";
 export default function Accountdetails(props) {
 
     // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
-    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
-    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+    // const serverAddress = "https://diemexplorer.internet-sicherheit.de:8888";
+    const serverAddress = "http://localhost:8888";
 
     useEffect(async () => {
 
@@ -47,7 +47,7 @@ export default function Accountdetails(props) {
             <h1>Account Details</h1>
             <h2>Account Address {props.match.params.address}</h2>
             <br></br>
-            <table>
+            <table class="details-table">
                 <tbody id="account"/>
             </table>
             <br/>

@@ -52,7 +52,7 @@ header a, footer a, header Link, footer Link {
 }
 
 header, footer {
-  width: 100vw;
+  width: 100%;
   height: 56px;
   font-size: 16px;
   display: flex;
@@ -110,11 +110,11 @@ html::-webkit-scrollbar-thumb:hover{
 
 /* Tables */
 
-#table-checkboxes-wrapper {
+.table-checkboxes-wrapper {
   height: 28px;
 }
 
-#table-checkboxes-wrapper label {
+.table-checkboxes-wrapper label {
   margin-right: 10px;
 }
 
@@ -123,8 +123,7 @@ table {
   max-width: 100%;
   margin: auto;
   border-spacing: 0;
-  /* border-collapse: collapse; */
-  /* border-radius: 10px 10px 10px 10px; */
+  border-collapse: collapse;
 }
 
 table th {
@@ -136,13 +135,11 @@ table td, table th {
   padding: 8px;
 }
 
-table tr:first-child th:first-child,
-table tr:first-child td:first-child {
+table tr:first-child th:first-child {
   border-top-left-radius: 10px;
 }
 
-table tr:first-child th:last-child,
-table tr:first-child td:last-child {
+table tr:first-child th:last-child {
   border-top-right-radius: 10px;
 }
 
@@ -154,7 +151,11 @@ table tr:last-child td:last-child {
   border-bottom-right-radius: 10px;
 }
 
-table tr:nth-child(odd){
+.normal-table tbody tr:nth-child(2n) {
+  background-color: #f0f2f3;
+}
+
+.details-table tbody tr:nth-child(2n+1) {
   background-color: #f0f2f3;
 }
 
@@ -210,6 +211,10 @@ input:focus {
 #searchbar img{
   height: 20px;
   width: 20px;
+}
+
+#general-information tbody tr {
+  background-color: #f0f2f3;
 }
 
 #chartbar {

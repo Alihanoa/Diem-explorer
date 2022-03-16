@@ -484,6 +484,7 @@ public class TransactionController {
 
         String[][] Ergebnis = new String[32][2];
         Date date = new Date();
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
         long timestampnow =
                 //1619646122863L + 2629800000L;
@@ -496,7 +497,8 @@ public class TransactionController {
         while (timestampperiodago < timestampnow && counter < 32){
 
             date.setTime(timestampperiodago);
-            Ergebnis[counter][0] = date.toString();
+            // Ergebnis[counter][0] = date.toString();
+            Ergebnis[counter][0] = dateformat.format(date);
 
             if(this.transactionsRepository.getHandelsVolBetweenTwoTimeStampsXUS(timestampperiodago, maxtimestamp) != null){
 
@@ -521,7 +523,8 @@ public class TransactionController {
 
         String[][] Ergebnis = new String[32][2];
         Date date = new Date();
-
+        SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        
         long timestampnow = date.getTime();
         long timestampperiodago = timestampnow - 2629800000L;
 
@@ -531,7 +534,8 @@ public class TransactionController {
         while (timestampperiodago < timestampnow && counter < 32){
 
             date.setTime(timestampperiodago);
-            Ergebnis[counter][0] = date.toString();
+            // Ergebnis[counter][0] = date.toString();
+            Ergebnis[counter][0] = dateformat.format(date);
 
             if(this.transactionsRepository.getHandelsVolBetweenTwoTimeStampsXUS(timestampperiodago, maxtimestamp) != null){
 

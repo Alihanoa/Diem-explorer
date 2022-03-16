@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import searchIcon from './search-icon.png';
+import searchIcon from "./search-icon.png";
 
 export default function Searchbar(props) {
-
-    // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
-    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
-    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
 
     const [searchfieldvalue, setSearchfieldvalue] = useState('');
     const [choiceboxvalue, setChoiceboxvalue] = useState('Account Address');

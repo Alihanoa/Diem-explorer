@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 export default function Transactiondetails(props) {
 
     // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
-    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
-    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+    // const serverAddress = "https://diemexplorer.internet-sicherheit.de:8888";
+    const serverAddress = "http://localhost:8888";
 
     useEffect(async () => {
         let data = await fetch(serverAddress + "/rest/transaction?version=" + props.match.params.version).then(result => result.json());
@@ -52,8 +52,7 @@ export default function Transactiondetails(props) {
         <div class="main-wrapper">
             <h1>Transaction Details</h1>
             <h2>Transaction Version {props.match.params.version}</h2>
-            <table>
-                <thead></thead>
+            <table class="details-table">
                 <tbody id="transaction"></tbody>
             </table>
             <br/>

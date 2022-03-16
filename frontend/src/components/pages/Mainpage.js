@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Searchbar from '../Searchbar'
+import Searchbar from "../Searchbar";
 import Chart from "../Chart";
 import TableTransactionsMainpage from "../TableTransactionsMainpage";
 
 export default function Mainpage(props) {
 
     // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
-    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
-    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+    // const serverAddress = "https://diemexplorer.internet-sicherheit.de:8888";
+    const serverAddress = "http://localhost:8888";
 
+    const averageGasUnitPrice = 0;
     const [transactionsToday, setTransactionstoday] = useState("Loading...");
     const [tradingvolumeToday, setTradingvolumeToday] = useState("Loading...");
     const [marketCapacity, setMarketCapacity] = useState("Loading...");
@@ -19,27 +20,11 @@ export default function Mainpage(props) {
         let dataTradingvolumeToday = await fetch(serverAddress + "/rest/tradingvolume?date=28/04/2021").then(result => result.json());
         let dataMarketCapacity = await fetch(serverAddress + "/rest/sumbalances").then(result => result.json());
 
-        setTransactionstoday(dataTransactionsToday);
-        setTradingvolumeToday(dataTradingvolumeToday + " XUS");
-        setMarketCapacity(dataMarketCapacity + " XUS");
+        setTransactionstoday(dataTransactionsToday.toLocaleString());
+        setTradingvolumeToday(dataTradingvolumeToday.toLocaleString() + " XUS");
+        setMarketCapacity(dataMarketCapacity.toLocaleString() + " XUS");
 
     }, []);
-
-    // useEffect(async () => {
-
-    //     document.getElementById("transactions_today").innerHTML = "Loading...";
-    //     document.getElementById("tradingvolume").innerHTML = "Loading...";
-    //     document.getElementById("market_capacity").innerHTML = "Loading...";
-
-    //     let transactions_today = await fetch(serverAddress + "/rest/transactionstodate?date=28/04/2021").then(result => result.json());
-    //     let tradingvolume = await fetch(serverAddress + "/rest/tradingvolume?date=28/04/2021").then(result => result.json());
-    //     let market_capacity = await fetch(serverAddress + "/rest/sumbalances").then(result => result.json());
-
-    //     document.getElementById("transactions_today").innerHTML = transactions_today.toLocaleString();
-    //     document.getElementById("tradingvolume").innerHTML = tradingvolume.toLocaleString() + " XUS";
-    //     document.getElementById("market_capacity").innerHTML = market_capacity.toLocaleString() + " XUS";
-
-    // }, []);
 
     return (
         <div class="main-wrapper">
@@ -50,7 +35,7 @@ export default function Mainpage(props) {
             <div class="caption-wrapper">
                 <caption>General&nbsp;Information</caption>
             </div>
-            <table>
+            <table id="general-information">
                 <thead>
                     <tr>
                         <th>Average Gas Unit Price</th>
@@ -61,14 +46,10 @@ export default function Mainpage(props) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>0</td>
+                        <td><div id="averageGasUnitPrice">{averageGasUnitPrice}</div></td>
                         <td><div id="transactionsToday">{transactionsToday}</div></td>
                         <td><div id="tradingvolumeToday"/>{tradingvolumeToday}</td>
                         <td><div id="marketCapacity"/>{marketCapacity}</td>
-                        {/* <td>0</td>
-                        <td><div id="transactions_today"></div></td>
-                        <td><div id="tradingvolume"/></td>
-                        <td><div id="market_capacity"/></td> */}
                     </tr>
                 </tbody>
             </table>

@@ -4,8 +4,8 @@ import { Line } from 'react-chartjs-2'
 export default function Chart() {
 
     // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
-    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
-    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+    // const serverAddress = "https://diemexplorer.internet-sicherheit.de:8888";
+    const serverAddress = "http://localhost:8888";
 
     const [interval, setInterval] = useState("365days");
     const [dataChart, setDataChart] = useState([]);
@@ -17,6 +17,9 @@ export default function Chart() {
 
         console.log("updateChartInterval wird ausgeführt");
         console.log("interval: " + interval);
+
+        setDataChart([]);
+        setLabelsChart(["Loading...","Loading...","Loading...","Loading..."]);
 
         switch (interval) {
             case "totalTime":
@@ -40,6 +43,7 @@ export default function Chart() {
                 break;
             case "365days":
                 console.log("case 365days wird ausgeführt");
+                // let chartdataTransactions365d = await fetch(serverAddress  + "/rest/datalast365days").then(result => result.json());
                 let chartdataTransactions365d = [
                     ["02/02/2021 24:00", "33746"], ["17/02/2021 24:00", "34829"],
                     ["02/03/2021 24:00", "35062"], ["17/03/2021 24:00", "36245"],
@@ -125,7 +129,6 @@ export default function Chart() {
                 break;
             case "60seconds":
                 console.log("case 60seconds wird ausgeführt");
-                // let chartdataTransactions60m = await fetch(serverAddress  + "/rest/datalastHour").then(result => result.json());
                 let chartdataTransactions60s = [
                     ["03/02/2022 11:59:00", "31227"], ["03/02/2022 11:59:05", "31231"],
                     ["03/02/2022 11:59:10", "31235"], ["03/02/2022 11:59:15", "31238"],

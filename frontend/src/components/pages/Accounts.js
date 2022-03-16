@@ -3,8 +3,9 @@ import React, { useState, useEffect } from "react";
 export default function Accounts(props) {
 
     // CHANGE FOR LOCAL-SERVER/IFIS-SERVER
-    // const [serverAddress, setServerAddress] = useState("https://diemexplorer.internet-sicherheit.de:8888");
-    const [serverAddress, setServerAddress] = useState("http://localhost:8888");
+    // const serverAddress = "https://diemexplorer.internet-sicherheit.de:8888";
+    const serverAddress = "http://localhost:8888";
+    
     const [dataTable, setDataTable] = useState([]);
     const [order, setOrder] = useState("ASC");
 
@@ -25,12 +26,12 @@ export default function Accounts(props) {
     }
 
     useEffect(async () => {
-        // let table = createLoadingTable();
-        // document.getElementById("accounts").innerHTML = table;
+        let table = createLoadingTable();
+        document.getElementById("accounts").innerHTML = table;
         let data = await fetch(serverAddress + "/rest/accounts").then(result => result.json());
         setDataTable(data);
-        // table = createTable(data);
-        // document.getElementById("accounts").innerHTML = table;
+        table = createTable(data);
+        document.getElementById("accounts").innerHTML = table;
     }, []);
 
     function createLoadingTable() {
